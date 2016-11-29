@@ -117,25 +117,21 @@ body {
 	<body>
 	<div class="login-page">
   <div class="form">
-    <form class="register-form" name="register-form">
-      <input type="text" name="nombres" placeholder="nombre"/>
-			<nput type="text" name="apellidos" placeholder="apellidos"/>
+    <form class="create-profesor-form" name="create-profesor-form">
+      <input type="text" name="nombres" placeholder="nombres"/>
+			<input type="text" name="apellidos" placeholder="apellidos"/>
       <input type="password" name= "password" placeholder="contraseña"/>
-      <input type="text" name="ela cantidad de cupos disponibles",
-      costo:"Por favor, ingrese el costo del curso"mail" placeholder="correo electrónico"/>
-      <button>Crear cuenta</button>
-      <p class="message">Ya tienes cuenta? <a href="#">Inicia sesión.</a></p>
+      <input type="text" name="email" placeholder="correo electrónico"/>
+			<input type="text" name="nickname" placeholder="nombre de usuario"/>
+			<input type="text" name="tag_line" placeholder="titulos"/>
+      <button>Crear cuenta de profesor</button>
+
     </form>
-    <form class="login-form" name="login-form">
-      <input type="text" name="usuario" placeholder="usuario"/>
-      <input type="password" name="password" placeholder="contraseña"/>
-      <button>iniciar sesión</button>
-      <p class="message">Aún no tienes cuenta? <a href="#">Crear cuenta</a></p>
-    </form>
+
   </div>
 </div><!-- jQuery -->
 		<script src="js/jquery.js"></script>
-		<script src="js/login-validation.js"></script>
+		<script src="js/create-profesor-validation.js"></script>
 <script type="text/javascript">$('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });</script>

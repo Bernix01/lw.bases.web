@@ -115,27 +115,20 @@ body {
 		</style>
 	</head>
 	<body>
-	<div class="login-page">
+
   <div class="form">
-    <form class="register-form" name="register-form">
-      <input type="text" name="nombres" placeholder="nombre"/>
-			<nput type="text" name="apellidos" placeholder="apellidos"/>
-      <input type="password" name= "password" placeholder="contraseña"/>
-      <input type="text" name="ela cantidad de cupos disponibles",
-      costo:"Por favor, ingrese el costo del curso"mail" placeholder="correo electrónico"/>
-      <button>Crear cuenta</button>
-      <p class="message">Ya tienes cuenta? <a href="#">Inicia sesión.</a></p>
+    <form class="facturar-form" name="facturar-form">
+			<input type="text" name="nombres" placeholder="nombres"/>
+			<input type="text" name="apellidos" placeholder="apellidos"/>
+      <input type="text" name="ruc" placeholder="ruc"/>
+			<input type="text" name="direccion" placeholder="dirección"/>
+
+      <button>Crear curso</button>
+
     </form>
-    <form class="login-form" name="login-form">
-      <input type="text" name="usuario" placeholder="usuario"/>
-      <input type="password" name="password" placeholder="contraseña"/>
-      <button>iniciar sesión</button>
-      <p class="message">Aún no tienes cuenta? <a href="#">Crear cuenta</a></p>
-    </form>
-  </div>
 </div><!-- jQuery -->
 		<script src="js/jquery.js"></script>
-		<script src="js/login-validation.js"></script>
+		<script src="js/facturar-validation.js"></script>
 <script type="text/javascript">$('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });</script>
