@@ -9,16 +9,26 @@ $(function() {
       // The key name on the left side is the name attribute
       // of an input field. Validation rules are defined
       // on the right side
-      nombres: "required",
-      apellidos:"required",
-      ruc: "required",
+      nombres: {required:true, maxlength: 46},
+      apellidos:{required:true, maxlength: 46},
+      ruc: {required:true, minlength:10, maxlength:13, digits:true},
       direccion: "required"
     },
     // Specify validation error messages
     messages: {
-      nombres: "Por favor, ingrese sus nombres",
-      apellidos: "Por favor, ingrese sus apellidos",
-      ruc: "Por favor, ingrese el ruc",
+      nombres: {
+        required:"Por favor, ingrese sus nombres",
+        maxlength: "Sus nombres no deben de exceder un máximo de 46 caracteres"},
+      apellidos:{
+        required:"Por favor, ingrese sus apellidos",
+        maxlength: "Sus apellidos no deben de exceder un máximo de 46 caracteres"
+      },
+      ruc:{
+        required:"Por favor, ingrese su número de cédula o RUC",
+        digits: "Ingrese un número de cédula o RUC válido",
+        minlength: "Ingrese un número de cédula o RUC válido",
+        maxlength: "Su número de cédula o RUC debe tener máximo 13 caracteres"
+      },
       direccion:"Por favor, ingrese la dirección"
     },
     // Make sure the form is submitted to the destination defined

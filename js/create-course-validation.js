@@ -9,19 +9,30 @@ $(function() {
       // The key name on the left side is the name attribute
       // of an input field. Validation rules are defined
       // on the right side
-      nombre: "required",
-      cupo_max: "required",
-      cupo_min: "required",
-      cupos_disponibles:"required",
-      costo:"required"
+      nombre: {required:true, maxlength:64},
+      cupo_max: {required:true, digits:true},
+      cupo_min: {required:true, digits:true},
+      costo:{required:true, number:true}
     },
     // Specify validation error messages
     messages: {
-      nombre: "Por favor, ingrese el nombre del curso",
-      cupo_max: "Por favor, ingrese el número máximo de cupos",
-      cupo_min: "Por favor, ingrese el número mínimo de cupos",
-      cupos_disponibles:"Por favor, ingrese la cantidad de cupos disponibles",
-      costo:"Por favor, ingrese el costo del curso"
+      nombre: {
+        required: "Por favor, ingrese el nombre del curso",
+        maxlength: "El nombre del curso no debe sobrepasar los 64 caracteres"
+      },
+      cupo_max: {
+        required:"Por favor, ingrese el número máximo de cupos",
+        digits: "Ingrese una cantidad válida"
+    },
+      cupo_min:  {
+        required:"Por favor, ingrese el número mínimo de cupos",
+        digits: "Ingrese una cantidad válida"
+    },
+
+      costo: {
+        required:"Por favor, ingrese el costo del curso",
+        digits: "Ingrese un valor válido"
+      },
     },
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid

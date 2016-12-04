@@ -117,17 +117,21 @@ body {
 	<body>
 	<div class="login-page">
   <div class="form">
+    <form class="create-usuario-form" name="create-profesor-form">
+      <input type="text" name="nombres" placeholder="nombres"/>
+			<input type="text" name="apellidos" placeholder="apellidos"/>
+			<input type="text" name="cedula" placeholder="No.de cédula"/>
+      <input type="password" name= "password" placeholder="contraseña"/>
+      <input type="text" name="email" placeholder="correo electrónico"/>
+			<input type="text" name="nickname" placeholder="nombre de usuario"/>
+      <button>Crear cuenta</button>
 
-    <form class="login-form" name="login-form">
-      <input type="text" name="nickname" placeholder="nombre de usuario"/>
-      <input type="password" name="password" placeholder="contraseña"/>
-      <button>iniciar sesión</button>
-      <p class="message">Aún no tienes cuenta? <a href="#">Crear cuenta</a></p>
     </form>
+
   </div>
 </div><!-- jQuery -->
 		<script src="js/jquery.js"></script>
-		<script src="js/login-validation.js"></script>
+		<script src="js/create-usuario-validation.js"></script>
 <script type="text/javascript">$('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });</script>

@@ -10,7 +10,14 @@ if (!$link) {
 //if connection is successfuly you will see message bellow
 echo 'Connected successfully';
 
-$dbnum=SELECT count (*) FROM (SELECT DISTINCT TABLE_SCHEMA FROM information_schema.SCHEMA_PRIVILEGES WHERE GRANTEE LIKE ("'username'%") GROUP BY TABLE_SCHEMA) AS baseview;
+$query='SELECT count (*) FROM information_schema.SCHEMATA';
+$dbnum=mysql_query($query);
+if(!$dbnum){
+    die('Invalid query:'.mysql_error());
+}
+
+
+
 mysql_close($link);
 echo $dbnum;
 ?>
