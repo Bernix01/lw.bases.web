@@ -118,11 +118,11 @@ body {
 
   <div class="form">
     <form class="create-course-form" name="create-course-form">
-			<input type="text" name="nombre" placeholder="nombre"/>
-      <input type="text" name="cupo_min" placeholder="cupo mínimo"/>
-			<input type="text" name="cupo_max" placeholder="cupo máximo"/>
-			<input type="text" name="costo" placeholder="costo"/>
-      <button>Crear curso</button>
+		<input type="text" name="nombre" placeholder="nombre" required="required"/>
+		<input type="number" name="cupo_min" placeholder="cupo mínimo" pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="99"/>
+		<input type="number" name="cupo_max" placeholder="cupo máximo" pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="99"/>
+		<input type="text" name="costo" placeholder="costo" maxlength="6" required="required"/>
+		<button type="submit">Crear curso</button>
 
     </form>
 </div><!-- jQuery -->

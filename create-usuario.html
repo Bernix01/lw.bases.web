@@ -118,13 +118,13 @@ body {
 	<div class="login-page">
   <div class="form">
     <form class="create-usuario-form" name="create-profesor-form">
-      <input type="text" name="nombres" placeholder="nombres"/>
-			<input type="text" name="apellidos" placeholder="apellidos"/>
-			<input type="text" name="cedula" placeholder="No.de cédula"/>
-      <input type="password" name= "password" placeholder="contraseña"/>
-      <input type="text" name="email" placeholder="correo electrónico"/>
-			<input type="text" name="nickname" placeholder="nombre de usuario"/>
-      <button>Crear cuenta</button>
+		<input type="text" name="nombres" placeholder="nombres" required="required"/>
+		<input type="text" name="apellidos" placeholder="apellidos" required="required"/>
+		<input type="text" name="cedula" placeholder="No.de cédula" required="required" maxlength="10"/>
+		<input type="password" name= "password" placeholder="contraseña" required="required"/>
+		<input type="text" name="email" placeholder="correo electrónico" required="required"/>
+		<input type="text" name="nickname" placeholder="nombre de usuario" required="required"/>
+      <button type="submit">Crear cuenta</button>
 
     </form>
 

@@ -119,10 +119,10 @@ body {
   <div class="form">
 
     <form class="login-form" name="login-form">
-      <input type="text" name="nickname" placeholder="nombre de usuario"/>
-      <input type="password" name="password" placeholder="contraseña"/>
-      <button>iniciar sesión</button>
-      <p class="message">Aún no tienes cuenta? <a href="#">Crear cuenta</a></p>
+      <input type="text" name="nickname" placeholder="nombre de usuario" required="required"/>
+      <input type="password" name="password" placeholder="contraseña" maxlength="15" required="required"/>
+      <button type="submit">iniciar sesión</button>
+      <p class="message">Aún no tienes cuenta? <a href="create-usuario.html">Crear cuenta</a></p>
     </form>
   </div>
 </div><!-- jQuery -->

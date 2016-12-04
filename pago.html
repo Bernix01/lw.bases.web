@@ -28,18 +28,18 @@
 
 	<div class="mdl-card mdl-card-order mdl-shadow--8dp">
 		<div class="mdl-card__title">
-      <h2 class="mdl-card__title-text">Checkout ($160)</h2>
+      <h2 class="mdl-card__title-text">Pago</h2>
 		</div>	
 		<div class="mdl-card__supporting-text mdl-grid">
 			<form action="#">
 				<div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-					<input class="mdl-textfield__input" type="text" id="cardholder" placeholder="Your full name..."/>
-					<label class="mdl-textfield__label" for="cardholder">Your full name...</label>
+					<input class="mdl-textfield__input" type="text" id="cardholder" placeholder="Nombres y Apellidos"/>
+					<label class="mdl-textfield__label" for="cardholder">Nombres y Apellidos</label>
 				</div>
 				<div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
 					<input class="mdl-textfield__input" type="text" id="cardnumber" placeholder="XXXX XXXX XXXX XXXX" pattern="-?[0-9]*(\.[0-9]+)?" maxlength="16" />
           <label class="mdl-textfield__label" for="cardnumber">XXXX XXXX XXXX XXXX</label>
-          <span class="mdl-textfield__error">Input is not a number!</span>
+          <span class="mdl-textfield__error">Solo números!</span>
 				</div>
 				<div class="mdl-cell mdl-cell--12-col">
 					<div class="mdl-textfield mdl-js-textfield mdl-cell--6-col">
@@ -49,12 +49,12 @@
 					<div class="mdl-textfield mdl-js-textfield mdl-cell--6-col">
 						<input class="mdl-textfield__input" type="text" id="ccv" placeholder="CCV" pattern="-?[0-9]*(\.[0-9]+)?" maxlength="3" />
             <label class="mdl-textfield__label" for="ccv">CCV</label>
-            <span class="mdl-textfield__error">Input is not a number!</span>
+            <span class="mdl-textfield__error">Solo números!</span>
 					</div>
 				</div>
 				<div class="mdl-card__actions mdl-cell--12-col send-button">
 				<button class="mdl-button mdl-js-ripple-effect mdl-js-button mdl-button--raised mdl-button--colored" id="send">
-						COMPLETE ORDER	
+						Completar transacción	
 					</button>
 				</div>
 			</form>
