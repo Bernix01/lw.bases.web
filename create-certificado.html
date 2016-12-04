@@ -24,15 +24,21 @@
   margin: auto;
 }
 .form {
+	padding-top: 40px;
+	margin-top: 40px;
+  margin-left: auto;
+  margin-bottom: 40px;
+  margin-right: auto;
   position: relative;
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 0 auto 100px;
+
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 }
+
 .form input {
   font-family: "Roboto", sans-serif;
   outline: 0;
@@ -117,16 +123,17 @@ body {
 	<body>
 
   <div class="form">
-    <form class="create-emprendimiento-form" name="create-emprendimiento-form">
-			<input type="text" name="nombre" placeholder="Razón Social o nombre del negocio"/>
-      <input type="text" name="descripcion" placeholder="Descripción"/>
-      <button>Adicionar emprendimiento</button>
+    <form class="form-inline" name="create-certificado-form">
 
+			<div class="form-group">
+			    <label for="exampleInputName2">URL</label>
+			    <input type="text" class="form-control" id="exampleInputName2" placeholder="https://dropbox.com/mary/crtfs">
+			  </div>
+			   <button>Ingresar certificado</button>
     </form>
 </div><!-- jQuery -->
-		
-		<script src="vendor/jquery/dist/jquery.min.js"></script>
-		<script src="js/create-emprendimiento-validation.js"></script>
+		<script src="js/jquery.js"></script>
+		<script src="js/create-certificado-validation.js"></script>
 <script type="text/javascript">$('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });</script>
