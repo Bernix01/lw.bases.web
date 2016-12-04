@@ -9,18 +9,33 @@ $(function() {
       // The key name on the left side is the name attribute
       // of an input field. Validation rules are defined
       // on the right side
-      nombres: {required:true, maxlength: 46},
-      apellidos:{required:true, maxlength: 46},
-      ruc: {required:true, minlength:10, maxlength:13, digits:true},
+      nombres: {
+        required:true,
+        lettersonly:true,
+        maxlength: 46
+      },
+      apellidos:{
+        required:true,
+        maxlength: 46,
+        lettersonly:true
+      },
+      ruc: {
+        required:true,
+        minlength:10,
+        maxlength:13,
+        digits:true
+      },
       direccion: "required"
     },
     // Specify validation error messages
     messages: {
       nombres: {
         required:"Por favor, ingrese sus nombres",
+        lettersonly:"Sus nombres no deben contener números",
         maxlength: "Sus nombres no deben de exceder un máximo de 46 caracteres"},
       apellidos:{
         required:"Por favor, ingrese sus apellidos",
+        lettersonly:"Sus apellidos no deben contener números",
         maxlength: "Sus apellidos no deben de exceder un máximo de 46 caracteres"
       },
       ruc:{

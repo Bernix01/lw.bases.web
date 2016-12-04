@@ -3,21 +3,26 @@
 $(function() {
   // Initialize form validation on the registration form.
   // It has the name attribute "registration"
-  $("form[name='create-certificado-form']").validate({
+  $("#create-certificado-form").validate({
     // Specify validation rules
     rules: {
       // The key name on the left side is the name attribute
       // of an input field. Validation rules are defined
       // on the right side
 
-      contenido:{"required",maxlength:200}
+      contenido:{
+        required:true,
+        maxlength:100,
+        url:true
+      }
 
         },
     // Specify validation error messages
     messages: {
       contenido:{
         required:"Por favor, ingrese la URL del certificado",
-        maxlength: "La URL no debe de sobrepasar 100 caracteres"
+        maxlength: "La URL no debe de sobrepasar 100 caracteres",
+        url: "URL no válida"
     }
         },
     // Make sure the form is submitted to the destination defined
