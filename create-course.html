@@ -24,11 +24,15 @@
   margin: auto;
 }
 .form {
+	padding-top: 40px;
+	margin-top: 40px;
+  margin-left: auto;
+  margin-bottom: 40px;
+  margin-right: auto;
   position: relative;
   z-index: 1;
   background: #FFFFFF;
   max-width: 360px;
-  margin: 0 auto 100px;
   padding: 45px;
   text-align: center;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
@@ -122,10 +126,33 @@ body {
 		<input type="number" name="cupo_min" placeholder="cupo mínimo"  required="required"pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="99"/>
 		<input type="number" name="cupo_max" placeholder="cupo máximo" required="required" pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="99"/>
 		<input type="text" name="costo" placeholder="costo" maxlength="6" required="required"/>
-		<button type="submit">Crear curso</button>
+		<input type="text" name="descripcion" placeholder="Descripción del curso">
+    <!-- Imagen de un "+" para desplegar más horarios
+		<img src="media/1481019034_add.png">      -->
+
+		<!--pide horario-->
+		<label>Horario inicio</label>
+	<input type="datetime-local" name="inicio" value="2016-04-12T23:20" min="2016-12-01T23:20" >
+	<label>Horario fin</label>
+<input type="datetime-local" name="fin" value="2016-04-12T23:20" min="2016-12-01T23:20" >
+
+
+		 <!-- pide imagen para requisito -->
+		 <label>Requisito</label>
+		 <div class="form-group row">
+  <label for="example-search-input" class="col-xs-2 col-form-label">Imagen</label>
+  <div class="col-xs-10">
+<input type="file" name="pic" accept="image/*">
+  </div>
+
+	<input type="text" name="nombre_requisito" placeholder="Título del requisito">
+ <input type="text" name="descripcion_requisito" placeholder="Descripción del requisito">
+ 	<button type="submit">Crear curso</button>
 
     </form>
-</div><!-- jQuery -->
+</div>
+
+<!-- jQuery -->
 		<script src="js/jquery.js"></script>
 		<script src="js/jquery.validate.min.js"></script>
 	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>

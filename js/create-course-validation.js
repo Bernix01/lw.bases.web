@@ -12,7 +12,8 @@ $(function() {
       nombre: {required:true, maxlength:64},
       cupo_max: {required:true, digits:true},
       cupo_min: {required:true, digits:true},
-      costo:{required:true, number:true}
+      costo:{required:true, number:true},
+      descripcion: {required:true , maxlength:200}
     },
     // Specify validation error messages
     messages: {
@@ -33,6 +34,10 @@ $(function() {
         required:"Por favor, ingrese el costo del curso",
         digits: "Ingrese un valor válido"
       },
+      descripcion:{
+        required:"Por favor, ingrese una descripción",
+        maxlength:"La descripción no debe exceder los 200 caracteres"
+      }
     },
     // Make sure the form is submitted to the destination defined
     // in the "action" attribute of the form when valid
