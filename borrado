@@ -1,9 +1,0 @@
-<form class="register-form" name="register-form">
-      <input type="text" name="nombres" placeholder="nombre"/>
-			<nput type="text" name="apellidos" placeholder="apellidos"/>
-      <input type="password" name= "password" placeholder="contraseña"/>
-      <input type="text" name="ela cantidad de cupos disponibles",
-      costo:"Por favor, ingrese el costo del curso" placeholder="correo electrónico"/>
-      <button>Crear cuenta</button>
-      <p class="message">Ya tienes cuenta? <a href="#">Inicia sesión.</a></p>
-    </form>
