@@ -3,6 +3,7 @@ $HOST="localhost";
 $USERNAME="root";
 $PASSWORD="root";
 $link = mysqli_connect($HOST, $USERNAME, $PASSWORD);
+mysqli_select_db()
 //if connection is not successful you will see text error
 if (!$link) {
        die('Could not connect: ' . mysql_error());
@@ -11,18 +12,18 @@ if (!$link) {
 echo 'Connected successfully';
 
 $query='SELECT * from usuario';
-$dbnum=mysqli_query($query);
+$dbnum=mysqli_query($link,$query);
 if(!$dbnum){
-    die('Invalid query:'.mysql_error());
+    die('Invalid query:'.mysqli_error($link));
 }
 
 $usuarios = mysqli_fetch_assoc($dbnum);
 
 mysqli_free_result($dbnum);
 $query='SELECT * from curso';
-$dbnum=mysqli_query($query);
+$dbnum=mysqli_query($link,$query);
 if(!$dbnum){
-    die('Invalid query:'.mysql_error());
+    die('Invalid query:'.mysqli_error($link));
 }
 
 $usuarios = mysqli_fetch_assoc($dbnum);
@@ -30,9 +31,9 @@ $usuarios = mysqli_fetch_assoc($dbnum);
 mysqli_free_result($dbnum);
 
 $query='SELECT COUNT(*) from usuario';
-$dbnum=mysqli_query($query);
+$dbnum=mysqli_query($link,$query);
 if(!$dbnum){
-    die('Invalid query:'.mysql_error());
+    die('Invalid query:'.mysqli_error($link));
 }
 
 $usuarios_cantidad = mysqli_fetch_assoc($dbnum);
@@ -40,9 +41,9 @@ $usuarios_cantidad = mysqli_fetch_assoc($dbnum);
 mysqli_free_result($dbnum);
 
 $query='SELECT COUNT(*) from curso';
-$dbnum=mysqli_query($query);
+$dbnum=mysqli_query($link,$query);
 if(!$dbnum){
-    die('Invalid query:'.mysql_error());
+    die('Invalid query:'.mysqli_error($link));
 }
 
 $cursos_cantidad = mysqli_fetch_assoc($dbnum);
