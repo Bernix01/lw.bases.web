@@ -36,7 +36,7 @@ if(!$dbnum){
     die('Invalid query:'.mysqli_error($link));
 }
 
-$usuarios_cantidad = mysqli_fetch_assoc($dbnum);
+$usuarios_cantidad = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
@@ -46,7 +46,7 @@ if(!$dbnum){
     die('Invalid query:'.mysqli_error($link));
 }
 
-$cursos_cantidad = mysqli_fetch_assoc($dbnum);
+$cursos_cantidad = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
