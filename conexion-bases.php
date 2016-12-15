@@ -1,7 +1,7 @@
 <?php
-HOST="";
-USERNAME="";
-PASSWORD="";
+HOST="localhost";
+USERNAME="root";
+PASSWORD="root";
 $link = mysql_connect('HOST', 'USERNAME', 'PASSWORD');
 //if connection is not successful you will see text error
 if (!$link) {
