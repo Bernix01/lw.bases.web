@@ -650,7 +650,7 @@ mysql_close($link);
                   </thead>
                   <tbody>
                     <?php
-                    while ($row = mysql_fetch_assoc($usuarios)) {
+                    foreach($usuarios as $row)) {
 
                   echo "<tr>
                     <td>". $row["id_usuario"]."</td>";
@@ -815,7 +815,7 @@ mysql_close($link);
             <div class="box-body">
               <ul class="products-list product-list-in-box">
                 <?php
-                while ($row = mysql_fetch_assoc($usuarios)) {
+                foreach($curso as $row) {
                 echo "<li class=\"item\">
                   <div class=\"product-img\">
                     <img src=\"dist/img/default-50x50.gif\" alt=".$row["nombre"].">
