@@ -12,21 +12,19 @@ if (!$link) {
 echo 'Connected successfully';
 
 $query='SELECT * from usuario';
-$dbnum=mysqli_query($link,$query);
+$usuarios=mysqli_query($link,$query);
 if(!$dbnum){
     die('Invalid query:'.mysqli_error($link));
 }
 
-$usuarios = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 $query='SELECT * from curso';
-$dbnum=mysqli_query($link,$query);
+$usuarios=mysqli_query($link,$query);
 if(!$dbnum){
     die('Invalid query:'.mysqli_error($link));
 }
 
-$curso = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
@@ -50,7 +48,7 @@ $cursos_cantidad = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
-mysqli_close($link);
+mysql_close($link);
 
 ?>
 
@@ -59,7 +57,7 @@ mysqli_close($link);
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Dashboard</title>
+  <title>LW</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -650,7 +648,7 @@ mysqli_close($link);
                   </thead>
                   <tbody>
                     <?php
-                    foreach($usuarios as $row) {
+                    while($row = mysqli_fetch_assoc($usuarios)) {
 
                   echo "<tr>
                     <td>". $row["id_usuario"]."</td>";
@@ -815,7 +813,7 @@ mysqli_close($link);
             <div class="box-body">
               <ul class="products-list product-list-in-box">
                 <?php
-                foreach($curso as $row) {
+                while($row=mysqli_fetch_assoc($curso)) {
                 echo "<li class=\"item\">
                   <div class=\"product-img\">
                     <img src=\"dist/img/default-50x50.gif\" alt=".$row["nombre"].">
