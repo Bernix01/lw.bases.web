@@ -17,8 +17,6 @@ if(!$usuarios){
     die('Invalid query:'.mysqli_error($link));
 }
 
-
-mysqli_free_result($dbnum);
 $query='SELECT * from curso';
 $curso=mysqli_query($link,$query);
 if(!$curso){
