@@ -661,8 +661,8 @@ mysql_close($link);
                         echo "
                           <td>". $row["last_login"]."</td>";
                           echo "
-                            <td>". $row["rol"]."</td>";
-                  </tr># code...
+                            <td>". $row["rol"]."</td>
+                  </tr>";
                 } ?>
                   </tbody>
                 </table>
