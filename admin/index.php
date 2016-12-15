@@ -614,7 +614,7 @@ mysqli_close($link);
 
             <div class="info-box-content">
               <span class="info-box-text">Cursos</span>
-              <span class="info-box-number"><?php echo $cursos_cantidad; ?></span>
+              <span class="info-box-number"><?php echo $cursos_cantidad[0]; ?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -627,7 +627,7 @@ mysqli_close($link);
 
             <div class="info-box-content">
               <span class="info-box-text">Usuarios</span>
-              <span class="info-box-number"><?php echo $usuarios_cantidad;?></span>
+              <span class="info-box-number"><?php echo $usuarios_cantidad[0];?></span>
             </div>
             <!-- /.info-box-content -->
           </div>
