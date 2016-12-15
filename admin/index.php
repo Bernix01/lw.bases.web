@@ -13,20 +13,19 @@ echo 'Connected successfully';
 
 $query='SELECT * from usuario';
 $usuarios=mysqli_query($link,$query);
-if(!$dbnum){
+if(!$usuarios){
     die('Invalid query:'.mysqli_error($link));
 }
 
 
 mysqli_free_result($dbnum);
 $query='SELECT * from curso';
-$usuarios=mysqli_query($link,$query);
-if(!$dbnum){
+$curso=mysqli_query($link,$query);
+if(!$curso){
     die('Invalid query:'.mysqli_error($link));
 }
 
 
-mysqli_free_result($dbnum);
 
 $query='SELECT COUNT(*) from usuario';
 $dbnum=mysqli_query($link,$query);
