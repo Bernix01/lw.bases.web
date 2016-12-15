@@ -45,7 +45,7 @@ $cursos_cantidad = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
-mysql_close($link);
+mysqli_close($link);
 
 ?>
 
