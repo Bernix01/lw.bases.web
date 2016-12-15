@@ -3,7 +3,7 @@ $HOST="localhost";
 $USERNAME="root";
 $PASSWORD="root";
 $link = mysqli_connect($HOST, $USERNAME, $PASSWORD);
-mysqli_select_db();
+mysqli_select_db($link, "lw");
 //if connection is not successful you will see text error
 if (!$link) {
        die('Could not connect: ' . mysql_error());
