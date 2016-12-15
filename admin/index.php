@@ -26,7 +26,7 @@ if(!$dbnum){
     die('Invalid query:'.mysqli_error($link));
 }
 
-$usuarios = mysqli_fetch_array($dbnum);
+$curso = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
