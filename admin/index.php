@@ -650,7 +650,7 @@ mysql_close($link);
                   </thead>
                   <tbody>
                     <?php
-                    foreach($usuarios as $row)) {
+                    foreach($usuarios as $row) {
 
                   echo "<tr>
                     <td>". $row["id_usuario"]."</td>";
