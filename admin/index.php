@@ -16,6 +16,11 @@ $usuarios=mysqli_query($link,$query);
 if(!$usuarios){
     die('Invalid query:'.mysqli_error($link));
 }
+$query="SELECT * from etiqueta";
+$etiquetas=mysqli_query($link,$query);
+if(!$etiquetas){
+  die("Invalid query: ".mysqli_error($link));
+}
 
 $query='SELECT * from curso';
 $curso=mysqli_query($link,$query);
@@ -42,6 +47,13 @@ if(!$dbnum){
 }
 
 $cursos_cantidad = mysqli_fetch_array($dbnum);
+
+$query="SELECT COUNT(*) from etiqueta";
+$dbnum=mysqli_query($link,$query);
+if(!$dbnum){
+  die("Invalid query".mysql_error($link));
+}
+$etiquetas_cantidad=mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
@@ -619,6 +631,19 @@ mysqli_close($link);
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
+        <div class="col-md-3 col-sm-6 col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon"><i class="ion ion-ios-pricetag-outline"></i></span>
+
+            <div class="info-box-content">
+              <span class="info-box-text">Etiquetas</span>
+              <span class="info-box-number"><?php echo $etiquetas_cantidad[0];?></span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
       </div>
 
           <!-- TABLE: LATEST ORDERS -->
@@ -635,12 +660,14 @@ mysqli_close($link);
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table class="table no-margin">
+                <table class="table no-margin" >
                   <thead>
                   <tr>
                     <th>ID</th>
                     <th>Nombre</th>
                     <th>Costo</th>
+                    <th>Last_login</th>
+                    <th>Rol</th>
                   </tr>
                   </thead>
                   <tbody>
@@ -656,7 +683,7 @@ mysqli_close($link);
                         echo "
                           <td>". $row["last_login"]."</td>";
                           echo "
-                            <td>". $row["rol"]."</td>
+                            <td style='text-align: center;'>". $row["rol"]."</td>
                   </tr>";
                 } ?>
                   </tbody>
@@ -672,8 +699,47 @@ mysqli_close($link);
             <!-- /.box-footer -->
           </div>
           <!-- /.box -->
-        </div>
-        <!-- /.col -->
+
+          <div class="box box-info">
+            <div class="box-header with-border">
+              <h3 class="box-title">Etiquetas</h3>
+
+              <div class="box-tools pull-right">
+                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                </button>
+                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+              </div>
+            </div>
+
+        <div class="box-body">
+          <div class="table-responsive">
+            <table class="table no-margin" >
+              <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre-etiqueta</th>
+              </tr>
+              </thead>
+              <tbody>
+                <?php
+                while($row = mysqli_fetch_assoc($etiquetas)) {
+
+              echo "<tr>
+                <td>". $row["id_etiqueta"]."</td>";
+                echo "
+                  <td>". $row["nombre"]."</td>;
+
+              </tr>";
+            } ?>
+              </tbody>
+            </table>
+          </div>
+          <!-- /.table-responsive -->
+      <!-- /.box -->
+    </div>
+    <!-- /.col -->
+  </div>
+
 
         <div class="col-md-4">
           <!-- Info Boxes Style 2 -->
