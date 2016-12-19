@@ -118,10 +118,10 @@ body {
 	<div class="login-page">
   <div class="form">
 
-    <form class="login-form" name="login-form">
+    <form class="login-form" name="login-form" action="verificar-usuario.php">
       <input type="text" name="nickname" placeholder="nombre de usuario" required="required"/>
       <input type="password" name="password" placeholder="contraseña" maxlength="15" required="required"/>
-      <button type="submit">iniciar sesión</button>
+      <button type="submit" id="login">iniciar sesión</button>
       <p class="message">Aún no tienes cuenta? <a href="create-usuario.html">Crear cuenta</a></p>
     </form>
   </div>
