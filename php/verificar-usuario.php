@@ -1,4 +1,8 @@
 <?php
+if(!isset($_POST)){
+  die("dumbass!");
+}
+session_start();
 // Define $username and $password
 echo "hola";
 $username=$_POST['nickname'];

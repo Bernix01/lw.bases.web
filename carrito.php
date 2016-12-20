@@ -1,3 +1,48 @@
+<?php
+session_start();
+if(!isset($_SESSION["carro"])){
+  $_SESSION["carro"] = array();
+}
+$carro = $_SESSION["carro"];
+if(isset($_GET)){
+  if(isset($_GET["add"])){
+
+     if(isset($carro[$_GET["add"]])){
+       $carro[$_GET["add"]]++;
+
+     }else{
+       $carro[$_GET["add"]] = 1;
+     }
+  }
+  if(isset($_GET["rem"])){
+    if(isset($carro[$_GET["rem"]])){
+      unset($carro[$_GET["rem"]]);
+    }
+  }
+}
+$HOST="localhost";
+$USERNAME="root";
+$PASSWORD="root";
+$link = mysqli_connect($HOST, $USERNAME, $PASSWORD);
+mysqli_set_charset($link,"utf8");
+mysqli_select_db($link, "lw");
+//if connection is not successful you will see text error
+if (!$link) {
+       die('Could not connect: ' . mysql_error());
+}
+$list = "";
+foreach ($carro as $key => $value) {
+  $list = $list.$key.',';
+}
+$list = substr($list,0,strlen($list)-1);
+$query='SELECT * from curso, info_curso where curso.id_curso = info_curso.id_curso AND curso.id_curso IN ('.$list.')';
+
+$curso=mysqli_query($link,$query);
+if(!$curso){
+    die('Invalid query:'.mysqli_error($link));
+}
+$_SESSION["carro"]=$carro;
+ ?>
 <!DOCTYPE html>
 <html lang="">
     <head>
@@ -34,7 +79,7 @@
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse navbar-ex1-collapse">
                     <ul class="nav navbar-nav navbar-left">
-                        <li ><a href="cursos.html">Cursos</a></li>
+                        <li ><a href="cursos.php">Cursos</a></li>
                         <li><a href="acerca_de.html">Acerca de</a></li>
                     </ul>
                     <form class="navbar-form navbar-left" role="search">
@@ -63,34 +108,39 @@
     <label class="product-line-price">Total</label>
   </div>
 
-  <div class="product">
-    <div class="product-image">
-      <img src="">
+  <?php
+  $total = 0;
+  while($row=mysqli_fetch_assoc($curso)) {
+    $total+=$row["costo"]*$carro[$row["id_curso"]];
+  echo "<div class=\"product\">
+    <div class=\"product-image\">
+      <img src=\"\">
     </div>
-    <div class="product-details">
-      <div class="product-title">Workshop de diseño gráfico para emprendedores.</div>
-      <p class="product-description">Aquí aprenderás todo lo necesario para crear el logo de tu siguiente gran emprendimiento o los posteos de tu actual gran emprendimiento.	</p>
+    <div class=\"product-details\">
+      <div class=\"product-title\">".$row["nombre"]."</div>
+      <p class=\"product-description\">".$row["descripcion"]."</p>
     </div>
-    <div class="product-price">160</div>
-    <div class="product-quantity">
-      <input type="number" value="2" min="1">
+    <div class=\"product-price\">".$row["costo"]."</div>
+    <div class=\"product-quantity\">
+      <input type=\"number\" value=\"".$carro[$row["id_curso"]]."\" min=\"1\">
     </div>
-    <div class="product-removal">
-      <button class="remove-product">
+    <div class=\"product-removal\">
+      <a href=\"carrito.php?rem=".$row["id_curso"]."\" class=\"remove-product\">
         Remove
-      </button>
+      </a>
     </div>
-    <div class="product-line-price">25.98</div>
+    <div class=\"product-line-price\">".($row["costo"]*$carro[$row["id_curso"]])."</div>
   </div>
-
+";
+}?>
   <div class="totals">
     <div class="totals-item">
       <label>Subtotal</label>
-      <div class="totals-value" id="cart-subtotal">71.97</div>
+      <div class="totals-value" id="cart-subtotal"><?php echo $total; ?></div>
     </div>
     <div class="totals-item totals-item-total">
       <label>Total</label>
-      <div class="totals-value" id="cart-total">90.57</div>
+      <div class="totals-value" id="cart-total"><?php echo $total; ?></div>
     </div>
   </div>
 
@@ -101,7 +151,6 @@
 		<!-- jQuery -->
 		<script src="js/jquery.js"></script>
     <script type="text/javascript"> function validar(){
-
 
     }</script>
 

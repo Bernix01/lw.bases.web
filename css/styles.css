@@ -6,6 +6,11 @@ body{
 	padding: 1em;
 	margin: .5em;
 }
+
+.curso h3{
+	text-transform: capitalize;
+}
+
 /*
 I wanted to go with a mobile first approach, but it actually lead to more verbose CSS in this case, so I've gone web first. Can't always force things...
 
