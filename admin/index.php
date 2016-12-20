@@ -727,7 +727,7 @@ mysqli_close($link);
               echo "<tr>
                 <td>". $row["id_etiqueta"]."</td>";
                 echo "
-                  <td>". $row["nombre"]."</td>;
+                  <td>". $row["nombre"]."</td>
 
               </tr>";
             } ?>

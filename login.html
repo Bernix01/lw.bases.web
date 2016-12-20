@@ -118,20 +118,29 @@ body {
 	<div class="login-page">
   <div class="form">
 
-    <form class="login-form" name="login-form" action="verificar-usuario.php">
+    <form class="login-form" name="login-form" method='POST' action="php/verificar-usuario.php">
       <input type="text" name="nickname" placeholder="nombre de usuario" required="required"/>
       <input type="password" name="password" placeholder="contraseña" maxlength="15" required="required"/>
       <button type="submit" id="login">iniciar sesión</button>
+			<div id="msg">
+			</div>
       <p class="message">Aún no tienes cuenta? <a href="create-usuario.html">Crear cuenta</a></p>
     </form>
   </div>
 </div><!-- jQuery -->
 		<script src="js/jquery.js"></script>
 		<script src="js/login-validation.js"></script>
-<script type="text/javascript">$('.message a').click(function(){
+<script type="text/javascript">
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+var success=getURLParameter("success");
+if(success==0){
+	document.getElementById('msg').innerHTML = "Nombre de usuario o contraseña incorrectos.";
+}
+$('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });</script>
-<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
 		<!-- Bootstrap JavaScript -->
 		<script src="js/bootstrap.min.js"></script>
