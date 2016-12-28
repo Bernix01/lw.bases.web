@@ -20,6 +20,10 @@ if(isset($_GET)){
     }
   }
 }
+if(sizeof($carro)==0){
+  header("location: /");
+  die();
+}
 $HOST="localhost";
 $USERNAME="root";
 $PASSWORD="root";
@@ -63,38 +67,8 @@ $_SESSION["carro"]=$carro;
         <![endif]-->
     </head>
     <body>
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <!-- Brand and toggle get grouped for better mobile display -->
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-                        <span class="sr-only">Toggle navigation</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="./">Learning & Winening</a>
-                </div>
-
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse navbar-ex1-collapse">
-                    <ul class="nav navbar-nav navbar-left">
-                        <li ><a href="cursos.php">Cursos</a></li>
-                        <li><a href="acerca_de.html">Acerca de</a></li>
-                    </ul>
-                    <form class="navbar-form navbar-left" role="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Buscar curso">
-                        </div>
-                        <button type="submit" class="btn btn-default"><span class="glypicon glyphicon-search"></span></button>
-                    </form>
-                    <ul class="nav navbar-nav navbar-right">
-                        <li ><a href="login.html">Identifícate</a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div>
-        </nav>
-		<div class="container">
+<?php include("php/menu.php"); ?>
+    	<div class="container">
       <h1>Shopping Cart</h1>
 
 <div class="shopping-cart">
@@ -144,7 +118,7 @@ $_SESSION["carro"]=$carro;
     </div>
   </div>
 
-      <a href="pago.html" class="checkout" onclick="validar()">Checkout</a>
+      <a href="pago-opciones.html" class="checkout" onclick="validar()">Checkout</a>
 
 </div>
 		</div>
