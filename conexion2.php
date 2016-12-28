@@ -14,7 +14,10 @@ $dbnum=mysqli_query($conn,$query);
 if($dbnum){
     $data = mysqli_fetch_array($dbnum);
     echo $data[0];
+
 }
+  
+
 else{
     die('Invalid query:'.mysqli_error());
 }
