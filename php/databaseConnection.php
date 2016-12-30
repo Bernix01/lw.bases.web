@@ -31,6 +31,9 @@
 
 	        throw new DatabaseException($message);
 	    }
+		public function getDBname(){
+			return $this->database;
+		}
 
 	}
 

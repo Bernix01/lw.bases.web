@@ -1,19 +1,17 @@
 <?php
+include_once('php/colector.php');
 session_start();
-$HOST="localhost";
-$USERNAME="root";
-$PASSWORD="root";
-$link = mysqli_connect($HOST, $USERNAME, $PASSWORD);
-mysqli_set_charset($link,"utf8");
-mysqli_select_db($link, "lw");
+$colector= new Colector();
+//mysqli_set_charset($link,"utf8");
+//mysqli_select_db($link, "lw");
 //if connection is not successful you will see text error
-if (!$link) {
-       die('Could not connect: ' . mysql_error());
-}
+/*if (!$link) {
+       //die('Could not connect: ' . mysql_error());
+}*/
 $query='SELECT * from curso, info_curso where curso.id_curso = info_curso.id_curso';
-$curso=mysqli_query($link,$query);
+$curso=$colector->query($query);
 if(!$curso){
-    die('Invalid query:'.mysqli_error($link));
+    die('Invalid query:');
 }
 ?>
 <!DOCTYPE html>
