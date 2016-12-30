@@ -18,9 +18,9 @@
                     <li ><a href="/">Cursos</a></li>
                     <li><a href="acerca_de.html">Acerca de</a></li>
                 </ul>
-                <form class="navbar-form navbar-left" role="search">
+                <form class="navbar-form navbar-left" role="search" method='POST' action='buscarCursos.php'>
                     <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Buscar curso">
+                        <input type="text" class="form-control" placeholder="Buscar curso" name="busqueda">
                     </div>
                     <button type="submit" class="btn btn-default"><span class="glypicon glyphicon-search"></span></button>
                 </form>
