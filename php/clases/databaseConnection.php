@@ -20,6 +20,12 @@
 
 	        parent::__construct($this->host, $this->user, $this->password, $this->database, $this->port, $this->socket);
 					$this->con=true;
+					if (!$mysqli->set_charset("utf8")) {
+    printf("Error loading character set utf8: %s\n", $mysqli->error);
+    exit();
+} else {
+    printf("Current character set: %s\n", $mysqli->character_set_name());
+}
 	        $this->throwConnectionExceptionOnConnectionError();
 	    }
 

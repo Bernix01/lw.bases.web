@@ -19,27 +19,6 @@ class Colector{
 
 
 
-	// Function to SELECT from the database a whole table
-	public function list($table){
-		// Create query from the variables passed to the function
-		$query = 'SELECT * FROM '.$table;
-
-    if($this->tableExists($table)){
-        	// The table exists, run the query
-					/* prepare query sentence */
-			if ($stmt = $this->myconn->prepare($query)) {
-    		$stmt->execute();
-
-    				/* put result of the query */
-    		$this->result = $stmt->get_result();
-
-    		$stmt->close();
-				return $this->result; //return the result of the query
-			}
-    }else{
-      		return NULL; // Table does not exist
-    	}
-    }
 
 	public function query($query){
 

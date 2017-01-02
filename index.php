@@ -1,6 +1,6 @@
 <?php
-include_once('../clases/colector.php');
-include("menu.php");
+include_once('php/clases/colector.php');
+include("php/menu.php");
 session_start();
 $colector= new Colector();
 //mysqli_set_charset($link,"utf8");
@@ -55,9 +55,7 @@ if(!$curso){
       ?>
 				</div>
 			</div>
-		</div>
-<script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-		<!-- jQuery -->
+		</div><!-- jQuery -->
 		<script src="../../js/jquery.js"></script>
 		<!-- Bootstrap JavaScript -->
 		<script src="../../js/bootstrap.min.js"></script>
