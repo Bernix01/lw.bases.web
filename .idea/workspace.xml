@@ -2,7 +2,46 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="6c0297e7-ca2c-45a3-b958-452900ce3346" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/Modelo lógico normalizado.pdf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/eCommerceAssets/images/logo.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/eCommerceAssets/styles/eCommerceStyle.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/login.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/login.php" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newCamion.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newCompra.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newConductor.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newEmpresa.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newGuia.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newPrestamo.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newProveedor.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newTrabajador.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/newVenta.html" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/GABANIJO DATA SYSTEM/rolPago.html" afterPath="" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterPath="$PROJECT_DIR$/admin/.idea/dataSources.local.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/dataSources.xml" afterPath="$PROJECT_DIR$/admin/.idea/dataSources.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/dataSources/dabdd129-31d5-4458-8cbe-8299755de3da.xml" afterPath="$PROJECT_DIR$/admin/.idea/dataSources/dabdd129-31d5-4458-8cbe-8299755de3da.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/dataSources/dabdd129-31d5-4458-8cbe-8299755de3da/storage.xml" afterPath="$PROJECT_DIR$/admin/.idea/dataSources/dabdd129-31d5-4458-8cbe-8299755de3da/storage.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/lw.bases.web.iml" afterPath="$PROJECT_DIR$/admin/.idea/lw.bases.web.iml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/admin/.idea/modules.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/sqldialects.xml" afterPath="$PROJECT_DIR$/admin/.idea/sqldialects.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/vcs.xml" afterPath="$PROJECT_DIR$/admin/.idea/vcs.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/admin/.idea/workspace.xml" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/acerca_de.html" afterPath="$PROJECT_DIR$/media/html/acerca_de.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/create-certificado.html" afterPath="$PROJECT_DIR$/media/html/create-certificado.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/create-course.html" afterPath="$PROJECT_DIR$/media/html/create-course.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/create-empredimiento.html" afterPath="$PROJECT_DIR$/media/html/create-empredimiento.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/create-profesor.html" afterPath="$PROJECT_DIR$/media/html/create-profesor.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/create-usuario.html" afterPath="$PROJECT_DIR$/media/html/create-usuario.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/deposito.html" afterPath="$PROJECT_DIR$/media/html/deposito.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/facturar.html" afterPath="$PROJECT_DIR$/media/html/facturar.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/index.old.html" afterPath="$PROJECT_DIR$/media/html/index.old.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/pago-exitoso.html" afterPath="$PROJECT_DIR$/media/html/pago-exitoso.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/pago-opciones.html" afterPath="$PROJECT_DIR$/media/html/pago-opciones.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/html/pago.html" afterPath="$PROJECT_DIR$/media/html/pago.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/php/paginas/buscarCursos.php" afterPath="$PROJECT_DIR$/buscarCursos.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/login.html" afterPath="$PROJECT_DIR$/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/media/html/login.html" afterPath="$PROJECT_DIR$/media/html/login.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/php/clases/databaseConnection.php" afterPath="$PROJECT_DIR$/php/clases/databaseConnection.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -59,6 +98,8 @@
               <caret line="93" column="26" lean-forward="false" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
               <folding>
                 <marker date="1483374833265" expanded="true" signature="891:999" ph="SELECT * fro... curso" />
+                <marker date="1483374833265" expanded="true" signature="1160:4066" ph="..." />
+                <marker date="1483374833265" expanded="true" signature="1975:4058" ph="..." />
                 <marker date="1483374833265" expanded="true" signature="2594:3270" ph="..." />
                 <marker date="1483374833265" expanded="true" signature="2628:2660" ph="..." />
                 <marker date="1483374833265" expanded="true" signature="2696:2834" ph="..." />
@@ -135,21 +176,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="console.sql" pinned="false" current-in-tab="false">
-        <entry file="file://$APPLICATION_CONFIG_DIR$/consoles/db/dabdd129-31d5-4458-8cbe-8299755de3da/console.sql">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="databaseConnection.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/php/clases/databaseConnection.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="29" column="9" lean-forward="false" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+            <state relative-caret-position="357">
+              <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
               <folding />
             </state>
           </provider>
@@ -175,6 +206,7 @@
         <option value="$PROJECT_DIR$/css/styles.css" />
         <option value="$PROJECT_DIR$/php/verificar-usuario.php" />
         <option value="$PROJECT_DIR$/admin/index.php" />
+        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/php/clases/databaseConnection.php" />
       </list>
     </option>
@@ -192,6 +224,7 @@
     <option name="width" value="1936" />
     <option name="height" value="1056" />
   </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
       <flattenPackages />
@@ -229,11 +262,66 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="SearchEverywhereHistoryKey" value="verific&#9;FILE&#9;file://C:/Users/gbern/Documents/GitHub/lw.bases.web/php/verificar-usuario.php&#10;menu&#9;FILE&#9;file://C:/Users/gbern/Documents/GitHub/lw.bases.web/php/paginas/menu.php&#10;databa&#9;FILE&#9;file://C:/Users/gbern/Documents/GitHub/lw.bases.web/php/clases/databaseConnection.php&#10;conexio&#9;FILE&#9;file://C:/Users/gbern/Documents/GitHub/lw.bases.web/php/conexion-op.php" />
     <property name="com.intellij.database.dataSource.DataSourceTemplate" value="MySQL" />
+    <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
+    <property name="js.eslint.eslintPackage" value="" />
+    <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\gbern\Documents\GitHub\lw.bases.web" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="JavaScriptTestRunnerProtractor" factoryName="Protractor">
+      <config-file value="" />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="JavascriptDebugType" factoryName="JavaScript Debug">
+      <method />
+    </configuration>
+    <configuration default="true" type="NodeJSConfigurationType" factoryName="Node.js" path-to-node="project" working-dir="">
+      <method />
+    </configuration>
+    <configuration default="true" type="PHPUnitRunConfigurationType" factoryName="PHPUnit">
+      <TestRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpBehatConfigurationType" factoryName="Behat">
+      <BehatRunner />
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpLocalRunConfigurationType" factoryName="PHP Console">
+      <method />
+    </configuration>
+    <configuration default="true" type="PhpSpecConfigurationType" factoryName="PHPSpec">
+      <PhpTestRunnerSettings />
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.gulp" factoryName="Gulp.js">
+      <method />
+    </configuration>
+    <configuration default="true" type="js.build_tools.npm" factoryName="npm">
+      <command value="run" />
+      <scripts />
+      <node-interpreter value="project" />
+      <envs />
+      <method />
+    </configuration>
+    <configuration default="true" type="mocha-javascript-test-runner" factoryName="Mocha">
+      <node-interpreter>project</node-interpreter>
+      <node-options />
+      <working-directory />
+      <pass-parent-env>true</pass-parent-env>
+      <envs />
+      <ui />
+      <extra-mocha-options />
+      <test-kind>DIRECTORY</test-kind>
+      <test-directory />
+      <recursive>false</recursive>
+      <method />
+    </configuration>
   </component>
   <component name="ShelveChangesManager" show_recycled="false">
     <option name="remove_strategy" value="false" />
@@ -248,7 +336,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1483372047348</updated>
-      <workItem from="1483372049603" duration="4571000" />
+      <workItem from="1483372049603" duration="4966000" />
     </task>
     <task id="LOCAL-00001" summary="worksapce">
       <created>1483377738371</created>
@@ -257,21 +345,35 @@
       <option name="project" value="LOCAL" />
       <updated>1483377738371</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="worksapce">
+      <created>1483377937967</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1483377937967</updated>
+    </task>
+    <task id="LOCAL-00003" summary="worksapce">
+      <created>1483378150677</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1483378150677</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="4571000" />
+    <option name="totallyTimeSpent" value="4966000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32934782" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -362,6 +464,8 @@
           <caret line="93" column="26" lean-forward="false" selection-start-line="93" selection-start-column="26" selection-end-line="93" selection-end-column="26" />
           <folding>
             <marker date="1483374833265" expanded="true" signature="891:999" ph="SELECT * fro... curso" />
+            <marker date="1483374833265" expanded="true" signature="1160:4066" ph="..." />
+            <marker date="1483374833265" expanded="true" signature="1975:4058" ph="..." />
             <marker date="1483374833265" expanded="true" signature="2594:3270" ph="..." />
             <marker date="1483374833265" expanded="true" signature="2628:2660" ph="..." />
             <marker date="1483374833265" expanded="true" signature="2696:2834" ph="..." />
@@ -419,10 +523,26 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="55" column="46" lean-forward="false" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/php/clases/databaseConnection.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="29" column="9" lean-forward="false" selection-start-line="29" selection-start-column="9" selection-end-line="29" selection-end-column="9" />
+        <state relative-caret-position="357">
+          <caret line="21" column="26" lean-forward="true" selection-start-line="21" selection-start-column="26" selection-end-line="21" selection-end-column="26" />
           <folding />
         </state>
       </provider>

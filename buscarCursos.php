@@ -1,5 +1,5 @@
 <?php
-include_once('../clases/colector.php');
+include_once('php/clases/colector.php');
 session_start();
 $colector= new Colector();
 //mysqli_set_charset($link,"utf8");
@@ -10,7 +10,8 @@ $colector= new Colector();
 }*/
 $busqueda=$_POST['busqueda'];
 $busqueda=stripslashes($busqueda);
-$query="SELECT curso.nombre as cnombre, curso.id_curso as idcurso, info_curso.descripcion as descripcion,curso.costo as costo, info_curso.cupo_max as cupo_max, info_curso.cupos_disponibles as disponibles from curso, info_curso, curso_etiqueta, etiqueta where idcurso= info_curso.id_curso AND curso_etiqueta.id_curso=idcurso AND curso_etiqueta.id_etiqueta=etiqueta.id_etiqueta AND descripcion LIKE '".$busqueda."' OR etiqueta.nombre LIKE '".$busqueda."' OR cnombre LIKE '".$busqueda."' GROUP BY idcurso";
+$busqueda="%$busqueda%";
+$query="SELECT curso.nombre as nombre, curso.id_curso as idcurso, info_curso.descripcion as descripcion,curso.costo as costo, info_curso.cupo_max as cupo_max, info_curso.cupos_disponibles as disponibles from curso, info_curso, curso_etiqueta, etiqueta where curso.id_curso= info_curso.id_curso and curso_etiqueta.id_curso=curso.id_curso and curso_etiqueta.id_etiqueta=etiqueta.id_etiqueta and (info_curso.descripcion like '$busqueda' or etiqueta.nombre like '$busqueda' or curso.nombre like '$busqueda')";
 $curso=$colector->query($query);
 if(!$curso){
     die('Invalid query:');
@@ -36,13 +37,13 @@ if(!$curso){
         <![endif]-->
     </head>
     <body>
-        <?php include("menu.php"); ?>
+        <?php include("php/paginas/menu.php"); ?>
 		<div class="container">
 			<div class="row">
 
           <?php while($row=mysqli_fetch_assoc($curso)) {
           echo "<div class=\"col-sm-2 col-md-4 col-lg-4\"><div class=\"curso\">
-					<h3>".$row["cnombre"]."</h3>
+					<h3>".$row["nombre"]."</h3>
 					<span class=\"pull-right\">
 					<span class=\"label label-info\">$".$row["costo"]."</span>
 					<span class=\"label label-success\"><i class=\"fa fa-person\"></i> ".$row["disponibles"]."/".$row["cupo_max"]."</span></span>
@@ -59,9 +60,9 @@ if(!$curso){
 		</div>
 <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 		<!-- jQuery -->
-		<script src="../../js/jquery.js"></script>
+		<script src="js/jquery.js"></script>
 		<!-- Bootstrap JavaScript -->
-		<script src="../../js/bootstrap.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
  		<script src="Hello World"></script>
 	</body>
