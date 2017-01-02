@@ -1,0 +1,515 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataSource name="MySQL - lw@localhost">
+  <database-model serializer="dbm" rdbms="MYSQL" format-version="4.0">
+    <root id="1"/>
+    <schema id="2" parent="1" name="lw">
+      <Current>1</Current>
+      <Visible>1</Visible>
+    </schema>
+    <schema id="3" parent="1" name="information_schema"/>
+    <schema id="4" parent="1" name="mysql"/>
+    <schema id="5" parent="1" name="performance_schema"/>
+    <schema id="6" parent="1" name="redfenix_splash"/>
+    <schema id="7" parent="1" name="taller_bases"/>
+    <schema id="8" parent="1" name="test"/>
+    <table id="9" parent="2" name="certificado"/>
+    <table id="10" parent="2" name="curso"/>
+    <table id="11" parent="2" name="curso-estudiante"/>
+    <table id="12" parent="2" name="curso-etiqueta"/>
+    <table id="13" parent="2" name="curso_horario"/>
+    <table id="14" parent="2" name="curso_profesor"/>
+    <table id="15" parent="2" name="detalle_factura"/>
+    <table id="16" parent="2" name="emprendimiento"/>
+    <table id="17" parent="2" name="etiqueta"/>
+    <table id="18" parent="2" name="factura"/>
+    <table id="19" parent="2" name="horario"/>
+    <table id="20" parent="2" name="info_curso"/>
+    <table id="21" parent="2" name="info_usuario"/>
+    <table id="22" parent="2" name="pago"/>
+    <table id="23" parent="2" name="usuario"/>
+    <column id="24" parent="9" name="id_certificado">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="25" parent="9" name="id_estudiante">
+      <Position>2</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="26" parent="9" name="contenido">
+      <Position>3</Position>
+      <DataType>varchar(100)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="27" parent="9" name="id_estudiante">
+      <ColNames>id_estudiante</ColNames>
+    </index>
+    <key id="28" parent="9" name="PRIMARY">
+      <ColNames>id_certificado</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="29" parent="10" name="id_curso">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="30" parent="10" name="nombre">
+      <Position>2</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="31" parent="10" name="costo">
+      <Position>3</Position>
+      <DataType>decimal(5,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="32" parent="10" name="PRIMARY">
+      <ColNames>id_curso</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="33" parent="11" name="id_estudiante">
+      <Position>1</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="34" parent="11" name="id_curso">
+      <Position>2</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="35" parent="11" name="id_curso">
+      <ColNames>id_curso</ColNames>
+    </index>
+    <index id="36" parent="11" name="id_estudiante">
+      <ColNames>id_estudiante</ColNames>
+    </index>
+    <column id="37" parent="12" name="id_curso">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="38" parent="12" name="id_etiqueta">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="39" parent="12" name="id_curso">
+      <ColNames>id_curso</ColNames>
+    </index>
+    <index id="40" parent="12" name="id_etiqueta">
+      <ColNames>id_etiqueta</ColNames>
+    </index>
+    <foreign-key id="41" parent="12" name="etiqueta_curso_fk">
+      <ColNames>id_curso</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>curso</RefTableName>
+      <RefColNames>id_curso</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <foreign-key id="42" parent="12" name="etiqueta_etiqueta_fk">
+      <ColNames>id_etiqueta</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>etiqueta</RefTableName>
+      <RefColNames>id_etiqueta</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="43" parent="13" name="id_curso">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="44" parent="13" name="id_horario">
+      <Position>2</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="45" parent="13" name="id_curso">
+      <ColNames>id_curso</ColNames>
+    </index>
+    <index id="46" parent="13" name="id_horario">
+      <ColNames>id_horario</ColNames>
+    </index>
+    <foreign-key id="47" parent="13" name="horario_horario_fk">
+      <ColNames>id_horario</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>horario</RefTableName>
+      <RefColNames>id_horario</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="48" parent="14" name="id_curso">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="49" parent="14" name="id_profesor">
+      <Position>2</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="50" parent="14" name="id_curso">
+      <ColNames>id_curso</ColNames>
+    </index>
+    <index id="51" parent="14" name="id_profesor">
+      <ColNames>id_profesor</ColNames>
+    </index>
+    <foreign-key id="52" parent="14" name="curso_curso_fk">
+      <ColNames>id_curso</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>curso</RefTableName>
+      <RefColNames>id_curso</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <foreign-key id="53" parent="14" name="curso_profesor_fk">
+      <ColNames>id_profesor</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>usuario</RefTableName>
+      <RefColNames>id_usuario</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="54" parent="15" name="id_factura">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="55" parent="15" name="id_curso">
+      <Position>2</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="56" parent="15" name="numero_cupos">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="57" parent="15" name="id_curso">
+      <ColNames>id_curso</ColNames>
+    </index>
+    <index id="58" parent="15" name="id_factura">
+      <ColNames>id_factura</ColNames>
+    </index>
+    <foreign-key id="59" parent="15" name="detalle_factura_fk">
+      <ColNames>id_factura</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>factura</RefTableName>
+      <RefColNames>id_factura</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <foreign-key id="60" parent="15" name="detalle_curso_fk">
+      <ColNames>id_curso</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>curso</RefTableName>
+      <RefColNames>id_curso</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="61" parent="16" name="id_emprendimiento">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="62" parent="16" name="id_estudiante">
+      <Position>2</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="63" parent="16" name="nombre">
+      <Position>3</Position>
+      <DataType>varchar(35)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="64" parent="16" name="descripcion">
+      <Position>4</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="65" parent="16" name="id_usuario">
+      <ColNames>id_estudiante</ColNames>
+    </index>
+    <key id="66" parent="16" name="PRIMARY">
+      <ColNames>id_emprendimiento</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="67" parent="16" name="emprendimiento_usuario_fk">
+      <ColNames>id_estudiante</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>usuario</RefTableName>
+      <RefColNames>id_usuario</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="68" parent="17" name="id_etiqueta">
+      <Position>1</Position>
+      <DataType>int(5)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="69" parent="17" name="nombre">
+      <Position>2</Position>
+      <DataType>varchar(46)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="70" parent="17" name="nombre">
+      <ColNames>nombre</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="71" parent="17" name="PRIMARY">
+      <ColNames>id_etiqueta</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="72" parent="17" name="nombre">
+      <ColNames>nombre</ColNames>
+      <UnderlyingIndexName>nombre</UnderlyingIndexName>
+    </key>
+    <column id="73" parent="18" name="id_factura">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="74" parent="18" name="id_estudiante">
+      <Position>2</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="75" parent="18" name="fecha">
+      <Position>3</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="76" parent="18" name="total">
+      <Position>4</Position>
+      <DataType>decimal(5,2)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="77" parent="18" name="nombres">
+      <Position>5</Position>
+      <DataType>varchar(46)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="78" parent="18" name="apellidos">
+      <Position>6</Position>
+      <DataType>varchar(46)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="79" parent="18" name="numero_factura">
+      <Position>7</Position>
+      <DataType>int(9)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="80" parent="18" name="id_estudiante">
+      <ColNames>id_estudiante</ColNames>
+    </index>
+    <key id="81" parent="18" name="PRIMARY">
+      <ColNames>id_factura</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="82" parent="18" name="factura_estudiante_fk">
+      <ColNames>id_estudiante</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>usuario</RefTableName>
+      <RefColNames>id_usuario</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="83" parent="19" name="id_horario">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="84" parent="19" name="inicio">
+      <Position>2</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="85" parent="19" name="fin">
+      <Position>3</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <key id="86" parent="19" name="PRIMARY">
+      <ColNames>id_horario</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="87" parent="20" name="id_curso">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="88" parent="20" name="descripcion">
+      <Position>2</Position>
+      <DataType>text|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="89" parent="20" name="cupo_min">
+      <Position>3</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="90" parent="20" name="cupo_max">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="91" parent="20" name="cupos_disponibles">
+      <Position>5</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="92" parent="20" name="fecha_inicio">
+      <Position>6</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="93" parent="20" name="fecha_fin">
+      <Position>7</Position>
+      <DataType>date|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="94" parent="20" name="id_curso">
+      <ColNames>id_curso</ColNames>
+    </index>
+    <foreign-key id="95" parent="20" name="infocurso_curso_fk">
+      <ColNames>id_curso</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>curso</RefTableName>
+      <RefColNames>id_curso</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="96" parent="21" name="id_usuario">
+      <Position>1</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="97" parent="21" name="nombres">
+      <Position>2</Position>
+      <DataType>varchar(46)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="98" parent="21" name="apellidos">
+      <Position>3</Position>
+      <DataType>int(46)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="99" parent="21" name="numero_cursos">
+      <Position>4</Position>
+      <DataType>int(11)|0</DataType>
+    </column>
+    <column id="100" parent="21" name="tag_line">
+      <Position>5</Position>
+      <DataType>varchar(255)|0</DataType>
+    </column>
+    <index id="101" parent="21" name="id_usuario">
+      <ColNames>id_usuario</ColNames>
+    </index>
+    <foreign-key id="102" parent="21" name="infousuario_usuario_fk">
+      <ColNames>id_usuario</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>usuario</RefTableName>
+      <RefColNames>id_usuario</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="103" parent="22" name="id_factura">
+      <Position>1</Position>
+      <DataType>int(32)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="104" parent="22" name="id_pago">
+      <Position>2</Position>
+      <DataType>int(11)|0</DataType>
+      <NotNull>1</NotNull>
+      <SequenceIdentity>1</SequenceIdentity>
+    </column>
+    <column id="105" parent="22" name="n_tarjeta">
+      <Position>3</Position>
+      <DataType>int(16)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="106" parent="22" name="n_deposito">
+      <Position>4</Position>
+      <DataType>int(16)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="107" parent="22" name="forma_pago">
+      <Position>5</Position>
+      <DataType>int(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="108" parent="22" name="id_factura">
+      <ColNames>id_factura</ColNames>
+    </index>
+    <key id="109" parent="22" name="PRIMARY">
+      <ColNames>id_pago</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <foreign-key id="110" parent="22" name="formapago_factura_fk">
+      <ColNames>id_factura</ColNames>
+      <RefSchemaName>lw</RefSchemaName>
+      <RefTableName>factura</RefTableName>
+      <RefColNames>id_factura</RefColNames>
+      <OnUpdate>update</OnUpdate>
+      <OnDelete>delete</OnDelete>
+    </foreign-key>
+    <column id="111" parent="23" name="id_usuario">
+      <Position>1</Position>
+      <DataType>varchar(13)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="112" parent="23" name="nickname">
+      <Position>2</Position>
+      <DataType>varchar(16)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="113" parent="23" name="contrasenia">
+      <Position>3</Position>
+      <DataType>varchar(15)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="114" parent="23" name="email">
+      <Position>4</Position>
+      <DataType>varchar(64)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="115" parent="23" name="last_login">
+      <Position>5</Position>
+      <DataType>datetime|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <column id="116" parent="23" name="rol">
+      <Position>6</Position>
+      <DataType>int(1)|0</DataType>
+      <NotNull>1</NotNull>
+    </column>
+    <index id="117" parent="23" name="email">
+      <ColNames>email</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <index id="118" parent="23" name="id_usuario">
+      <ColNames>id_usuario</ColNames>
+    </index>
+    <index id="119" parent="23" name="nickname">
+      <ColNames>nickname</ColNames>
+      <Unique>1</Unique>
+    </index>
+    <key id="120" parent="23" name="PRIMARY">
+      <ColNames>id_usuario</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <key id="121" parent="23" name="nickname">
+      <ColNames>nickname</ColNames>
+      <UnderlyingIndexName>nickname</UnderlyingIndexName>
+    </key>
+    <key id="122" parent="23" name="email">
+      <ColNames>email</ColNames>
+      <UnderlyingIndexName>email</UnderlyingIndexName>
+    </key>
+  </database-model>
+</dataSource>
