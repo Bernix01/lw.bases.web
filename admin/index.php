@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!(isset($_SESSION["admin"])) && $_SESSION["admin"] != 2){
+if(!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2){
   header("location: /login.html");
   die();
 }

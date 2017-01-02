@@ -67,7 +67,7 @@ $_SESSION["carro"]=$carro;
         <![endif]-->
     </head>
     <body>
-<?php include("paginas/menu.php"); ?>
+<?php include("php/paginas/menu.php"); ?>
     	<div class="container">
       <h1>Shopping Cart</h1>
 

@@ -25,7 +25,7 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                                     <?php if(!isset($_SESSION["nickname"])){ ?>
-                    <li ><a href="../../html/login.html">Identifícate</a></li>
+                    <li ><a href="../../login.html">Identifícate</a></li>
                     <?php }else {
                       ?>
                         <li ><a href="#"><?php echo $_SESSION["nickname"] ?></a></li>
