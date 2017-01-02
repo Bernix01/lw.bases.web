@@ -1,6 +1,6 @@
 <?php
-include_once('usuario.php');
-include_once ('usuarioColector.php');
+include_once('clases/usuario.php');
+include_once ('clases/usuarioColector.php');
 if(!isset($_POST)){
   die("dumbass!");
 }
@@ -35,11 +35,11 @@ if(strcmp($username,"mabe")== 0 && strcmp($password,"12345")== 0){
   $_SESSION["nickname"]=$username;
   $_SESSION["admin"]=2;
 
-  (header("location: /admin/")) ;
+  (header("location: ../admin/")) ;
   die();
 }
 //echo "dfghjk";
-(header("location: /login.html?success=0")) ;
+(header("location: ../html/login.html?success=0")) ;
 
 
 

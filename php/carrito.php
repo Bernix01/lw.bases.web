@@ -21,7 +21,7 @@ if(isset($_GET)){
   }
 }
 if(sizeof($carro)==0){
-  header("location: /");
+  header("location: paginas/");
   die();
 }
 $HOST="localhost";
@@ -56,8 +56,8 @@ $_SESSION["carro"]=$carro;
         <title>Learning & Winening</title>
 
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/styles.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,7 +67,7 @@ $_SESSION["carro"]=$carro;
         <![endif]-->
     </head>
     <body>
-<?php include("php/menu.php"); ?>
+<?php include("paginas/menu.php"); ?>
     	<div class="container">
       <h1>Shopping Cart</h1>
 
@@ -118,18 +118,18 @@ $_SESSION["carro"]=$carro;
     </div>
   </div>
 
-      <a href="pago-opciones.html" class="checkout" onclick="validar()">Checkout</a>
+      <a href="../html/pago-opciones.html" class="checkout" onclick="validar()">Checkout</a>
 
 </div>
 		</div>
 		<!-- jQuery -->
-		<script src="js/jquery.js"></script>
+		<script src="../js/jquery.js"></script>
     <script type="text/javascript"> function validar(){
 
     }</script>
 
 		<!-- Bootstrap JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
+		<script src="../js/bootstrap.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
  		<script src="Hello World"></script>
 	</body>

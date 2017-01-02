@@ -16,7 +16,7 @@
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav navbar-left">
                     <li ><a href="/">Cursos</a></li>
-                    <li><a href="acerca_de.html">Acerca de</a></li>
+                    <li><a href="../../html/acerca_de.html">Acerca de</a></li>
                 </ul>
                 <form class="navbar-form navbar-left" role="search" method='POST' action='buscarCursos.php'>
                     <div class="form-group">
@@ -26,11 +26,11 @@
                 </form>
                 <ul class="nav navbar-nav navbar-right">
                                     <?php if(!isset($_SESSION["nickname"])){ ?>
-                    <li ><a href="login.html">Identifícate</a></li>
+                    <li ><a href="../../html/login.html">Identifícate</a></li>
                     <?php }else {
                       ?>
                         <li ><a href="#"><?php echo $_SESSION["nickname"] ?></a></li>
-                          <li ><a href="/logout/">Cerrar sesión</a></li>
+                          <li ><a href="#">Cerrar sesión</a></li>
                       <?php
                     } ?>
                 </ul>

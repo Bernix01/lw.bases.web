@@ -1,5 +1,6 @@
 <?php
-include_once('php/colector.php');
+include_once('../clases/colector.php');
+include("menu.php");
 session_start();
 $colector= new Colector();
 //mysqli_set_charset($link,"utf8");
@@ -23,8 +24,8 @@ if(!$curso){
         <title>Learning & Winening</title>
 
         <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/styles.css">
+        <link rel="stylesheet" href="../../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../css/styles.css">
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -34,7 +35,7 @@ if(!$curso){
         <![endif]-->
     </head>
     <body>
-        <?php include("php/menu.php"); ?>
+
 		<div class="container">
 			<div class="row">
 
@@ -57,9 +58,9 @@ if(!$curso){
 		</div>
 <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 		<!-- jQuery -->
-		<script src="js/jquery.js"></script>
+		<script src="../../js/jquery.js"></script>
 		<!-- Bootstrap JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
  		<script src="Hello World"></script>
 	</body>

@@ -1,5 +1,5 @@
 <?php
-include_once('php/colector.php');
+include_once('../clases/colector.php');
 session_start();
 $colector= new Colector();
 //mysqli_set_charset($link,"utf8");
@@ -36,7 +36,7 @@ if(!$curso){
         <![endif]-->
     </head>
     <body>
-        <?php include("php/menu.php"); ?>
+        <?php include("menu.php"); ?>
 		<div class="container">
 			<div class="row">
 
@@ -49,7 +49,7 @@ if(!$curso){
 					<br>
 					<hr>
 					<p>".$row["descripcion"]."</p>
-					<a href=\"carrito.php?add=".$row["idcurso"]."\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
+					<a href=\"..\carrito.php?add=".$row["idcurso"]."\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
 
 				</div></div>";
       }
@@ -59,9 +59,9 @@ if(!$curso){
 		</div>
 <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 		<!-- jQuery -->
-		<script src="js/jquery.js"></script>
+		<script src="../../js/jquery.js"></script>
 		<!-- Bootstrap JavaScript -->
-		<script src="js/bootstrap.min.js"></script>
+		<script src="../../js/bootstrap.min.js"></script>
 		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
  		<script src="Hello World"></script>
 	</body>
