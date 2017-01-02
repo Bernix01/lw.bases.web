@@ -13,10 +13,13 @@ class Colector{
 	// Function to make connection to database
 	public function __construct(){
 		$this->myconn=new DatabaseConnection();
+
 		$this->con=true;
 		$this->db_name=$this->myconn->getDBname();
 	}
-
+	public function close_connection(){
+		$this->myconn=null;
+	}
 
 
 
