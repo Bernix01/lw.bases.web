@@ -9,8 +9,8 @@ if(!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2){
 }
 
 //if connection is not successful you will see text error
-if ($colector===null) {
-       die('Could not connect: ' . mysql_error());
+if ($curso_colector===null) {
+       die('Could not connect: ' . mysqli_error());
 }
 if(isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripcion']) && isset($_POST['cupo_min']) && isset($_POST['cupo_max']) && isset($_POST['fecha_inicio']) && isset($_POST['fecha_fin'])){
     $curso= new Curso(null,$_POST['nombre'],$_POST['costo']);
@@ -37,7 +37,7 @@ else{
 <label>Horario fin</label>
 <input type="datetime-local" name="horarios[0][fin]" value="2016-04-12 23:20" min="2016-12-01 23:20" >
 </div>
-<button onclick="agregarHorario()" > Agregar horario </button>
+<a href="#" onclick="agregarHorario()" > Agregar horario </a>
 
 <button type="submit">Crear curso</button>
 
@@ -46,10 +46,15 @@ else{
 </form>
 </div>
 
+    <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
 <script type="text/javascript">
   var indice=1;
   function agregarHorario(){
-    $('#horario').append("<label>Horario inicio</label><input type=\"datetime-local\" name=\"horarios["+indice+"][inicio]\" value=\"2016-04-12 23:20\" min=\"2016-12-01 23:20\" ><label>Horario fin</label><input type=\"datetime-local\" name=\"horarios["+indice+"][fin]\" value=\"2016-04-12 23:20\" min=\"2016-12-01 23:20\" >");
+    $('#horario').append("<br><label>Horario inicio</label><input type=\"datetime-local\" name=\"horarios["+indice+"][inicio]\" value=\"2016-04-12 23:20\" min=\"2016-12-01 23:20\" ><label>Horario fin</label><input type=\"datetime-local\" name=\"horarios["+indice+"][fin]\" value=\"2016-04-12 23:20\" min=\"2016-12-01 23:20\" >");
   indice++;
   }
 </script>
