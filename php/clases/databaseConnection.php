@@ -8,8 +8,8 @@ class DatabaseConnection extends Mysqli
 {
     private $database = "lw";
     private $host = "localhost";
-    private $user = "root";
-    private $password = "root";
+    private $user = "miniroot";
+    private $password = "viveminirootvive";
     private $port = NULL;
     private $socket = NULL;
     private $con = false; // Check to see if the connection is active
