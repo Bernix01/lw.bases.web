@@ -52,7 +52,7 @@ include_once ('usuario.php');
       }
     }
     public function updateUsuario($id,$nickname,$contrasenia,$email,$rol){
-      $query= "UPDATE usuario SET usuario.nickname=$nickname,usuario.contrasenia=$contrasenia,usuario.rol=$rol,usuario.email=$email WHERE usuario.id_usuario=$id";
+      $query= "UPDATE usuario SET nickname=$nickname, contrasenia=$contrasenia, rol=$rol, email=$email WHERE id_usuario=$id";
       $result=$this->worker->query($query);
       return result!==null;
     }
