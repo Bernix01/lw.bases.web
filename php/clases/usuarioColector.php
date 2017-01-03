@@ -40,5 +40,21 @@ include_once ('usuario.php');
       }
       return NULL;
     }
+
+    public function deleteUsuario($id_usuario){
+      $query="DELETE FROM usuario WHERE usuario.id_usuario=$id_usuario";
+      $result=$this->worker->query($query);
+      if($result!==null){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    public function updateUsuario($id,$nickname,$contrasenia,$email,$rol){
+      $query= "UPDATE usuario SET usuario.nickname=$nickname,usuario.contrasenia=$contrasenia,usuario.rol=$rol,usuario.email=$email WHERE usuario.id_usuario=$id";
+      $result=$this->worker->query($query);
+      return result!==null;
+    }
   }
 ?>
