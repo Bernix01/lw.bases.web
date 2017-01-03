@@ -1,21 +1,15 @@
 <?php
+include_once("../php/clases/colector.php");
 session_start();
 if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
     header("location: /login.html");
     die();
 }
-$HOST = "localhost";
-$USERNAME = "root";
-$PASSWORD = "root";
-$link = mysqli_connect($HOST, $USERNAME, $PASSWORD);
-mysqli_set_charset($link, "utf8");
-mysqli_select_db($link, "lw");
+$colector= new Colector();
 //if connection is not successful you will see text error
-if (!$link) {
-    die('Could not connect: ' . mysql_error());
+if ($colector===null) {
+    die('Could not connect to database');
 }
-//if connection is successfuly you will see message bellow
-// echo 'Connected successfully';
 
 $query = 'SELECT * from usuario';
 $usuarios = mysqli_query($link, $query);
