@@ -375,93 +375,84 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-table"></i> <span>Tables</span>
+                <a>
+                    <i class="fa fa-table"></i> <span>Usuarios</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </a>
+            </span>
+
+                <ul class="treeview-menu">
+                    <li><a href="insertarUsuario.php"><i class="fa fa-circle-o"></i> Crear usuario</a></li>
+                </ul>
+                <ul class="treeview-menu">
+                    <li><a href="listarUsuarios.php"><i class="fa fa-circle-o"></i> Reporte de usuarios</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="listarCursos.php">
+                    <i class="fa fa-table"></i> <span>Cursos</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/tables/simple.html"><i class="fa fa-circle-o"></i> Simple tables</a></li>
-                    <li><a href="pages/tables/data.html"><i class="fa fa-circle-o"></i> Data tables</a></li>
+                    <li><a href="insertarCurso.php"><i class="fa fa-circle-o"></i> Crear cursos</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="pages/calendar.html">
-                    <i class="fa fa-calendar"></i> <span>Calendar</span>
+            <li class="treeview">
+                <a href="listarEtiquetas.php">
+                    <i class="fa fa-table"></i> <span>Etiquetas</span>
                     <span class="pull-right-container">
-              <small class="label pull-right bg-red">3</small>
-              <small class="label pull-right bg-blue">17</small>
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li><a href="insertarEtiqueta.php"><i class="fa fa-circle-o"></i> Crear etiquetas</a></li>
+                </ul>
             </li>
-            <li>
-                <a href="pages/mailbox/mailbox.html">
-                    <i class="fa fa-envelope"></i> <span>Mailbox</span>
+            <li class="treeview">
+                <a href="listarCertificados.php">
+                    <i class="fa fa-table"></i> <span>Certificados</span>
                     <span class="pull-right-container">
-              <small class="label pull-right bg-yellow">12</small>
-              <small class="label pull-right bg-green">16</small>
-              <small class="label pull-right bg-red">5</small>
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="insertarCertificado.php"><i class="fa fa-circle-o"></i> Ingresar certificado</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="listarEmprendimientos.php">
+                    <i class="fa fa-table"></i> <span>Emprendimiento</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="insertarEmprendimiento.php"><i class="fa fa-circle-o"></i> Ingresar emprendimiento</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="listarFacturas.php">
+                    <i class="fa fa-table"></i> <span>Facturas</span>
+                    <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
             </li>
             <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-folder"></i> <span>Examples</span>
+                <a href="listarPagos.php">
+                    <i class="fa fa-table"></i> <span>Pagos</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/examples/invoice.html"><i class="fa fa-circle-o"></i> Invoice</a></li>
-                    <li><a href="pages/examples/profile.html"><i class="fa fa-circle-o"></i> Profile</a></li>
-                    <li><a href="pages/examples/login.html"><i class="fa fa-circle-o"></i> Login</a></li>
-                    <li><a href="pages/examples/register.html"><i class="fa fa-circle-o"></i> Register</a></li>
-                    <li><a href="pages/examples/lockscreen.html"><i class="fa fa-circle-o"></i> Lockscreen</a></li>
-                    <li><a href="pages/examples/404.html"><i class="fa fa-circle-o"></i> 404 Error</a></li>
-                    <li><a href="pages/examples/500.html"><i class="fa fa-circle-o"></i> 500 Error</a></li>
-                    <li><a href="pages/examples/blank.html"><i class="fa fa-circle-o"></i> Blank Page</a></li>
-                    <li><a href="pages/examples/pace.html"><i class="fa fa-circle-o"></i> Pace Page</a></li>
+                    <li><a href="insertarPago.php"><i class="fa fa-circle-o"></i> Ingresar pago</a></li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="#">
-                    <i class="fa fa-share"></i> <span>Multilevel</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                    <li>
-                        <a href="#"><i class="fa fa-circle-o"></i> Level One
-                            <span class="pull-right-container">
-                  <i class="fa fa-angle-left pull-right"></i>
-                </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li><a href="#"><i class="fa fa-circle-o"></i> Level Two</a></li>
-                            <li>
-                                <a href="#"><i class="fa fa-circle-o"></i> Level Two
-                                    <span class="pull-right-container">
-                      <i class="fa fa-angle-left pull-right"></i>
-                    </span>
-                                </a>
-                                <ul class="treeview-menu">
-                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                    <li><a href="#"><i class="fa fa-circle-o"></i> Level Three</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                    <li><a href="#"><i class="fa fa-circle-o"></i> Level One</a></li>
-                </ul>
-            </li>
-            <li><a href="documentation/index.html"><i class="fa fa-book"></i> <span>Documentation</span></a></li>
-            <li class="header">LABELS</li>
-            <li><a href="#"><i class="fa fa-circle-o text-red"></i> <span>Important</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-yellow"></i> <span>Warning</span></a></li>
-            <li><a href="#"><i class="fa fa-circle-o text-aqua"></i> <span>Information</span></a></li>
+
         </ul>
     </section>
     <!-- /.sidebar -->
