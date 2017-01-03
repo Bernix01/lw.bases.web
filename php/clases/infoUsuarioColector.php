@@ -1,7 +1,7 @@
 <?php
 include_once('colector.php');
 include_once ('infoUsuario.php');
-  class usuarioColector{
+  class InfoUsuarioColector{
     private $worker=NULL;
 
     public function __construct(){

@@ -56,5 +56,11 @@ include_once ('usuario.php');
       $result=$this->worker->query($query);
       return result!==null;
     }
+    public function insertUsuario($id,$nickname,$contrasenia,$email,$rol)
+    {
+      $query="INSERT into usuario(nickname, contrasenia, email, rol) values($nickname, $contrasenia, $email, $rol) ";
+      $result=$this->worker->query($query);
+      return result!==null;
+    }
   }
 ?>
