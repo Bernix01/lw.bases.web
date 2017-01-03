@@ -1,3 +1,8 @@
+<?php
+include_once("../php/clases/colector.php");
+  $colector= new Colector();
+  $result = $colector->listar("usuario");
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -305,8 +310,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Simple Tables
-        <small>preview of simple tables</small>
+        Usuarios
+        <small>reporte</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -340,16 +345,41 @@
               <table class="table table-hover">
                 <tr>
                   <th>ID</th>
-                  <th>User</th>
-                  <th>Date</th>
-                  <th>Status</th>
-                  <th>Reason</th>
+                  <th>Nickname</th>
+                  <th>Email</th>
+                  <th>Last_login</th>
+                  <th style='text-align: center;'>Rol</th>
                 </tr>
                 <tr>
-                  <td>183</td>
-                  <td>John Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-success">Approved</span></td>
+                  <?php
+
+                    while ($usuarios=mysqli_fetch_assoc($result)){
+                      $spanclass="";
+                      if($usuarios["rol"]===0){
+                        $spanclass="label label-success";
+                      }
+                      if($usuarios["rol"]===1){
+                        $spanclass="label label-warning";
+                      }
+                      if($usuarios["rol"]===2){
+                        $spanclass="label label-primary";
+                      }
+                      echo "<tr>
+                        <td>" . $usuarios["id_usuario"] . "</td>";
+                                            echo "
+                          <td>" . $usuarios["nickname"] . "</td>";
+                                            echo "
+                            <td>" . $usuarios["email"] . "</td>";
+                                            echo "
+                              <td>" . $usuarios["last_login"] . "</td>";
+                                            echo "
+                                <td style='text-align: center;'><span class=\"".$spanclass."\" >" . $usuarios["rol"] . "</span></td>
+                      </tr>";
+                    }
+
+                  ?>
+
+                  <!--<td><span class="label label-success">Approved</span></td>
                   <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
                 </tr>
                 <tr>
@@ -372,7 +402,7 @@
                   <td>11-7-2014</td>
                   <td><span class="label label-danger">Denied</span></td>
                   <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
+                </tr> -->
               </table>
             </div>
             <!-- /.box-body -->

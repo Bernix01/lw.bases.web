@@ -11,8 +11,7 @@ if ($colector===null) {
     die('Could not connect to database');
 }
 
-$query = 'SELECT * from usuario';
-$usuarios = mysqli_query($link, $query);
+$usuarios = $colector->listar("usuario");
 if (!$usuarios) {
     die('Invalid query:' . mysqli_error($link));
 }
