@@ -1,7 +1,7 @@
 <?php
 session_start();
   include_once("../php/clases/usuarioColector.php");
-  include_once("../php/clases/infousuarioColector.php");
+  include_once("../php/clases/infoUsuarioColector.php");
  if(isset($_SESSION["rol"]) && $_SESSION["rol"]===2 && isset($_POST["ius"]) && isset($_POST["nickname"]) && isset($_POST["constrasenia"]) && isset($_POST["email"]) && isset($_POST["rol"])){
    $id=$_POST["ius"];
    $nickname=$_POST["nickname"];
@@ -88,12 +88,12 @@ session_start();
          <form role="form">
            <div class="box-body">
              <div class="form-group">
-               <label for="nombre">Nombre</label>
-               <input type="name" class="form-control" id="nombre" placeholder="Ingresar nombre">
+               <label for="nombres">Nombres</label>
+               <input type="name" class="form-control" name= "nombres" id="nombres" placeholder="Ingresar nombres">
              </div>
                <div class="form-group">
-                 <label for="apellido">Apellido</label>
-                 <input type="text" class="form-control" id="apellido" placeholder="Ingresar apellido">
+                 <label for="apellidos">Apellidos</label>
+                 <input type="text" name="apellidos" class="form-control" id="apellidos" placeholder="Ingresar apellidos">
                </div>
              <div class="form-group">
                  <label for="nickname">Nickname</label>
