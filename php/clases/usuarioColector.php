@@ -15,11 +15,11 @@ include_once ('usuario.php');
         $data=mysqli_fetch_assoc(); //count(array)(?)
         $usuario = new Usuario();
         $usuario->set_id_usuario($data['id_usuario']);
-        $usuario->setNickname($data['nickname']);
-        $usuario->setContrasenia($data['contrasenia']);
-        $usuario->setEmail($data['email']);
-        $usuario->setLastLogin($data['last_login']);
-        $usuario->setRol($data['rol']);
+        $usuario->set_nickname($data['nickname']);
+        $usuario->set_contrasenia($data['contrasenia']);
+        $usuario->set_email($data['email']);
+        $usuario->set_last_login($data['last_login']);
+        $usuario->set_rol($data['rol']);
         return $usuario;
       }
       return NULL;
@@ -31,11 +31,11 @@ include_once ('usuario.php');
         $data=mysqli_fetch_assoc($result); //count(array)(?)
         $usuario = new Usuario();
         $usuario->set_id_usuario($data['id_usuario']);
-        $usuario->setNickname($data['nickname']);
-        $usuario->setContrasenia($data['contrasenia']);
-        $usuario->setEmail($data['email']);
-        $usuario->setLastLogin($data['last_login']);
-        $usuario->setRol($data['rol']);
+        $usuario->set_nickname($data['nickname']);
+        $usuario->set_contrasenia($data['contrasenia']);
+        $usuario->set_email($data['email']);
+        $usuario->set_last_login($data['last_login']);
+        $usuario->set_rol($data['rol']);
         return $usuario;
       }
       return NULL;
@@ -54,13 +54,17 @@ include_once ('usuario.php');
     public function updateUsuario($id,$nickname,$contrasenia,$email,$rol){
       $query= "UPDATE usuario SET nickname=$nickname, contrasenia=$contrasenia, rol=$rol, email=$email WHERE id_usuario=$id";
       $result=$this->worker->query($query);
-      return result!==null;
+      return $result!==null;
     }
-    public function insertUsuario($id,$nickname,$contrasenia,$email,$rol)
+    public function insertUsuario($nickname,$contrasenia,$email,$rol)
     {
       $query="INSERT into usuario(nickname, contrasenia, email, rol) values($nickname, $contrasenia, $email, $rol) ";
+      $usuario= new Usuario(null,$nickname,$contrasenia,$email,null,$rol);
       $result=$this->worker->query($query);
-      return result!==null;
+      if($result!==null){
+        $usuario->set_id_usuario
+      }
     }
+    
   }
 ?>

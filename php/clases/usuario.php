@@ -37,38 +37,36 @@
     public function set_id_usuario($id){
       $this->id_usuario=$id;
     }
-    public function setNickname($nickname){
+    public function set_nickname($nickname){
       $this->nickname=$nickname;
     }
-    public function getNickname(){
+    public function get_nickname(){
       return $this->nickname;
     }
-    public function setContrasenia($contrasenia){
+    public function set_contrasenia($contrasenia){
       $this->contrasenia=$contrasenia;
     }
-    public function getContrasenia(){
+    public function get_contrasenia(){
       return $this->contrasenia;
     }
-    public function setEmail($email){
+    public function set_email($email){
       $this->email=$email;
     }
-    public function getEmail(){
+    public function get_email(){
       return $this->email;
     }
-    public function setLastLogin($lastLogin){
-      $this->lastLogin=$lastLogin;
+    public function set_last_login($lastLogin){
+      $this->last_login=$lastLogin;
     }
-    public function getLastLogin(){
+    public function get_last_login(){
       return $this->last_login;
     }
-    public function setRol($rol){
+    public function set_rol($rol){
       $this->rol=$rol;
     }
-    public function getRol(){
+    public function get_rol(){
       return $this->rol;
     }
-
-    //getter y setter de info_usuario
 
 
   }

@@ -34,9 +34,9 @@ class DatabaseConnection extends Mysqli
         throw new DatabaseException($message);
     }
 
-    public function getDBname()
+    public function lastId()
     {
-        return $this->database;
+        return $this->insert_id;
     }
 
 }

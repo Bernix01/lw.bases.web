@@ -8,7 +8,7 @@ class InfocursoColector{
         $this->worker= new Colector();
     }
 
-    public function getInfocursoById($id){
+    public function getInfoCursoById($id){
         $query= "SELECT * FROM info_curso WHERE id_curso=".$id." limit 1";
         $result=$this->worker->query($query);
         if($result!==NULL){
@@ -18,8 +18,8 @@ class InfocursoColector{
         return NULL;
     }
 
-    public function addInfocurso($id_curso,$infocurso){
-        $query= "INSERT INTO info_curso VALUE ($id_curso,$infocurso->get_descripcion(),$infocurso->get_cupo_min(),$infocurso->get_cupo_max,$infocurso->get_cupos_disponibles(),$infocurso->get_fecha_inicio(),$infocurso->get_fecha_fin())";
+    public function addInfoCurso($id_curso,$infocurso){
+        $query= "INSERT INTO info_curso VALUE ($id_curso,$infocurso->getDescripcion(),$infocurso->get_cupo_min(),$infocurso->get_cupo_max,$infocurso->get_cupos_disponibles(),$infocurso->get_fecha_inicio(),$infocurso->get_fecha_fin())";
         $result=$this->worker->query($query);
         $data=mysqli_fetch_object($result,'Info_curso'); //count(array)(?)
         return $data;

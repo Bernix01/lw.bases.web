@@ -1,5 +1,5 @@
 <?php
-  class InfoUsuario{
+  class Info_usuario{
     private $id_usuario;
     private $nombres;
     private $apellidos;
@@ -34,28 +34,28 @@
     public function set_id_usuario($id){
       $this->id_usuario=$id;
     }
-    public function setNombres($nombres){
+    public function set_nombres($nombres){
       $this->nombres=$nombres;
     }
-    public function getNombres(){
+    public function get_nombres(){
       return $this->nombres;
     }
-    public function setApellidos($apellidos){
+    public function set_apellidos($apellidos){
       $this->apellidos=$apellidos;
     }
-    public function getApellidos(){
+    public function get_apellidos(){
       return $this->apellidos;
     }
-    public function setNumero_cursos($numero_cursos){
+    public function set_numero_cursos($numero_cursos){
       $this->numero_cursos=$numero_cursos;
     }
-    public function getNumero_cursos(){
+    public function get_numero_cursos(){
       return $this->numero_cursos;
     }
-    public function setTag_line($tag_line){
+    public function set_tag_line($tag_line){
       $this->tag_line=$tag_line;
     }
-    public function getTag_line(){
+    public function get_tag_line(){
       return $this->tag_line;
     }
 
