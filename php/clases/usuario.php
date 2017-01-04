@@ -6,10 +6,9 @@
     private $email;
     private $last_login;
     private $rol;
-    private $info_usuario;
 
 
-    public function __construct($id_usuario=null,$nickname=null,$contrasenia=null,$email=null,$last_login=null,$rol=null,$info_usuario=null){
+    public function __construct($id_usuario=null,$nickname=null,$contrasenia=null,$email=null,$last_login=null,$rol=null){
       if($id_usuario!==null){
         $this->id_usuario=$id_usuario;
       }
@@ -27,9 +26,6 @@
       }
       if($rol!==null){
         $this->rol=$rol;
-      }
-      if($info_usuario!==null){
-        $this->info_usuario=$info_usuario;
       }
 
     }

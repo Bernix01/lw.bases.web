@@ -22,6 +22,10 @@ $usuario=$usuarioColector->getUserByCredentials($username,$password); //buscar e
 if($usuario!== NULL){ //hizo match con el nickname y la contraseña
   $_SESSION["nickname"]=$usuario->getNickname();
   $_SESSION["rol"]=$usuario->getRol();
+  if($usuario->getRol()===2){
+    (header("location: ../../admin/")) ;
+    die();
+  }
   (header("location: /")) ;
   die();
 }

@@ -74,6 +74,9 @@ include_once("../php/clases/colector.php");
                 </div>
               </div>
             </div>
+            <!-- mensaje para cuando se agregue un usuario -->
+            <div id="msg">
+      			</div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
@@ -366,5 +369,23 @@ include_once("../php/clases/colector.php");
 <script src="dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+<script type="text/javascript">
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+var su=getURLParameter("su");
+var sinfo=getURLParameter("sinfo");
+if(su==0){
+  document.getElementById('msg').innerHTML = "No se pudo ingresar el usuario";
+  else{
+    if(sinfo==0){
+      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del usuario";
+    }
+  }
+}
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+</script>
 </body>
 </html>
