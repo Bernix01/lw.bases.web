@@ -20,9 +20,9 @@ $password = stripslashes($password);
 $usuario=$usuarioColector->getUserByCredentials($username,$password); //buscar en la base de datos al usuario por sus credenciales
 
 if($usuario!== NULL){ //hizo match con el nickname y la contraseña
-  $_SESSION["nickname"]=$usuario->getNickname();
-  $_SESSION["rol"]=$usuario->getRol();
-  if($usuario->getRol()===2){
+  $_SESSION["nickname"]=$usuario->get_nickname();
+  $_SESSION["rol"]=$usuario->get_rol();
+  if($usuario->get_rol()===2){
     (header("location: ../../admin/")) ;
     die();
   }

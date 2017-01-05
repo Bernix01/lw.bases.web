@@ -5,7 +5,7 @@ include_once("../php/clases/colector.php");
     header("location: /");
   }
   $colector= new Colector();
-  $result = $colector->listar("usuario");
+  $result = $colector->listar("emprendimiento");
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,7 +44,7 @@ include_once("../php/clases/colector.php");
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Usuarios
+        emprendimientos
         <small>reporte</small>
       </h1>
       <ol class="breadcrumb">
@@ -81,40 +81,29 @@ include_once("../php/clases/colector.php");
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                  <th>ID</th>
-                  <th>Nickname</th>
-                  <th>Email</th>
-                  <th>Last_login</th>
-                  <th>Rol</th>
+                  <th>id_emprendimiento</th>
+                  <th>id_estudiante</th>
+                  <th>Nombre</th>
+                  <th>Descripcion</th>
                   <th></th>
                   <th></th>
                 </tr>
                 <tr>
                   <?php
 
-                    while ($usuarios=mysqli_fetch_assoc($result)){
-                      $spanclass="";
-                      if($usuarios["rol"]===0){
-                        $spanclass="label label-success";
-                      }
-                      if($usuarios["rol"]===1){
-                        $spanclass="label label-warning";
-                      }
-                      if($usuarios["rol"]===2){
-                        $spanclass="label label-primary";
-                      }
+                    while ($emprendimientos=mysqli_fetch_assoc($result)){
+
                       echo "<tr>
-                        <td>" . $usuarios["id_usuario"] . "</td>";
+                        <td>" . $emprendimientos["id_emprendimiento"] . "</td>";
                                             echo "
-                          <td>" . $usuarios["nickname"] . "</td>";
+                          <td>" . $emprendimientos["id_usuario"] . "</td>";
                                             echo "
-                            <td>" . $usuarios["email"] . "</td>";
+                            <td>" . $emprendimientos["nombre"] . "</td>";
                                             echo "
-                              <td>" . $usuarios["last_login"] . "</td>";
-                                            echo "
-                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuarios["rol"] . "</span></td>";
-                      echo "<td><a href='editarUsuario.php?ius=".$usuarios["id_usuario"]."'>Editar</a></td>";
-                      echo "<td><a href='eliminarUsuario.php?ius=".$usuarios["id_usuario"]."'>Eliminar </a></td> </tr>";
+                              <td>" . $emprendimientos["descripcion"] . "</td>";
+                              echo "<td><a href='editarEmprendimiento.php?id_emprendimiento=".$emprendimientos["id_emprendimiento"]."'>Editar</a></td>";
+                              echo "<td><a href='eliminarEmprendimiento.php?id_emprendimiento=".$emprendimientos["id_emprendimiento"]."'>Eliminar </a></td> </tr>";
+
                     }
                 ?>
 

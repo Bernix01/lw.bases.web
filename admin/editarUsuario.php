@@ -20,7 +20,7 @@ session_start();
      <?php
       header("location: .php");
    }
- }else {
+ }elseif( isset($_GET['ius']) && isset($_SESSION["rol"]) && $_SESSION["rol"]===2) {
    ?>
 
    <!DOCTYPE html>
@@ -99,10 +99,19 @@ session_start();
                  <label for="nickname">Nickname</label>
                <input type="text" class="form-control" id="nickname" placeholder="Nickname">
              </div>
+             <div class="form-group">
+                 <label for="email">E-mail</label>
+               <input type="text" name="email" class="form-control" id="email" placeholder="email">
+             </div>
            <div class="form-group">
                <label for="contrasenia">Contraseña</label>
-             <input type="password" class="form-control" id="contrasenia" placeholder="Contraseña">
+             <input type="password" name="contrasenia" class="form-control" id="contrasenia" placeholder="Contraseña">
            </div>
+           <div class="form-group">
+               <label for="rol">Rol</label>
+             <input type="text" class="form-control" name="rol" id="rol" placeholder="rol">
+           </div>
+           <input type="hidden" name="ius" value="$_GET['ius']">
            </div>
            <!-- /.box-body -->
 
@@ -351,5 +360,8 @@ session_start();
 
 
    <?php
+ }
+ else{
+   header("location: listarUsuarios.php");
  }
  ?>

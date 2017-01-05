@@ -28,7 +28,7 @@ if (!$curso) {
 
 $dbnum = $colector->contar("usuario");
 if (!$dbnum) {
-    die('Invalid query:' . mysqli_error($link));
+    die('Invalid query:');
 }
 $usuarios_cantidad = mysqli_fetch_array($dbnum);
 
@@ -36,14 +36,14 @@ mysqli_free_result($dbnum);
 
 $dbnum = $colector->contar("curso");
 if (!$dbnum) {
-    die('Invalid query:' . mysqli_error($link));
+    die('Invalid query:');
 }
 
 $cursos_cantidad = mysqli_fetch_array($dbnum);
 
 $dbnum = $colector->contar("etiqueta");
 if (!$dbnum) {
-    die("Invalid query" . mysql_error($link));
+    die("Invalid query");
 }
 $etiquetas_cantidad = mysqli_fetch_array($dbnum);
 

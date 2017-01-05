@@ -36,7 +36,7 @@ include_once ('infoUsuario.php');
       return null;
     }
 
-    public public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line)
+    public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line)
     {
       $query="UPDATE info_usuario SET nombres=$nombres, apellidos=$apellidos, numero_cursos=$numero_cursos, tag_line=$tag_line WHERE id_usuario=$id";
       $result=$this->worker->query($query);
