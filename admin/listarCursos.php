@@ -5,7 +5,7 @@ include_once("../php/clases/colector.php");
     header("location: /");
   }
   $colector= new Colector();
-  $result = $colector->listar("usuario");
+  $result = $colector->listar("curso");
 ?>
 <!DOCTYPE html>
 <html>
@@ -44,7 +44,7 @@ include_once("../php/clases/colector.php");
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Usuarios
+        Cursos
         <small>reporte</small>
       </h1>
       <ol class="breadcrumb">
@@ -74,7 +74,7 @@ include_once("../php/clases/colector.php");
                 </div>
               </div>
             </div>
-            <!-- mensaje para cuando se agregue un usuario -->
+            <!-- mensaje para cuando se agregue un curso -->
             <div id="msg">
       			</div>
             <!-- /.box-header -->
@@ -82,39 +82,20 @@ include_once("../php/clases/colector.php");
               <table class="table table-hover">
                 <tr>
                   <th>ID</th>
-                  <th>Nickname</th>
-                  <th>Email</th>
-                  <th>Last_login</th>
-                  <th>Rol</th>
-                  <th></th>
-                  <th></th>
+                  <th>Curso</th>
+                  <th>Costo</th>
+                  <th>Cupos</th>
                 </tr>
                 <tr>
                   <?php
 
-                    while ($usuarios=mysqli_fetch_assoc($result)){
-                      $spanclass="";
-                      if($usuarios["rol"]===0){
-                        $spanclass="label label-success";
-                      }
-                      if($usuarios["rol"]===1){
-                        $spanclass="label label-warning";
-                      }
-                      if($usuarios["rol"]===2){
-                        $spanclass="label label-primary";
-                      }
-                      echo "<tr>
-                        <td>" . $usuarios["id_usuario"] . "</td>";
-                                            echo "
-                          <td>" . $usuarios["nickname"] . "</td>";
-                                            echo "
-                            <td>" . $usuarios["email"] . "</td>";
-                                            echo "
-                              <td>" . $usuarios["last_login"] . "</td>";
-                                            echo "
-                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuarios["rol"] . "</span></td>";
-                      echo "<td><a href='editarUsuario.php?ius=".$usuarios["id_usuario"]."'>Editar</a></td>";
-                      echo "<td><a href='eliminarUsuario.php?ius=".$usuarios["id_usuario"]."'>Eliminar </a></td> </tr>";
+                  while ($cursos=mysqli_fetch_assoc($result)){
+                      echo "<tr><td>" . $cursos["id_curso"] . "</td>";
+                                            echo "<td>" . $cursos["nombre"] . "</td>";
+                                            echo "<td>" . $cursos["costo"] . "</td>";
+//                                            echo "
+//                              <td>" . $cursos["last_login"] . "</td>";
+
                     }
                 ?>
 
@@ -376,10 +357,10 @@ function getURLParameter(name) {
 var su=getURLParameter("su");
 var sinfo=getURLParameter("sinfo");
 if(su==0) {
-    document.getElementById('msg').innerHTML = "No se pudo ingresar el usuario";
+    document.getElementById('msg').innerHTML = "No se pudo ingresar el curso";
 }else{
     if(sinfo==0){
-      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del usuario";
+      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del curso";
     }
 
 }

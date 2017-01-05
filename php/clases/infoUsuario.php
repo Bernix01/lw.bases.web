@@ -1,4 +1,5 @@
 <?php
+
   class Info_usuario{
     private $id_usuario;
     private $nombres;
@@ -61,5 +62,3 @@
 
 
   }
-
-?>

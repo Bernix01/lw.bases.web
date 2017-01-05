@@ -12,17 +12,17 @@ session_start();
    $id=stripslashes($id);
    $usuarioColector= new UsuarioColector();
    $infoColector= new InfoUsuarioColector();
-   if($usuarioColector->updateUsuario($id)){
+   if($usuarioColector->updateUsuario($id,$nickname,$contrasenia,$email,$rol)){
      ?>
      <script type="text/javascript">
       alert("Usuario editado con éxito");
      </script>
      <?php
-      header("location: .php");
+      header("location: /");
    }
  }elseif( isset($_GET['ius']) && isset($_SESSION["rol"]) && $_SESSION["rol"]===2) {
    ?>
-
+}
    <!DOCTYPE html>
    <html>
    <head>
@@ -101,7 +101,7 @@ session_start();
              </div>
              <div class="form-group">
                  <label for="email">E-mail</label>
-               <input type="text" name="email" class="form-control" id="email" placeholder="email">
+               <input type="email" name="email" class="form-control" id="email" placeholder="email">
              </div>
            <div class="form-group">
                <label for="contrasenia">Contraseña</label>
@@ -109,9 +109,9 @@ session_start();
            </div>
            <div class="form-group">
                <label for="rol">Rol</label>
-             <input type="text" class="form-control" name="rol" id="rol" placeholder="rol">
+             <input type="number" class="form-control" name="rol" id="rol" placeholder="rol">
            </div>
-           <input type="hidden" name="ius" value="$_GET['ius']">
+           <input type="hidden" name="ius" value="<?php echo $_GET['ius'];?>">
            </div>
            <!-- /.box-body -->
 

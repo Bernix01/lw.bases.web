@@ -12,15 +12,9 @@ include_once ('usuario.php');
       $query= "SELECT * FROM usuario WHERE id_usuario=".$id." limit 1";
       $result=$this->worker->query($query);
       if($result!==NULL){
-        $data=mysqli_fetch_assoc(); //count(array)(?)
-        $usuario = new Usuario();
-        $usuario->set_id_usuario($data['id_usuario']);
-        $usuario->set_nickname($data['nickname']);
-        $usuario->set_contrasenia($data['contrasenia']);
-        $usuario->set_email($data['email']);
-        $usuario->set_last_login($data['last_login']);
-        $usuario->set_rol($data['rol']);
-        return $usuario;
+        $data=mysqli_fetch_object($result,'Usuario'); //count(array)(?)
+
+        return $data;
       }
       return NULL;
     }
@@ -56,9 +50,9 @@ include_once ('usuario.php');
       $result=$this->worker->query($query);
       return $result!==null;
     }
-    public function insertUsuario($nickname,$contrasenia,$email,$rol)
+    public function addUsuario($nickname,$contrasenia,$email,$rol)
     {
-      $query="INSERT into usuario(nickname, contrasenia, email, rol) values($nickname, $contrasenia, $email, $rol) ";
+      $query="INSERT into usuario(nickname, contrasenia, email, rol) values($nickname, $contrasenia, $email, $rol); SELECT LAST_INSERT_ID();";
       $usuario= new Usuario(null,$nickname,$contrasenia,$email,null,$rol);
       $result=$this->worker->query($query);
       if($result!==null){

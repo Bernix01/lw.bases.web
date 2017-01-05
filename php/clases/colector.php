@@ -16,7 +16,7 @@ class Colector
         $this->myconn = new DatabaseConnection();
 
         $this->con = true;
-        $this->db_name = $this->myconn->getDBname();
+        //$this->db_name = $this->myconn->getDBname();
 
         date_default_timezone_set("America/Guayaquil");
     }
