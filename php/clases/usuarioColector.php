@@ -62,9 +62,12 @@ include_once ('usuario.php');
       $usuario= new Usuario(null,$nickname,$contrasenia,$email,null,$rol);
       $result=$this->worker->query($query);
       if($result!==null){
-        $usuario->set_id_usuario
+        $newid=$this->worker->getLastId();
+        $usuario->set_id_usuario($newid);
+        return $usuario;
       }
+      return null;
     }
-    
+
   }
 ?>

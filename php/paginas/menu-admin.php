@@ -423,14 +423,17 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="listarEmprendimientos.php">
+                <a >
                     <i class="fa fa-table"></i> <span>Emprendimiento</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="insertarEmprendimiento.php"><i class="fa fa-circle-o"></i> Ingresar emprendimiento</a></li>
+                    <li><a href="listarEmprendimientos.php"><i class="fa fa-circle-o"></i> Listar emprendimientos</a></li>
+                </ul>
+                <ul class="treeview-menu">
+                    <li><a href="ingresarEmprendimiento.php"><i class="fa fa-circle-o"></i> Ingresar emprendimiento</a></li>
                 </ul>
             </li>
             <li class="treeview">

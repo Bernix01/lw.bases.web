@@ -39,6 +39,10 @@ class DatabaseConnection extends Mysqli
         return $this->insert_id;
     }
 
+    public function getDBname()
+    {
+      return $this->database;
+    }
 }
 
 ?>
