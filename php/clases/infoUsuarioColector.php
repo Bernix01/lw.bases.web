@@ -36,14 +36,14 @@ include_once ('infoUsuario.php');
       return null;
     }
 
-    public public function updateinfo($id,$id_usuario,$nombres,$apellidos)
+    public public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line)
     {
-      $query="UPDATE info SET nombres=$nombres, apellidos=$apellidos WHERE numero_cursos=$id";
+      $query="UPDATE info_usuario SET nombres=$nombres, apellidos=$apellidos, numero_cursos=$numero_cursos, tag_line=$tag_line WHERE id_usuario=$id";
       $result=$this->worker->query($query);
       return $result!==null;
     }
     public function deleteinfo($id){
-      $query="DELETE FROM info WHERE numero_cursos=$id";
+      $query="DELETE FROM info_usuario WHERE id_usuario=$id";
       $result=$this->worker->query($query);
       if($result!==null){
         return true;
