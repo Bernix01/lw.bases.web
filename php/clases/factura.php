@@ -10,7 +10,7 @@
 		private $cupos;
 		private $id_estudiante;
 		private $id_pago;
-		
+
 		public function __construct($id_factura=null,$nombres=null,$apellidos=null,$total=null,$direccion=null,$fecha=null,$ruc=null,$cupos=null,$id_estudiante=null,$id_pago=null){
 			if($id_factura!==null){
 				$this->id_factura=$id_factura;
@@ -42,9 +42,9 @@
 			if($id_pago!==null){
 				$this->id_pago=$id_pago;
 			}
-			
+
 		}
-		
+
 		public function get_id_factura(){
 			return $this->id_factura;
 		}
@@ -105,7 +105,7 @@
 		public function set_id_pago($id_pago){
 			$this->id_pago=$id_pago;
 		}
-		
+
 	}
-	
+
 ?>

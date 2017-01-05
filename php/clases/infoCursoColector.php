@@ -18,15 +18,19 @@ class InfocursoColector{
         return NULL;
     }
 
-    public function addInfoCurso(id,$id_estudiante,$nombre,$descripcion){
-        $query= "INSERT INTO info_curso VALUE ($id_curso,$infocurso->getDescripcion(),$infocurso->get_cupo_min(),$infocurso->get_cupo_max,$infocurso->get_cupos_disponibles(),$infocurso->get_fecha_inicio(),$infocurso->get_fecha_fin())";
+    public function addInfoCurso($id_curso,$nombre,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin){
+        $query= "INSERT INTO info_curso(cupo_min,cupo_max,cupos_disponibles,$echa_inicio,fecha_fin) VALUE ($id_curso,$infocurso->getDescripcion(),$infocurso->get_cupo_min(),$infocurso->get_cupo_max,$infocurso->get_cupos_disponibles(),$infocurso->get_fecha_inicio(),$infocurso->get_fecha_fin())";
         $result=$this->worker->query($query);
-        $data=mysqli_fetch_object($result,'Info_curso'); //count(array)(?)
-        return $data;
+        if($result!==null){
+          $data=mysqli_fetch_object($result,'Info_curso'); //count(array)(?)
+          return $data;
+        }
+
+        return null;
     }
-    public public function updateInfoCurso($id,$id_estudiante,$nombre,$descripcion)
+    public public function updateInfoCurso($id_curso,$nombre,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin)
     {
-      $query="UPDATE info_curso SET descripcion=$descripcion, cupo_min=$cupo_min, cupo_max=$cupo_max, cupos_disponibles=$cupos_disponibles, fecha_inicio=$fecha_inicio, fecha_fin=$fecha_fin WHERE id_curso=$id";
+      $query="UPDATE info_curso SET descripcion=$descripcion, cupo_min=$cupo_min, cupo_max=$cupo_max, cupos_disponibles=$cupos_disponibles, fecha_inicio=$fecha_inicio, fecha_fin=$fecha_fin WHERE id_curso=$id_curso";
       $result=$this->worker->query($query);
       return $result!==null;
     }

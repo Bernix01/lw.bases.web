@@ -42,7 +42,7 @@ include_once ('infoUsuario.php');
       $result=$this->worker->query($query);
       return $result!==null;
     }
-    public function deleteinfo($id){
+    public function deleteInfoUsuario($id){
       $query="DELETE FROM info_usuario WHERE id_usuario=$id";
       $result=$this->worker->query($query);
       if($result!==null){
