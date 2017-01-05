@@ -23,16 +23,16 @@
     public function set_id_curso($id){
       $this->id_curso=$id;
     }
-    public function get_nombre(){
+    public function getNombre(){
       return $this->nombre;
     }
-    public function set_nombre($nombre){
+    public function setNombre($nombre){
       $this->nombre=$nombre;
     }
-    public function get_costo(){
+    public function getCosto(){
       return $this->costo;
     }
-    public function set_costo($costo){
+    public function setCosto($costo){
       $this->costo=$costo;
     }
 

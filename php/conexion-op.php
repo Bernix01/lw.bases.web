@@ -2,6 +2,7 @@
 
 include_once('clases/databaseConnection.php');
 $conn= new DatabaseConnection();
+echo $conn->lastId();
 $query="select count(*) from information_schema.SCHEMATA";
 $dbnum=mysqli_query($conn,$query);
 if($dbnum){
@@ -10,7 +11,7 @@ if($dbnum){
 }
 else{
     die('Invalid query:'.mysqli_error());
-    
+
 }
 
 

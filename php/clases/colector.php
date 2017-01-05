@@ -44,6 +44,40 @@ class Colector
         }
 
     }
+    public function listar($table)
+    {
+
+        $query="SELECT * FROM $table";
+        if ($stmt = $this->myconn->prepare($query)) {
+            $stmt->execute();
+
+            /* put result of the query */
+            $this->result = $stmt->get_result();
+
+            $stmt->close();
+            return $this->result; //return the result of the query
+        } else {
+            return NULL; // Table does not exist
+        }
+
+    }
+    public function contar($table)
+    {
+
+        $query="SELECT COUNT(*) from $table";
+        if ($stmt = $this->myconn->prepare($query)) {
+            $stmt->execute();
+
+            /* put result of the query */
+            $this->result = $stmt->get_result();
+
+            $stmt->close();
+            return $this->result; //return the result of the query
+        } else {
+            return NULL; // Table does not exist
+        }
+
+    }
 
 
     // Private function to check if table exists for use with queries
@@ -58,6 +92,21 @@ class Colector
                 return false; // The table does not exist
             }
         }
+    }
+    public function getLastId($col,$table)
+    {
+      $query="SELECT MAX($col) FROM $table";
+      if ($stmt = $this->myconn->prepare($query)) {
+          $stmt->execute();
+
+          /* put result of the query */
+          $this->result = $stmt->get_result();
+
+          $stmt->close();
+          return $this->result; //return the result of the query
+      } else {
+          return NULL; // Table does not exist
+      }
     }
 
     //Pass the number of rows back

@@ -11,44 +11,37 @@ if ($colector===null) {
     die('Could not connect to database');
 }
 
-$query = 'SELECT * from usuario';
-$usuarios = mysqli_query($link, $query);
+$usuarios = $colector->listar("usuario");
 if (!$usuarios) {
-    die('Invalid query:' . mysqli_error($link));
+    die('Invalid query:');
 }
-$query = "SELECT * from etiqueta";
-$etiquetas = mysqli_query($link, $query);
+
+$etiquetas = $colector->listar("etiqueta");
 if (!$etiquetas) {
-    die("Invalid query: " . mysqli_error($link));
+    die("Invalid query: ");
 }
 
-$query = 'SELECT * from curso';
-$curso = mysqli_query($link, $query);
+$curso = $colector->listar("curso");
 if (!$curso) {
-    die('Invalid query:' . mysqli_error($link));
+    die('Invalid query:');
 }
 
-
-$query = 'SELECT COUNT(*) from usuario';
-$dbnum = mysqli_query($link, $query);
+$dbnum = $colector->contar("usuario");
 if (!$dbnum) {
     die('Invalid query:' . mysqli_error($link));
 }
-
 $usuarios_cantidad = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
-$query = 'SELECT COUNT(*) from curso';
-$dbnum = mysqli_query($link, $query);
+$dbnum = $colector->contar("curso");
 if (!$dbnum) {
     die('Invalid query:' . mysqli_error($link));
 }
 
 $cursos_cantidad = mysqli_fetch_array($dbnum);
 
-$query = "SELECT COUNT(*) from etiqueta";
-$dbnum = mysqli_query($link, $query);
+$dbnum = $colector->contar("etiqueta");
 if (!$dbnum) {
     die("Invalid query" . mysql_error($link));
 }
@@ -56,7 +49,7 @@ $etiquetas_cantidad = mysqli_fetch_array($dbnum);
 
 mysqli_free_result($dbnum);
 
-mysqli_close($link);
+$colector->close_connection();
 
 ?>
 
