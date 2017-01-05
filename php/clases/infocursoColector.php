@@ -1,6 +1,6 @@
 <?php
 include_once('colector.php');
-include_once ('info_curso.php');
+include_once ('infoCurso.php');
 class InfocursoColector{
     private $worker=NULL;
 
