@@ -14,7 +14,6 @@
       if($costo!==null){
         $this->costo=$costo;
       }
-
     }
 
     public function get_id_curso(){

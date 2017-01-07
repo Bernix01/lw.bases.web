@@ -6,7 +6,7 @@ class Colector
 
     private $db_name = "";
     private $con = false; // Check to see if the connection is active
-    private $myconn = NULL; // This will be our mysqli object
+    public $myconn = NULL; // This will be our mysqli object
     private $result = NULL; // Any results from a query will be stored here
 
 
@@ -38,9 +38,10 @@ class Colector
             $this->result = $stmt->get_result();
 
             $stmt->close();
+
             return $this->result; //return the result of the query
         } else {
-            return NULL; // Table does not exist
+            return null; // Table does not exist
         }
 
     }
@@ -96,6 +97,8 @@ class Colector
     public function getLastId($col,$table)
     {
       $query="SELECT MAX($col) FROM $table";
+      $res = $this->query($query);
+      return mysqli_fetch_array($res)[0];
     }
 
     //Pass the number of rows back

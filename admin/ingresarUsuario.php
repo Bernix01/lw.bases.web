@@ -15,26 +15,40 @@ if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
 if ($usuario_colector === null) {
     die('Could not connect: ' . mysql_error());
 }
+var_dump($_POST);
+echo "<br>";
 if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['rol'])) {
-    $usuario = new Usuario(null, $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $$_POST['rol']);
+    $usuario = new Usuario(null, $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
     $resultado1 = $usuario_colector->addUsuario($usuario->get_nickname(), $usuario->get_contrasenia(), $usuario->get_email(), $usuario->get_rol());     //inserto el usuario
 
-    if (isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST["tag_line"])) {
+    if (isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST["tagline"]) && $resultado1 != null) {
         //obtener el último id en la tabla de usuario, y agregarlo al campo id_usuario de info_usuario
-        $info_usuario = new Info_usuario($_POST["nombres"], $_POST["apellidos"], $_POST["tag_line"]);
+        $info_usuario = new Info_usuario($_POST["nombres"], $_POST["apellidos"], $_POST["tagline"]);
         $resultado2 = $info_usuariocolector->addInfoUsuario($resultado1->get_id_usuario(), $info_usuario->get_nombres(), $info_usuario->get_apellidos(), 0, $info_usuario->get_tag_line());      //inserto la información de ese usuario
-        if ($resultado2 !== null) {
-            header("location: listarUsuarios.php?su=1&sinfo=1");
+        if ($resultado2) {
+            //header("location: listarUsuarios.php?su=1&sinfo=1");
+            echo "nonull2";
         } else {
-            header("location: listarUsuarios.php?su=1&sinfo=0");
+           // header("location: listarUsuarios.php?su=1&sinfo=0");
+            echo "null2";
         }
+
+        echo "<br>";
+        echo "<br>";
+        var_dump($resultado2);
+
+        echo "<br>";
+        echo "<br>";
     }
     if ($resultado1 !== null) {
-        header("location: .listarUsuarios.php?su=1&sinfo=0");
+        //header("location: listarUsuarios.php?su=1&sinfo=0");
+        echo " nonull1";
     }
-    header("location: .listarUsuarios.php?su=0&sinfo=0");
-} else {
 
+    var_dump($resultado1);
+    //header("location: listarUsuarios.php?su=0&sinfo=0");
+} else {
+    var_dump($_POST);
     ?>
     <!DOCTYPE html>
     <html>
@@ -99,7 +113,7 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form">
+                            <form role="form" method="post">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="nombres">Nombres</label>
@@ -113,12 +127,17 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                     </div>
                                     <div class="form-group">
                                         <label for="nickname">Nickname</label>
-                                        <input type="text" class="form-control" id="nickname" placeholder="Nickname">
+                                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Nickname">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">E-mail</label>
                                         <input type="email" name="email" class="form-control" id="email"
                                                placeholder="email">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="email">Tagline</label>
+                                        <textarea maxlength="140" name="tagline" class="form-control" id="tagline"
+                                               placeholder="Una breve descripción."></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="contrasenia">Contraseña</label>
@@ -127,7 +146,11 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                     </div>
                                     <div class="form-group">
                                         <label for="rol">Rol</label>
-                                        <input type="number" class="form-control" name="rol" id="rol" placeholder="rol">
+                                        <select name="rol" id="rol" class="form-control">
+                                            <option value="0">Usuario</option>
+                                            <option value="1">Profesor</option>
+                                            <option value="2">Administrador</option>
+                                        </select>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
@@ -156,195 +179,6 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
             reserved.
         </footer>
 
-        <!-- Control Sidebar -->
-        <aside class="control-sidebar control-sidebar-dark">
-            <!-- Create the tabs -->
-            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-                <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-            </ul>
-            <!-- Tab panes -->
-            <div class="tab-content">
-                <!-- Home tab content -->
-                <div class="tab-pane" id="control-sidebar-home-tab">
-                    <h3 class="control-sidebar-heading">Recent Activity</h3>
-                    <ul class="control-sidebar-menu">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="menu-icon fa fa-birthday-cake bg-red"></i>
-
-                                <div class="menu-info">
-                                    <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                                    <p>Will be 23 on April 24th</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="menu-icon fa fa-user bg-yellow"></i>
-
-                                <div class="menu-info">
-                                    <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                                    <p>New phone +1(800)555-1234</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-                                <div class="menu-info">
-                                    <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                                    <p>nora@example.com</p>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-                                <div class="menu-info">
-                                    <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                                    <p>Execution time 5 seconds</p>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.control-sidebar-menu -->
-
-                    <h3 class="control-sidebar-heading">Tasks Progress</h3>
-                    <ul class="control-sidebar-menu">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <h4 class="control-sidebar-subheading">
-                                    Custom Template Design
-                                    <span class="label label-danger pull-right">70%</span>
-                                </h4>
-
-                                <div class="progress progress-xxs">
-                                    <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <h4 class="control-sidebar-subheading">
-                                    Update Resume
-                                    <span class="label label-success pull-right">95%</span>
-                                </h4>
-
-                                <div class="progress progress-xxs">
-                                    <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <h4 class="control-sidebar-subheading">
-                                    Laravel Integration
-                                    <span class="label label-warning pull-right">50%</span>
-                                </h4>
-
-                                <div class="progress progress-xxs">
-                                    <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-                                </div>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <h4 class="control-sidebar-subheading">
-                                    Back End Framework
-                                    <span class="label label-primary pull-right">68%</span>
-                                </h4>
-
-                                <div class="progress progress-xxs">
-                                    <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-                                </div>
-                            </a>
-                        </li>
-                    </ul>
-                    <!-- /.control-sidebar-menu -->
-
-                </div>
-                <!-- /.tab-pane -->
-
-                <!-- Settings tab content -->
-                <div class="tab-pane" id="control-sidebar-settings-tab">
-                    <form method="post">
-                        <h3 class="control-sidebar-heading">General Settings</h3>
-
-                        <div class="form-group">
-                            <label class="control-sidebar-subheading">
-                                Report panel usage
-                                <input type="checkbox" class="pull-right" checked>
-                            </label>
-
-                            <p>
-                                Some information about this general settings option
-                            </p>
-                        </div>
-                        <!-- /.form-group -->
-
-                        <div class="form-group">
-                            <label class="control-sidebar-subheading">
-                                Allow mail redirect
-                                <input type="checkbox" class="pull-right" checked>
-                            </label>
-
-                            <p>
-                                Other sets of options are available
-                            </p>
-                        </div>
-                        <!-- /.form-group -->
-
-                        <div class="form-group">
-                            <label class="control-sidebar-subheading">
-                                Expose author name in posts
-                                <input type="checkbox" class="pull-right" checked>
-                            </label>
-
-                            <p>
-                                Allow the user to show his name in blog posts
-                            </p>
-                        </div>
-                        <!-- /.form-group -->
-
-                        <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-                        <div class="form-group">
-                            <label class="control-sidebar-subheading">
-                                Show me as online
-                                <input type="checkbox" class="pull-right" checked>
-                            </label>
-                        </div>
-                        <!-- /.form-group -->
-
-                        <div class="form-group">
-                            <label class="control-sidebar-subheading">
-                                Turn off notifications
-                                <input type="checkbox" class="pull-right">
-                            </label>
-                        </div>
-                        <!-- /.form-group -->
-
-                        <div class="form-group">
-                            <label class="control-sidebar-subheading">
-                                Delete chat history
-                                <a href="javascript:void(0)" class="text-red pull-right"><i
-                                            class="fa fa-trash-o"></i></a>
-                            </label>
-                        </div>
-                        <!-- /.form-group -->
-                    </form>
-                </div>
-                <!-- /.tab-pane -->
-            </div>
-        </aside>
-        <!-- /.control-sidebar -->
         <!-- Add the sidebar's background. This div must be placed
          immediately after the control sidebar -->
         <div class="control-sidebar-bg"></div>

@@ -85,7 +85,7 @@ session_start();
          </div>
          <!-- /.box-header -->
          <!-- form start -->
-         <form role="form">
+         <form role="form" method="post">
            <div class="box-body">
              <div class="form-group">
                <label for="nombres">Nombres</label>
@@ -109,7 +109,12 @@ session_start();
            </div>
            <div class="form-group">
                <label for="rol">Rol</label>
-             <input type="number" class="form-control" name="rol" id="rol" placeholder="rol">
+
+               <select name="rol" id="rol" class="form-control">
+                   <option value="0">Usuario</option>
+                   <option value="1">Profesor</option>
+                   <option value="2">Administrador</option>
+               </select>
            </div>
            <input type="hidden" name="ius" value="<?php echo $_GET['ius'];?>">
            </div>

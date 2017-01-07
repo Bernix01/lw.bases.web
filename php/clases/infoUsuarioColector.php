@@ -26,7 +26,7 @@ include_once ('infoUsuario.php');
       $query="INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES ($id_usuario,\"$nombres\",\"$apellidos\",$numero_cursos,\"$tag_line\")";
       $result=$this->worker->query($query);
       if($result!==null){
-        return $info;
+        return $this->getInfoUsuarioById($id_usuario);
       }
       return null;
     }

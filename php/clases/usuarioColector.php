@@ -52,12 +52,12 @@ include_once ('usuario.php');
     }
     public function addUsuario($nickname,$contrasenia,$email,$rol)
     {
-      $query="INSERT into usuario(nickname, contrasenia, email, rol) values($nickname, $contrasenia, $email, $rol); SELECT LAST_INSERT_ID();";
-      $usuario= new Usuario(null,$nickname,$contrasenia,$email,null,$rol);
+      $query="INSERT into usuario(nickname, contrasenia, email, rol) values(\"$nickname\", \"$contrasenia\", \"$email\", $rol)";
+      echo $query;
       $result=$this->worker->query($query);
+      echo $this->worker->myconn->error." sdfsdfsdf ";
       if($result!==null){
-        $newid=$this->worker->getLastId();
-        $usuario->set_id_usuario($newid);
+        $usuario = $this->getUserById($this->worker->getLastId("id_usuario","usuario"));
         return $usuario;
       }
       return null;
