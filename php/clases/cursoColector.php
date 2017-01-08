@@ -25,5 +25,23 @@ class CursoColector{
         $curso->set_id_curso($nuevo_id["id_curso"]);
         return $curso;
     }
+
+    public function updateCurso($id,$nombre,$costo)
+    {
+      $query="UPDATE curso SET nombre=$nombre, costo=$costo WHERE id_curso=$id";
+      $result=$this->worker->query($query);
+      return $result!==null;
+    }
+    public function deleteCurso($value='')
+    {
+      $query="DELETE FROM curso WHERE id_curso=$id";
+      $result=$this->worker->query($query);
+      if($result!==null){
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
 }
 ?>

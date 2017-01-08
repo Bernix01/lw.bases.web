@@ -29,7 +29,7 @@ include_once ('Emprendimiento.php');
       $result=$this->worker->query($query);
       if($result!==null){
         $emprendimientos=array();
-        while($data=mysqli_fetch_object($result)){
+        while($data=mysqli_fetch_object($result,"Emprendimiento")){
           array_push($emprendimientos,$data);
         }
         return $emprendimientos;
@@ -53,7 +53,7 @@ include_once ('Emprendimiento.php');
 
     public public function updateEmprendimiento($id,$id_estudiante,$nombre,$descripcion)
     {
-      $query="UPDATE emprendimiento SET nombre=$nombre, descripcion=$descripcion WHERE id_emprendimiento=$id";
+      $query="UPDATE emprendimiento SET nombre=$nombre, descripcion=$descripcion, id_estudiante=$id_estudiante WHERE id_emprendimiento=$id";
       $result=$this->worker->query($query);
       return $result!==null;
     }

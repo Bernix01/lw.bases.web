@@ -18,13 +18,10 @@ class InfocursoColector{
         return NULL;
     }
 
-<<<<<<< HEAD:php/clases/infocursoColector.php
-    public function addInfocurso($id_curso,$infocurso){
-        $query= "INSERT INTO info_curso VALUE ($id_curso,$infocurso->get_descripcion(),$infocurso->get_cupo_min(),$infocurso->get_cupo_max,$infocurso->get_cupos_disponibles(),$infocurso->get_fecha_inicio(),$infocurso->get_fecha_fin())";
-=======
+
     public function addInfoCurso($id_curso,$nombre,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin){
-        $query= "INSERT INTO info_curso(cupo_min,cupo_max,cupos_disponibles,$echa_inicio,fecha_fin) VALUE ($id_curso,$infocurso->getDescripcion(),$infocurso->get_cupo_min(),$infocurso->get_cupo_max,$infocurso->get_cupos_disponibles(),$infocurso->get_fecha_inicio(),$infocurso->get_fecha_fin())";
->>>>>>> origin/master:php/clases/infoCursoColector.php
+        $query= "INSERT INTO info_curso(id_curso,Sdescripcion,cupo_min,cupo_max,cupos_disponibles,fecha_inicio,fecha_fin) VALUES ($id_curso,\"$descripcion\",$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin)";
+
         $result=$this->worker->query($query);
         if($result!==null){
           $data=mysqli_fetch_object($result,'Info_curso'); //count(array)(?)
