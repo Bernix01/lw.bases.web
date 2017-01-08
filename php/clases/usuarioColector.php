@@ -58,7 +58,7 @@ include_once ('usuario.php');
       echo $this->worker->myconn->error." sdfsdfsdf ";
       if($result!==null){
         $usuario = $this->getUserById($this->worker->getLastId("id_usuario","usuario"));
-        return $usuario;
+        return $usuario->nickname == $nickname ? $usuario:null;
       }
       return null;
     }
