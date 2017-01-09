@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 08, 2017 at 07:05 PM
+-- Generation Time: Jan 09, 2017 at 12:30 AM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -158,6 +158,19 @@ CREATE TABLE `emprendimiento` (
   `nombre` varchar(35) COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` text COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `emprendimiento`
+--
+
+INSERT INTO `emprendimiento` (`id_emprendimiento`, `id_estudiante`, `nombre`, `descripcion`) VALUES
+(1, '1604031238999', 'Dental Hygienist', 'metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in'),
+(2, '1604031238999', 'Dental Hygienist', 'metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in'),
+(3, '1608112083799', 'Human Resources Manager', 'quisque ut erat curabitur gravida nisi at nibh in hac habitasse platea dictumst aliquam augue quam'),
+(4, '1618032056299', 'Quality Control Specialist', 'a libero nam dui proin leo odio porttitor id consequat in consequat ut nulla sed'),
+(5, '1621073069299', 'Programmer III', 'libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo'),
+(6, '1633081459799', 'Financial Analyst', 'id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci'),
+(7, '1634010992199', 'VP Product Management', 'in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam');
 
 -- --------------------------------------------------------
 
@@ -512,6 +525,11 @@ ALTER TABLE `certificado`
 --
 ALTER TABLE `curso`
   MODIFY `id_curso` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+--
+-- AUTO_INCREMENT for table `emprendimiento`
+--
+ALTER TABLE `emprendimiento`
+  MODIFY `id_emprendimiento` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `etiqueta`
 --
