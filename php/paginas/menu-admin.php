@@ -351,11 +351,8 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="listarEmprendimientos.php"><i class="fa fa-circle-o"></i> Listar emprendimientos</a></li>
-                </ul>
-                <ul class="treeview-menu">
-                    <li><a href="ingresarEmprendimiento.php"><i class="fa fa-circle-o"></i> Ingresar emprendimiento</a></li>
-                    <li><a href="/admin/insertarEmprendimiento.php"><i class="fa fa-circle-o"></i> Ingresar emprendimiento</a>
+                    <li><a href="/admin/listarEmprendimientos.php"><i class="fa fa-circle-o"></i> Listar emprendimientos</a></li>
+                    <li><a href="/admin/ingresarEmprendimiento.php"><i class="fa fa-circle-o"></i> Ingresar emprendimiento</a>
                     </li>
                 </ul>
             </li>

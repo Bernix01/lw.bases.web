@@ -9,7 +9,7 @@ $(function() {
             // The key name on the left side is the name attribute
             // of an input field. Validation rules are defined
             // on the right side
-            nombre: {required:true, maxlength:4},
+            nombre: {required:true, maxlength:64},
             cupo_max: {required:true, digits:true},
             cupo_min: {required:true, digits:true},
             costo:{required:true, number:true},
@@ -43,15 +43,16 @@ $(function() {
         // in the "action" attribute of the form when valid
         submitHandler: function(form,event) {
             event.preventDefault();
+
             var f_inicio=document.getElementsByName("fecha_inicio").value;
             var f_fin=document.getElementsByName("fecha_fin").value;
-            console.log(f_inicio);
             var inicios=document.getElementsByClassName("inicio");
             var fines= document.getElementsByClassName("fin");
             var tam=len(inicios);
-            for(var i=0; i<tam; i++){
-
+            for (var i=0;i<tam;i++){
+              moment(inicios[i]).isAfter(f_inicio)
             }
+
             //form.submit();
             //return false;
         }
