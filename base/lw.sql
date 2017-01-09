@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 27, 2016 at 10:24 PM
+-- Generation Time: Jan 08, 2017 at 07:05 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -78,29 +78,39 @@ INSERT INTO `curso` (`id_curso`, `nombre`, `costo`) VALUES
 (27, ' pogramación orientada a aspectos ', '44.55'),
 (28, 'matemáticas discretas ', '1.71'),
 (29, 'matemáticas discretas ', '17.20'),
-(30, 'matemáticas discretas ', '17.09');
+(30, 'matemáticas discretas ', '17.09'),
+(31, 'mandarin', '45.00');
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `curso-estudiante`
+-- Table structure for table `curso_estudiante`
 --
 
-CREATE TABLE `curso-estudiante` (
+CREATE TABLE `curso_estudiante` (
   `id_estudiante` varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `id_curso` int(32) NOT NULL
+  `id_curso` int(32) NOT NULL,
+  `habilitado` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `curso-etiqueta`
+-- Table structure for table `curso_etiqueta`
 --
 
-CREATE TABLE `curso-etiqueta` (
+CREATE TABLE `curso_etiqueta` (
   `id_curso` int(32) NOT NULL,
   `id_etiqueta` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `curso_etiqueta`
+--
+
+INSERT INTO `curso_etiqueta` (`id_curso`, `id_etiqueta`) VALUES
+(7, 2),
+(2, 2);
 
 -- --------------------------------------------------------
 
@@ -282,7 +292,7 @@ CREATE TABLE `usuario` (
   `contrasenia` varchar(15) COLLATE latin1_spanish_ci NOT NULL,
   `email` varchar(64) COLLATE latin1_spanish_ci NOT NULL,
   `last_login` datetime NOT NULL,
-  `rol` int(1) NOT NULL
+  `rol` int(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
@@ -293,7 +303,6 @@ INSERT INTO `usuario` (`id_usuario`, `nickname`, `contrasenia`, `email`, `last_l
 ('1604031238999', 'dui.', 'POO48HMU6HJ', 'adipiscing.lacus@risusDonec.net', '2017-02-02 08:24:33', 0),
 ('1604070162099', 'dignissim.', 'JWM51QWJ1XN', 'tempor.est.ac@gravidasagittisDuis.com', '2016-02-07 23:40:47', 1),
 ('1604110664599', 'natoque', 'PIH93DMX1ER', 'nulla@Intincidunt.net', '2016-10-25 20:33:21', 1),
-('1605020343899', 'tempor,', 'KFX90DEP3CB', 'sed@nibhPhasellusnulla.com', '2016-09-14 20:56:33', 1),
 ('1606110798099', 'rhoncus.', 'KHC67OJD6IC', 'amet@viverraMaecenas.co.uk', '2017-09-06 15:19:24', 1),
 ('1608112083799', 'ligula', 'ZEI36NOP1NI', 'In.mi@id.edu', '2016-07-25 13:08:36', 0),
 ('1609041989699', 'pulvinar', 'FYW12AVK4PK', 'eget.magna@Quisqueporttitor.com', '2017-02-19 10:39:43', 2),
@@ -393,19 +402,20 @@ ALTER TABLE `certificado`
 -- Indexes for table `curso`
 --
 ALTER TABLE `curso`
-  ADD PRIMARY KEY (`id_curso`);
+  ADD PRIMARY KEY (`id_curso`),
+  ADD UNIQUE KEY `id_curso` (`id_curso`);
 
 --
--- Indexes for table `curso-estudiante`
+-- Indexes for table `curso_estudiante`
 --
-ALTER TABLE `curso-estudiante`
+ALTER TABLE `curso_estudiante`
   ADD KEY `id_estudiante` (`id_estudiante`),
   ADD KEY `id_curso` (`id_curso`);
 
 --
--- Indexes for table `curso-etiqueta`
+-- Indexes for table `curso_etiqueta`
 --
-ALTER TABLE `curso-etiqueta`
+ALTER TABLE `curso_etiqueta`
   ADD KEY `id_curso` (`id_curso`),
   ADD KEY `id_etiqueta` (`id_etiqueta`);
 
@@ -461,12 +471,15 @@ ALTER TABLE `horario`
 -- Indexes for table `info_curso`
 --
 ALTER TABLE `info_curso`
+  ADD PRIMARY KEY (`id_curso`),
+  ADD UNIQUE KEY `id_curso_2` (`id_curso`),
   ADD KEY `id_curso` (`id_curso`);
 
 --
 -- Indexes for table `info_usuario`
 --
 ALTER TABLE `info_usuario`
+  ADD PRIMARY KEY (`id_usuario`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
@@ -490,15 +503,30 @@ ALTER TABLE `usuario`
 --
 
 --
+-- AUTO_INCREMENT for table `certificado`
+--
+ALTER TABLE `certificado`
+  MODIFY `id_certificado` int(32) NOT NULL AUTO_INCREMENT;
+--
 -- AUTO_INCREMENT for table `curso`
 --
 ALTER TABLE `curso`
-  MODIFY `id_curso` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id_curso` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `etiqueta`
 --
 ALTER TABLE `etiqueta`
   MODIFY `id_etiqueta` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+--
+-- AUTO_INCREMENT for table `factura`
+--
+ALTER TABLE `factura`
+  MODIFY `id_factura` int(32) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `horario`
+--
+ALTER TABLE `horario`
+  MODIFY `id_horario` int(32) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `pago`
 --
@@ -509,9 +537,22 @@ ALTER TABLE `pago`
 --
 
 --
--- Constraints for table `curso-etiqueta`
+-- Constraints for table `certificado`
 --
-ALTER TABLE `curso-etiqueta`
+ALTER TABLE `certificado`
+  ADD CONSTRAINT `certificado_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `curso_estudiante`
+--
+ALTER TABLE `curso_estudiante`
+  ADD CONSTRAINT `curso_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `curso_por_estudiante_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`);
+
+--
+-- Constraints for table `curso_etiqueta`
+--
+ALTER TABLE `curso_etiqueta`
   ADD CONSTRAINT `etiqueta_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `etiqueta_etiqueta_fk` FOREIGN KEY (`id_etiqueta`) REFERENCES `etiqueta` (`id_etiqueta`) ON DELETE CASCADE ON UPDATE CASCADE;
 
@@ -519,7 +560,8 @@ ALTER TABLE `curso-etiqueta`
 -- Constraints for table `curso_horario`
 --
 ALTER TABLE `curso_horario`
-  ADD CONSTRAINT `horario_horario_fk` FOREIGN KEY (`id_horario`) REFERENCES `horario` (`id_horario`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `curso_horario_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `horario_horario_fk` FOREIGN KEY (`id_horario`) REFERENCES `horario` (`id_horario`);
 
 --
 -- Constraints for table `curso_profesor`
@@ -563,7 +605,7 @@ ALTER TABLE `info_usuario`
 -- Constraints for table `pago`
 --
 ALTER TABLE `pago`
-  ADD CONSTRAINT `formapago_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `formapsgo_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
