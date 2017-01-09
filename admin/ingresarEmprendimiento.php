@@ -20,15 +20,20 @@
          alert("Emprendimiento agregado con éxito");
         </script>
         <?php
-        header('Location: listarEmprendimientos.php']);
+        header('Location: listarEmprendimientos.php');
         exit();
+      }
+      else{?>
+        <script type="text/javascript">
+         alert("No se pudo ingresar el emprendimiento");
+        </script>
+        <?php
+        header('Location: '.$_SERVER['PHP_SELF']);
       }
   }
   else {
       ?>
-      <script type="text/javascript">
-       alert("No se pudo ingresar el emprendimiento");
-      </script>
+
       <!DOCTYPE html>
       <html>
       <head>

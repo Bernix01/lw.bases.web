@@ -41,12 +41,11 @@ class Colector
 
             return $this->result; //return the result of the query
         } else {
-            echo mysql_error();
             return null; // Table does not exist
         }
 
     }
-  
+
     public function listar($table)
     {
 
@@ -60,7 +59,7 @@ class Colector
             $stmt->close();
             return $this->result; //return the result of the query
         } else {
-            echo mysql_error();
+
             return NULL; // Table does not exist
         }
 
@@ -78,7 +77,7 @@ class Colector
             $stmt->close();
             return $this->result; //return the result of the query
         } else {
-            echo mysql_error();
+            
             return NULL; // Table does not exist
         }
 
