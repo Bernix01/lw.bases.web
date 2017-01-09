@@ -41,10 +41,12 @@ class Colector
 
             return $this->result; //return the result of the query
         } else {
+            echo mysql_error();
             return null; // Table does not exist
         }
 
     }
+  
     public function listar($table)
     {
 
@@ -58,6 +60,7 @@ class Colector
             $stmt->close();
             return $this->result; //return the result of the query
         } else {
+            echo mysql_error();
             return NULL; // Table does not exist
         }
 
@@ -75,6 +78,7 @@ class Colector
             $stmt->close();
             return $this->result; //return the result of the query
         } else {
+            echo mysql_error();
             return NULL; // Table does not exist
         }
 
@@ -99,28 +103,6 @@ class Colector
       $query="SELECT MAX($col) FROM $table";
       $res = $this->query($query);
       return mysqli_fetch_array($res)[0];
-    }
-
-    //Pass the number of rows back
-    public function countEntries($table)
-    {
-        $query = "SELECT COUNT(*) FROM" . $table;
-        if ($this->tableExists($table)) {
-            // The table exists, run the query
-            /* prepare query sentence */
-            if ($stmt = $this->myconn->prepare($query)) {
-                $stmt->execute();
-
-                /* put result of the query */
-                $this->result = $stmt->get_result();
-
-                $stmt->close();
-                return $this->result; //return the result of the query
-            }
-        } else {
-            return NULL; // Table does not exist
-        }
-
     }
 
     // Escape your string

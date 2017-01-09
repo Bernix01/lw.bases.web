@@ -113,7 +113,7 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form" method="post">
+                            <form role="form" method="post" name="create-usuario">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="nombres">Nombres</label>
@@ -207,6 +207,22 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
     <script src="/admin/dist/js/pages/dashboard2.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/admin/dist/js/demo.js"></script>
+    <!-- jQuery -->
+    		<script src="js/jquery.js"></script>
+    		<script src="js/jquery.validate.min.js"></script>
+    	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
+    		<script src="js/create-usuario-validation.js"></script>
+    <script type="text/javascript">$('.message a').click(function(){
+       $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    });</script>
+    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
+
+    		<!-- Bootstrap JavaScript -->
+    		<script src="js/bootstrap.min.js"></script>
+    		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+     		<script src="Hello World"></script>
     </body>
     </html>
     <?php

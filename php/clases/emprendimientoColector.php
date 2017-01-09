@@ -51,7 +51,7 @@ include_once ('Emprendimiento.php');
       return null;
     }
 
-    public public function updateEmprendimiento($id,$id_estudiante,$nombre,$descripcion)
+    public function updateEmprendimiento($id,$id_estudiante,$nombre,$descripcion)
     {
       $query="UPDATE emprendimiento SET nombre=$nombre, descripcion=$descripcion, id_estudiante=$id_estudiante WHERE id_emprendimiento=$id";
       $result=$this->worker->query($query);

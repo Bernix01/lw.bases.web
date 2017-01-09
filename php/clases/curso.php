@@ -1,4 +1,4 @@
-<?php
+_<?php
   class Curso{
     private $id_curso;
     private $nombre;
