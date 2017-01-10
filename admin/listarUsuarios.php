@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once("../php/clases/usuarioColector.php");
-  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!==2){
+  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
   $colector= new usuarioColector();
@@ -94,29 +94,29 @@ include_once("../php/clases/usuarioColector.php");
                 <tr>
                   <?php
 
-                    while ($usuarios=mysqli_fetch_assoc($result)){
+                    foreach($result as $usuario){
                       $spanclass="";
-                      if($usuarios["rol"]===0){
+                      if($usuario->get_rol()===0){
                         $spanclass="label label-success";
                       }
-                      if($usuarios["rol"]===1){
+                      if($usuario->get_rol()===1){
                         $spanclass="label label-warning";
                       }
-                      if($usuarios["rol"]===2){
+                      if($usuario->get_rol()===2){
                         $spanclass="label label-primary";
                       }
                       echo "<tr>
-                        <td>" . $usuarios["id_usuario"] . "</td>";
+                        <td>" . $usuario->get_id_usuario() . "</td>";
                                             echo "
-                          <td>" . $usuarios["nickname"] . "</td>";
+                          <td>" . $usuario->get_nickname() . "</td>";
                                             echo "
-                            <td>" . $usuarios["email"] . "</td>";
+                            <td>" . $usuario->get_email() . "</td>";
                                             echo "
-                              <td>" . $usuarios["last_login"] . "</td>";
+                              <td>" . $usuario->get_last_login() . "</td>";
                                             echo "
-                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuarios["rol"] . "</span></td>";
-                      echo "<td><a href='editarUsuario.php?ius=".$usuarios["id_usuario"]."'>Editar</a></td>";
-                      echo "<td><a href='eliminarUsuario.php?ius=".$usuarios["id_usuario"]."'>Eliminar </a></td> </tr>";
+                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuario->get_rol() . "</span></td>";
+                      echo "<td><a href='editarUsuario.php?ius=".$usuario->get_id_usuario()."'>Editar</a></td>";
+                      echo "<td><a href='eliminarUsuario.php?ius=".$usuario->get_id_usuario()."'>Eliminar </a></td> </tr>";
                     }
                 ?>
 

@@ -1,11 +1,13 @@
 <?php
 session_start();
-include_once("../php/clases/colector.php");
-  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!==2){
+include_once("../php/clases/emprendimientoColector.php");
+  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
-  $colector= new Colector();
-  $result = $colector->read("emprendimiento");
+  $colector= new EmprendimientoColector();
+  $result = $colector->getAll();
+  if(!$result)
+      die("couldn't keep up!");
 ?>
 <!DOCTYPE html>
 <html>
@@ -91,18 +93,18 @@ include_once("../php/clases/colector.php");
                 <tr>
                   <?php
 
-                    while ($emprendimientos=mysqli_fetch_assoc($result)){
+                    foreach ($result as $emp){
 
                       echo "<tr>
-                        <td>" . $emprendimientos["id_emprendimiento"] . "</td>";
+                        <td>" . $emp->get_id_emprendimiento() . "</td>";
                                             echo "
-                          <td>" . $emprendimientos["id_estudiante"] . "</td>";
+                          <td>" . $emp->get_id_estudiante() . "</td>";
                                             echo "
-                            <td>" . $emprendimientos["nombre"] . "</td>";
+                            <td>" . $emp->get_nombre(). "</td>";
                                             echo "
-                              <td>" . $emprendimientos["descripcion"] . "</td>";
-                              echo "<td><a href='editarEmprendimiento.php?id_emprendimiento=".$emprendimientos["id_emprendimiento"]."'>Editar</a></td>";
-                              echo "<td><a href='eliminarEmprendimiento.php?id_emprendimiento=".$emprendimientos["id_emprendimiento"]."'>Eliminar </a></td> </tr>";
+                              <td>" . $emp->get_descripcion() . "</td>";
+                              echo "<td><a href='editarEmprendimiento.php?id_emprendimiento=".$emp->get_id_emprendimiento()."'>Editar</a></td>";
+                              echo "<td><a href='eliminarEmprendimiento.php?id_emprendimiento=".$emp->get_id_emprendimiento()."'>Eliminar </a></td> </tr>";
 
                     }
                 ?>

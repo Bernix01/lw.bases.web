@@ -2,13 +2,17 @@
 
 include_once('colector.php');
 include_once ('emprendimiento.php');
+
   class EmprendimientoColector{
     private $worker=NULL;
 
     public function __construct(){
       $this->worker= new Colector();
     }
-
+    public function getAll()
+    {
+      return $this->worker->read("emprendimiento",Emprendimiento::class);
+    }
     public function getEmprendimientoById($id){
       $query= "SELECT * FROM emprendimiento WHERE id_emprendimiento=".$id." limit 1";
       $result=$this->worker->query($query);
