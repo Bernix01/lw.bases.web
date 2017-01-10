@@ -1,4 +1,5 @@
 <?php
+
 	class Etiqueta{
 		private $id_etiqueta;
 		private $nombre;
@@ -28,3 +29,4 @@
 
 	}
 ?>
+

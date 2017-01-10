@@ -30,7 +30,7 @@ class InfocursoColector{
 
         return null;
     }
-    public public function updateInfoCurso($id_curso,$nombre,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin)
+    public function updateInfoCurso($id_curso,$nombre,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin)
     {
       $query="UPDATE info_curso SET descripcion=$descripcion, cupo_min=$cupo_min, cupo_max=$cupo_max, cupos_disponibles=$cupos_disponibles, fecha_inicio=$fecha_inicio, fecha_fin=$fecha_fin WHERE id_curso=$id_curso";
       $result=$this->worker->query($query);

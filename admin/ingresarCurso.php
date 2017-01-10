@@ -1,21 +1,32 @@
 <?php
 ini_set("display_errors", 1);
 include_once("../php/clases/cursoColector.php");
+include_once("../php/clases/infoCursoColector.php");
 
 $curso_colector = new CursoColector();
+$info_colector= new InfocursoColector();
+$agregado=false;
+$posted=false;
 session_start();
-if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
-    header("location: /login.html");
+if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 2) {
+    header("location: ../html/login.html");
     die();
 }
 
 //if connection is not successful you will see text error
-if ($curso_colector === null) {
-    die('Could not connect: ' . mysql_error());
+if ($curso_colector == null || $info_colector==null) {
+    die('Could not connect: ');
 }
 if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripcion']) && isset($_POST['cupo_min']) && isset($_POST['cupo_max']) && isset($_POST['fecha_inicio']) && isset($_POST['fecha_fin'])) {
+    $posted=true;
     $curso = new Curso(null, $_POST['nombre'], $_POST['costo']);
     $resultado = $curso_colector->addCurso($curso);
+    if($resultado!==null){
+      $resultado2=$info_colector->addInfoCurso($resultado->get_id_curso(),$_POST['descripcion'],$_POST['cupo_min'], $_POST['cupo_max'], $_POST['cupo_max'], $_POST['fecha_inicio'],$_POST['fecha_fin']);
+      if($resultado2!==null){
+        $agregado=true;
+      }
+    }
 } else {
 
 
@@ -55,6 +66,14 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
 
         <?php
         include('../php/paginas/menu-admin.php');
+
+    if( $posted ) {
+      if( $agregado )
+        echo "<script type='text/javascript'>alert('¡Usuario agregado exitosamente!')</script>";
+      else
+        echo "<script type='text/javascript'>alert('¡No se pudo agregar el usuario!')</script>";
+    }
+
         ?>
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
@@ -96,14 +115,14 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                         <label for="exampleInputEmail1">cupo mínimo</label>
                                         <input type="number" name="cupo_min" class="form-control" placeholder="cupo mínimo"
                                                required="required"
-                                               pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="99"/>
+                                               pattern="-?[0-9]*(\.[0-9]+)?" min="1" max="99"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">cupo máximo</label>
 
                                         <input type="number" name="cupo_max" class="form-control"  placeholder="cupo máximo"
                                                required="required"
-                                               pattern="-?[0-9]*(\.[0-9]+)?" min="0" max="99"/>
+                                               pattern="-?[0-9]*(\.[0-9]+)?" min="1" max="99"/>
 
                                     </div>
                                     <div class="form-group">
@@ -135,6 +154,7 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                             <input class="inicio" type="datetime-local" name="horarios[0][inicio]"
                                                    value="2016-04-12T23:20"
                                                    min="<?php echo (new DateTime())->format('Y-m-d H:i'); ?>">
+                                            <br></br>
                                             <label>Horario fin</label>
                                             <input class="fin" type="datetime-local" name="horarios[0][fin]"
                                                    value="2016-04-12T23:20"
@@ -171,11 +191,35 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
                 <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
                 <script src="../js/create-course-validation.js"></script>
+                <script src="moment.js"></script>
+                <script>
+                  moment().format();
+                  var f_inicio=document.getElementsByName("fecha_inicio").value;
+                  var f_fin=document.getElementsByName("fecha_fin").value;
+                  if(moment(f_fin).isBefore(f_inicio)){
+                    //La fecha de fin de curso está incorrecta
+                  }
+                  else{
+                    var inicios=document.getElementsByClassName("inicio");
+                    var fines= document.getElementsByClassName("fin");
+                    var tam=len(inicios);
+                    for (var i=0;i<tam;i++){
+                      if(!(moment(inicios[i]).isBetween(f_inicio,f_fin,null,'[]'))){
+                        //la fecha inicial no está en el rango
+                      }
+                      else{
+                        if(!(moment(fines[i]).isBetween(f_inicio,f_fin,null,'[]'))){
+                          //la fecha final no está en el rango
+                        }
+                      }
+                    }
+                  }
 
+                </script>
                 <script type="text/javascript">
                     var indice = 1;
                     function agregarHorario() {
-                        $('#horario').append("<br/><br/><label>Horario inicio</label><input type=\"datetime-local\"  class=\"inicio\"name=\"horarios[" + indice + "][inicio]\" value=\"2016-04-12T23:20\" min=\"<?php echo (new DateTime())->format('Y-m-d H:i');?>\" >  <label>Horario fin</label><input class=\"fin\" type=\"datetime-local\" name=\"horarios[" + indice + "][fin]\" value=\"2016-04-12T23:20\" min=\"<?php echo (new DateTime())->format('Y-m-d H:i');?>0\" >");
+                        $('#horario').append("<br/><br/><label>Horario inicio</label><input type=\"datetime-local\"  class=\"inicio\"name=\"horarios[" + indice + "][inicio]\" value=\"2016-04-12T23:20\" min=\"<?php echo (new DateTime())->format('Y-m-d H:i');?>\" >   <br></br> <label>Horario fin</label><input class=\"fin\" type=\"datetime-local\" name=\"horarios[" + indice + "][fin]\" value=\"2016-04-12T23:20\" min=\"<?php echo (new DateTime())->format('Y-m-d H:i');?>0\" >");
                         indice++;
                         var f_inicio = document.getElementsByName("fecha_inicio")[0].value;
                         var f_fin = document.getElementsByName("fecha_fin")[0].value;

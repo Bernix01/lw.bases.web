@@ -96,7 +96,7 @@ include_once("../php/clases/colector.php");
                       echo "<tr>
                         <td>" . $emprendimientos["id_emprendimiento"] . "</td>";
                                             echo "
-                          <td>" . $emprendimientos["id_usuario"] . "</td>";
+                          <td>" . $emprendimientos["id_estudiante"] . "</td>";
                                             echo "
                             <td>" . $emprendimientos["nombre"] . "</td>";
                                             echo "

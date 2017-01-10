@@ -10,7 +10,8 @@ $(function() {
       // of an input field. Validation rules are defined
       // on the right side
       nombre: "required",
-      descripcion:{"required",maxlength:200}
+      descripcion:{"required",maxlength:200},
+      id_estudiante: {required:true, minlength:13, maxlength:13, digits:true}
 
         },
     // Specify validation error messages
@@ -19,6 +20,12 @@ $(function() {
       descripcion:{
         required:"Por favor, ingrese la descripción de su negocio",
         maxlength: "Su descripción no debe sobrepasar los 150 caracteres"
+    },
+    id_estudiante:{
+      required:"Por favor, ingrese el id del estudiante",
+      digits: "Ingrese un número de cédula o RUC válido",
+      minlength: "Ingrese un número de cédula o RUC válido",
+      maxlength: "Su número de cédula o RUC debe tener máximo 13 caracteres"
     }
         },
     // Make sure the form is submitted to the destination defined

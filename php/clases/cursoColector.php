@@ -19,11 +19,14 @@ class CursoColector{
     }
 
     public function addCurso($curso){
-        $query= "INSERT INTO curso VALUE (DEFAULT(),$curso->get_nombre(),$curso->get_costo()); SELECT LAST_INSERT_ID();";
+        $query= "INSERT INTO curso VALUE (DEFAULT(),$curso->get_nombre(),$curso->get_costo())";
         $result=$this->worker->query($query);
-        $nuevo_id = (mysqli_fetch_assoc($result));
-        $curso->set_id_curso($nuevo_id["id_curso"]);
-        return $curso;
+        if($result!==null){
+          $nuevo_id = $this->worker->query("SELECT LAST_INSERT_ID()");
+          $curso->set_id_curso($nuevo_id["id_curso"]);
+          return $curso;
+        }
+        return null;
     }
 
     public function updateCurso($id,$nombre,$costo)
