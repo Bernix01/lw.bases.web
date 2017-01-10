@@ -2,7 +2,7 @@
 session_start();
 include_once("../php/clases/cursoColector.php");
 include_once("../php/clases/infoCursoColector.php");
-  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!==2){
+  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
   $colector= new CursoColector();
