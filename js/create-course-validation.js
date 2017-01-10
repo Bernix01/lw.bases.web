@@ -42,7 +42,7 @@ $(function() {
         // Make sure the form is submitted to the destination defined
         // in the "action" attribute of the form when valid
         submitHandler: function(form,event) {
-            event.preventDefault();
+            //event.preventDefault();
 
             var f_inicio=document.getElementsByName("fecha_inicio").value;
             var f_fin=document.getElementsByName("fecha_fin").value;
@@ -53,7 +53,7 @@ $(function() {
               moment(inicios[i]).isAfter(f_inicio)
             }
 
-            //form.submit();
+            form.submit();
             //return false;
         }
 

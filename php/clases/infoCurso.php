@@ -74,4 +74,3 @@
       $this->fecha_fin=$fecha_fin;
     }
   }
-?>

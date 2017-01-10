@@ -112,6 +112,10 @@ class Colector
     {
         return $this->conn->real_escape_string($data);
     }
+
+    public function getLastID(){
+        return $this->con->lastInsertId();
+    }
 }
 
 

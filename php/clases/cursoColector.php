@@ -1,50 +1,49 @@
 <?php
 include_once('colector.php');
-include_once ('curso.php');
-class CursoColector{
-    private $worker=NULL;
+include_once('curso.php');
 
-    public function __construct(){
-        $this->worker= new Colector();
+class CursoColector
+{
+    private $worker = NULL;
+
+    public function __construct()
+    {
+        $this->worker = new Colector();
     }
 
-    public function getCursoById($id){
-        $query= "SELECT * FROM curso WHERE curso.id_curso=".$id." limit 1";
-        $result=$this->worker->query($query);
-        if($result!==NULL){
-            $data=mysqli_fetch_object($result,'Curso'); //count(array)(?)
-            return $data;
-        }
-        return NULL;
+    public function getAll()
+    {
+        return $this->worker->read("curso", Curso::class);
     }
 
-    public function addCurso($curso){
-        $query= "INSERT INTO curso VALUE (DEFAULT(),$curso->get_nombre(),$curso->get_costo())";
-        $result=$this->worker->query($query);
-        if($result!==null){
-          $nuevo_id = $this->worker->query("SELECT LAST_INSERT_ID()");
-          $curso->set_id_curso($nuevo_id["id_curso"]);
-          return $curso;
+    public function getCursoById($id)
+    {
+        return $this->worker->getById($id, "curso", "id_curso", Curso::class);
+    }
+
+    public function addCurso(Curso $curso)
+    {
+        $query = "INSERT INTO curso VALUE (DEFAULT,\"" . $curso->getNombre() . "\"," . $curso->getCosto() . ")";
+        $result = $this->worker->execQuery($query);
+
+        if ($result !== null) {
+            return $this->getCursoById($this->worker->getLastID());
         }
         return null;
     }
 
-    public function updateCurso($id,$nombre,$costo)
+    public function updateCurso($id, $nombre, $costo)
     {
-      $query="UPDATE curso SET nombre=$nombre, costo=$costo WHERE id_curso=$id";
-      $result=$this->worker->query($query);
-      return $result!==null;
+        $query = "UPDATE curso SET nombre=\"$nombre\", costo=$costo WHERE id_curso=$id";
+        return $this->worker->execQuery($query);
     }
-    public function deleteCurso($value='')
+
+    public function deleteCurso($id)
     {
-      $query="DELETE FROM curso WHERE id_curso=$id";
-      $result=$this->worker->query($query);
-      if($result!==null){
-        return true;
-      }
-      else{
-        return false;
-      }
+        $query = "DELETE FROM curso WHERE id_curso=$id";
+        $result = $this->worker->execQuery($query);
+        return $result;
     }
 }
+
 ?>

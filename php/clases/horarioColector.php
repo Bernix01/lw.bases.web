@@ -1,6 +1,6 @@
 <?php
 include_once('colector.php');
-include_once ('pago.php');
+include_once ('horario.php');
 class HorarioColector{
     private $worker=NULL;
 
@@ -9,23 +9,16 @@ class HorarioColector{
     }
 
     public function getHorarioById($id){
-      $query= "SELECT * FROM horario WHERE id_horario=".$id." limit 1";
-      $result=$this->worker->query($query);
-      if($result!==NULL){
-        $data=mysqli_fetch_object($result,'Horario'); //count(array)(?)
 
-        return $data;
-      }
-      return NULL;
+      return $this->worker->getById($id,"horario","id_horario",Horario::class);
     }
 
   	public function addHorario($inicio,$fin)
   	{
-  		$horario = new Horario($null,$inicio,$fin);
-  		$query= "INSERT INTO horario(inicio,fin) VALUES ($inicio,$fin)";
-  		$result=$this->worker->query($query);
+  		$query= "INSERT INTO horario(inicio,fin) VALUES (\"$inicio\",\"$fin\")";
+  		$result=$this->worker->execQuery($query);
   		if($result!==null){
-        $id_horario=$this->worker->query("SELECT LAST_INSERT_ID()");
+        $id_horario=$this->worker->getLastID();
   			return $this->getHorarioById($id_horario);
   		}
   		return null;
@@ -43,12 +36,17 @@ class HorarioColector{
         return false;
       }
     }
-    public public function updateHorario($id,$inicio,$fin)
+    public function updateHorario($id,$inicio,$fin)
     {
       $query="UPDATE horario SET inicio=$inicio, fin=$fin WHERE id_horario=$id";
       $result=$this->worker->query($query);
       return $result!==null;
     }
 
+    public function setCurso($id_horario,Curso $curso){
+        $query= "INSERT INTO curso_horario(id_curso,id_horario) VALUES (".$curso->get_id_curso().",$id_horario)";
+        $result=$this->worker->execQuery($query);
+        return $result;
+    }
   }
-?>
+
