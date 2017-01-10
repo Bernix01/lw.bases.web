@@ -372,7 +372,7 @@
             </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="/admin/insertarPago.php"><i class="fa fa-circle-o"></i> Ingresar pago</a></li>
+                    <li><a href="/admin/listarPagos.php"><i class="fa fa-circle-o"></i> Listar pago</a></li>
                 </ul>
             </li>
 
