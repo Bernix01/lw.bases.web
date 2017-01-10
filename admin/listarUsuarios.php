@@ -1,7 +1,7 @@
 <?php
 session_start();
 include_once("../php/clases/usuarioColector.php");
-  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!==2){
+  if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
   $colector= new usuarioColector();
@@ -94,7 +94,7 @@ include_once("../php/clases/usuarioColector.php");
                 <tr>
                   <?php
 
-                   foreach ($result as $usuario){
+                    foreach($result as $usuario){
                       $spanclass="";
                       if($usuario->get_rol()===0){
                         $spanclass="label label-success";
@@ -108,9 +108,9 @@ include_once("../php/clases/usuarioColector.php");
                       echo "<tr>
                         <td>" . $usuario->get_id_usuario() . "</td>";
                                             echo "
-                          <td>" . $usuario->get_nickname(). "</td>";
+                          <td>" . $usuario->get_nickname() . "</td>";
                                             echo "
-                            <td>" . $usuario->get_email(). "</td>";
+                            <td>" . $usuario->get_email() . "</td>";
                                             echo "
                               <td>" . $usuario->get_last_login() . "</td>";
                                             echo "
