@@ -17,14 +17,9 @@ class usuarioColector
 
     public function getUserById($id)
     {
-        $query = "SELECT * FROM usuario WHERE id_usuario=" . $id . " LIMIT 1";
-        $result = $this->worker->query($query);
-        if ($result !== NULL) {
-            $data = $result->fetch(PDO::FETCH_CLASS,"Usuario");
-
-            return $data;
-        }
-        return NULL;
+        $query = "SELECT * FROM usuario WHERE id_usuario=\"" . $id . "\" LIMIT 1";
+        $result = $this->worker->execQueryReturning($query,Usuario::class);
+        return $result;
     }
 
     public function getUserByCredentials($nickname, $contrasenia)
@@ -58,7 +53,7 @@ class usuarioColector
 
     public function updateUsuario($id, $nickname, $contrasenia, $email, $rol)
     {
-        $query = "UPDATE usuario SET nickname=$nickname, contrasenia=$contrasenia, rol=$rol, email=$email WHERE id_usuario=$id";
+        $query = "UPDATE usuario SET nickname=$nickname, contrasenia=$contrasenia, rol=$rol, email=$email WHERE id_usuario=\"$id\"";
         $result = $this->worker->query($query);
         return $result !== null;
     }
@@ -66,7 +61,7 @@ class usuarioColector
     public function addUsuario($id, $nickname, $contrasenia, $email, $rol)
     {
         $query = "INSERT into usuario(id_usuario,nickname, contrasenia, email, rol) values(\"$id\",\"$nickname\", \"$contrasenia\", \"$email\", $rol)";
-        $result = $this->worker->query($query);
+        $result = $this->worker->execQuery($query);
         echo $query;
         if ($result !== null) {
             $usuario = $this->getUserById($id);
