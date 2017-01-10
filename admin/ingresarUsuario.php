@@ -15,7 +15,6 @@ if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
 if ($usuario_colector === null) {
     die('Could not connect: ' . mysql_error());
 }
-var_dump($_POST);
 echo "<br>";
 if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['cedula']) && isset($_POST['rol'])) {
     $usuario = new Usuario($_POST['cedula'], $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
@@ -31,23 +30,14 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
             //header("location: listarUsuarios.php?su=1&sinfo=0");
             echo "null2";
         }
-
-        echo "<br>";
-        echo "<br>";
-        var_dump($resultado2);
-
-        echo "<br>";
-        echo "<br>";
     }
     if ($resultado1 !== null) {
         //header("location: listarUsuarios.php?su=1&sinfo=0");
         echo " nonull1";
     }
 
-    var_dump($resultado1);
     //header("location: listarUsuarios.php?su=0&sinfo=0");
 } else {
-    var_dump($_POST);
     ?>
     <!DOCTYPE html>
     <html>
@@ -213,21 +203,20 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
     <!-- AdminLTE for demo purposes -->
     <script src="/admin/dist/js/demo.js"></script>
     <!-- jQuery -->
-    		<script src="js/jquery.js"></script>
-    		<script src="js/jquery.validate.min.js"></script>
+    		<script src="/js/jquery.js"></script>
+    		<script src="/js/jquery.validate.min.js"></script>
     	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
-    		<script src="js/create-usuario-validation.js"></script>
+    		<script src="/js/create-usuario-validation.js"></script>
     <script type="text/javascript">$('.message a').click(function(){
        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });</script>
     <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
 
     		<!-- Bootstrap JavaScript -->
-    		<script src="js/bootstrap.min.js"></script>
-    		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-     		<script src="Hello World"></script>
+    		<script src="/js/bootstrap.min.js"></script>
+
     </body>
     </html>
     <?php

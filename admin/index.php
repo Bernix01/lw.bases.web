@@ -3,6 +3,7 @@ include_once("../php/clases/colector.php");
 include_once("../php/clases/usuario.php");
 include_once("../php/clases/etiqueta.php");
 include_once("../php/clases/curso.php");
+
 session_start();
 if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
     header("location: /login.html");
@@ -114,7 +115,7 @@ $etiquetas_cantidad = $dbnum;
 
                         <div class="info-box-content">
                             <span class="info-box-text">Cursos</span>
-                            <span class="info-box-number"><?php echo $cursos_cantidad[0]; ?></span>
+                            <span class="info-box-number"><?php echo $cursos_cantidad["COUNT(*)"]; ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -127,7 +128,7 @@ $etiquetas_cantidad = $dbnum;
 
                         <div class="info-box-content">
                             <span class="info-box-text">Usuarios</span>
-                            <span class="info-box-number"><?php echo $usuarios_cantidad[0]; ?></span>
+                            <span class="info-box-number"><?php echo $usuarios_cantidad["COUNT(*)"]; ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -140,7 +141,7 @@ $etiquetas_cantidad = $dbnum;
 
                         <div class="info-box-content">
                             <span class="info-box-text">Etiquetas</span>
-                            <span class="info-box-number"><?php echo $etiquetas_cantidad[0]; ?></span>
+                            <span class="info-box-number"><?php echo $etiquetas_cantidad["COUNT(*)"]; ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -180,18 +181,17 @@ $etiquetas_cantidad = $dbnum;
                                     </thead>
                                     <tbody>
                                     <?php
-                                    while ($row = mysqli_fetch_assoc($usuarios)) {
-
+                                    foreach ($usuarios as $row) {
                                         echo "<tr>
-                    <td>" . $row["id_usuario"] . "</td>";
+                    <td>" . $row->get_id_usuario() . "</td>";
                                         echo "
-                      <td>" . $row["nickname"] . "</td>";
+                      <td>" . $row->get_nickname() . "</td>";
                                         echo "
-                        <td>" . $row["email"] . "</td>";
+                        <td>" . $row->get_email() . "</td>";
                                         echo "
-                          <td>" . $row["last_login"] . "</td>";
+                          <td>" . $row->get_last_login() . "</td>";
                                         echo "
-                            <td style='text-align: center;'>" . $row["rol"] . "</td>
+                            <td style='text-align: center;'>" . $row->get_rol() . "</td>
                   </tr>";
                                     } ?>
                                     </tbody>
@@ -237,12 +237,11 @@ $etiquetas_cantidad = $dbnum;
                                     </thead>
                                     <tbody>
                                     <?php
-                                    while ($row = mysqli_fetch_assoc($etiquetas)) {
-
+                                    foreach ($etiquetas as $row){
                                         echo "<tr>
-                <td>" . $row["id_etiqueta"] . "</td>";
+                <td>" . $row->get_id_etiqueta() . "</td>";
                                         echo "
-                  <td>" . $row["nombre"] . "</td>
+                  <td>" . $row->get_nombre() . "</td>
 
               </tr>";
                                     } ?>
@@ -276,14 +275,14 @@ $etiquetas_cantidad = $dbnum;
                         <div class="box-body">
                             <ul class="products-list product-list-in-box">
                                 <?php
-                                while ($row = mysqli_fetch_assoc($curso)) {
+                                foreach ($curso as $row){
                                     echo "<li class=\"item\">
                   <div class=\"product-img\">
-                    <img src=\"dist/img/default-50x50.gif\" alt=" . $row["nombre"] . ">
+                    <img src=\"dist/img/default-50x50.gif\" alt=" . $row->getNombre() . ">
                   </div>
                   <div class=\"product-info\">
-                    <a href=\"javascript:void(0)\" class=\"product-title\">" . $row["nombre"] . "
-                      <span class=\"label label-warning pull-right\">" . $row["costo"] . "</span></a>
+                    <a href=\"javascript:void(0)\" class=\"product-title\">" . $row->getNombre() . "
+                      <span class=\"label label-warning pull-right\">" . $row->getCosto() . "</span></a>
                         <span class=\"product-description\">
 
                         </span>
