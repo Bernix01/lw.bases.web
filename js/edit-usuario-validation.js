@@ -3,7 +3,7 @@
 $(function() {
   // Initialize form validation on the registration form.
   // It has the name attribute "registration"
-  $("form[name='create-usuario-form']").validate({
+  $("form[name='edit-usuario-form']").validate({
     // Specify validation rules
     rules: {
       // The key name on the left side is the name attribute
@@ -16,13 +16,13 @@ $(function() {
       },
       apellidos:{
         required:true,
-        lettersonly:true,
+        lettersonly:true
         maxlength: 46
       },
-      cedula: {required:true, minlength:10, maxlength:13, digits:true},
-      password: {required:true, minlength: 5, maxlength: 15},
+      contrasenia: {required:true, minlength: 5, maxlength: 15},
       email: {required: true, email:true},
       nickname:{required:true, maxlength: 16, nowhitespace:true}
+
         },
     // Specify validation error messages
     messages: {
@@ -36,13 +36,7 @@ $(function() {
         lettersonly:"Sus apellidos no deben contener números",
         maxlength: "Sus apellidos no deben de exceder un máximo de 46 caracteres"
       },
-      cedula:{
-        required:"Por favor, ingrese su número de cédula o RUC",
-        digits: "Ingrese un número de cédula o RUC válido",
-        minlength: "Ingrese un número de cédula o RUC válido",
-        maxlength: "Su número de cédula o RUC debe tener máximo 13 caracteres"
-      },
-      password: {
+      contrasenia: {
         required: "Por favor, ingrese una contraseña",
         minlength: "Su contraseña debe tener mínimo 5 caracteres",
         maxlength: "Su contraseña debe tener máximo 15 caracteres"

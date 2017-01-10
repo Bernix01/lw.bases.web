@@ -27,9 +27,10 @@ class InfoUsuarioColector{
 		return null;
     }
 
-    public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line)
+    public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$tag_line=null)
     {
-      $query="UPDATE info_usuario SET nombres=\"$nombres\", apellidos=\"$apellidos\", numero_cursos=$numero_cursos, tag_line=\"$tag_line\" WHERE id_usuario=\"$id_usuario\"";
+      $query="UPDATE info_usuario SET nombres=\"$nombres\", apellidos=\"$apellidos\", tag_line=". ($tag_line ? "\"$tag_line\"":"null")." WHERE id_usuario=\"$id_usuario\"";
+      echo $query;
       $result=$this->worker->execQuery($query);
       return $result!==null;
     }

@@ -4,28 +4,44 @@ include_once("../php/clases/usuarioColector.php");
 include_once("../php/clases/infoUsuarioColector.php");
 $usuarioColector = new UsuarioColector();
 $infoColector = new InfoUsuarioColector();
-if (isset($_SESSION["rol"]) && $_SESSION["rol"] === 2 && isset($_POST["ius"]) && isset($_POST["nickname"]) && isset($_POST["constrasenia"]) && isset($_POST["email"]) && isset($_POST["rol"])) {
-var_dump($_POST);
-    $id = $_POST["ius"];
-    $nickname = $_POST["nickname"];
-    $contrasenia = $_POST["constrasenia"];
-    $email = $_POST["email"];
-    $rol = $_POST["rol"];
+if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && isset($_POST["nickname"]) && isset($_POST["contrasenia"]) && isset($_POST["email"]) && isset($_POST["rol"]) && isset($_POST["nombres"]) && isset($_POST["apellidos"])) {
 
-    $id = stripslashes($id);
-    if ($usuarioColector->updateUsuario($id, $nickname, $contrasenia, $email, $rol)) {
+
+      $id = $_POST["ius"];
+      $id = stripslashes($id);
+      $nickname = $_POST["nickname"];
+      $contrasenia = $_POST["contrasenia"];
+      $email = $_POST["email"];
+      $rol = $_POST["rol"];
+      $nombres=$_POST["nombres"];
+      $apellidos=$_POST["apellidos"];
+      $tag_line=null;
+      $result1=$usuarioColector->updateUsuario($id,$nickname,$contrasenia,$email,$rol);
+      $result2= $infoColector->updateInfoUsuario($id,$nombres,$apellidos,$tag_line);
+
+      if ($result1 && $result2) {
         ?>
         <script type="text/javascript">
             alert("Usuario editado con éxito");
         </script>
         <?php
-        //header("location: /admin/editarUsuario.php?us=".$_POST["ius"]);
+        header("location: /admin/editarUsuario.php?us=".$_POST["ius"]);
     }
-} elseif (isset($_GET['ius']) && isset($_SESSION["rol"]) && $_SESSION["rol"] === 2) {
+    else{
+      ?>
+      <script type="text/javascript">
+          alert("No se pudo editar al usuario");
+      </script>
+      <?php
+      header("location: /admin/editarUsuario.php?us=".$_POST["ius"]);
+
+    }
+} elseif (isset($_GET['ius']) && !isset($_POST["ius"]) && isset($_SESSION["rol"]) && $_SESSION["rol"] == 2) {
+
     $usuario = $usuarioColector->getUserById($_GET["ius"]);
     $iusuario = $infoColector->getInfoUsuarioById($_GET["ius"]);
     ?>
-    }
+
     <!DOCTYPE html>
     <html>
     <head>
@@ -90,7 +106,7 @@ var_dump($_POST);
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form" method="post">
+                            <form role="form" method="post" name="edit-usuario-form" >
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="nombres">Nombres</label>
@@ -106,7 +122,7 @@ var_dump($_POST);
                                     </div>
                                     <div class="form-group">
                                         <label for="nickname">Nickname</label>
-                                        <input type="text" class="form-control" id="nickname"
+                                        <input type="text" class="form-control" name="nickname" id="nickname"
                                                value="<?php echo $usuario->get_nickname(); ?>" placeholder="Nickname">
                                     </div>
                                     <div class="form-group">
@@ -358,6 +374,13 @@ var_dump($_POST);
 
     </div>
     <!-- ./wrapper -->
+  <!--  <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
+    <script src="../js/edit-course-validation.js"></script>
+  -->
 
     <!-- jQuery 2.2.3 -->
     <script src="/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -387,5 +410,6 @@ var_dump($_POST);
     <?php
 } else {
     header("location: listarUsuarios.php");
+    exit();
 }
 ?>

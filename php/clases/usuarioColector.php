@@ -43,19 +43,15 @@ class usuarioColector
     public function deleteUsuario($id_usuario)
     {
         $query = "DELETE FROM usuario WHERE usuario.id_usuario=$id_usuario";
-        $result = $this->worker->query($query);
-        if ($result !== null) {
-            return true;
-        } else {
-            return false;
-        }
+        $result = $this->worker->execQuery($query);
+        return $result;
     }
 
     public function updateUsuario($id, $nickname, $contrasenia, $email, $rol)
     {
-        $query = "UPDATE usuario SET nickname=$nickname, contrasenia=$contrasenia, rol=$rol, email=$email WHERE id_usuario=\"$id\"";
-        $result = $this->worker->query($query);
-        return $result !== null;
+        $query = "UPDATE usuario SET nickname=\"$nickname\", contrasenia=\"$contrasenia\", rol=$rol, email=\"$email\" WHERE id_usuario=\"$id\"";
+        $result = $this->worker->execQuery($query);
+        return $result;
     }
 
     public function addUsuario($id, $nickname, $contrasenia, $email, $rol)
@@ -65,7 +61,6 @@ class usuarioColector
         echo $query;
         if ($result !== null) {
             $usuario = $this->getUserById($id);
-            var_dump($usuario);
             return $usuario->get_nickname() == $nickname ? $usuario : null;
         }
         return null;

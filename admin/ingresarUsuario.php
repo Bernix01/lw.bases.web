@@ -11,7 +11,7 @@ if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
     die();
 }
 
-echo "<br>";
+
 if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['cedula']) && isset($_POST['rol'])) {
     $usuario = new Usuario($_POST['cedula'], $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
     $resultado1 = $usuario_colector->addUsuario($usuario->get_id_usuario(),$usuario->get_nickname(), $usuario->get_contrasenia(), $usuario->get_email(), $usuario->get_rol());     //inserto el usuario
@@ -198,21 +198,6 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
     <script src="/admin/dist/js/pages/dashboard2.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/admin/dist/js/demo.js"></script>
-    <!-- jQuery -->
-    		<script src="/js/jquery.js"></script>
-    		<script src="/js/jquery.validate.min.js"></script>
-    	<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
-    		<script src="/js/create-usuario-validation.js"></script>
-    <script type="text/javascript">$('.message a').click(function(){
-       $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-    });</script>
-    <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-
-    		<!-- Bootstrap JavaScript -->
-    		<script src="/js/bootstrap.min.js"></script>
-
     </body>
     </html>
     <?php
