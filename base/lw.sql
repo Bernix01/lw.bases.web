@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Jan 09, 2017 at 12:30 AM
+-- Generation Time: Jan 10, 2017 at 02:59 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -274,10 +274,17 @@ INSERT INTO `info_curso` (`id_curso`, `descripcion`, `cupo_min`, `cupo_max`, `cu
 CREATE TABLE `info_usuario` (
   `id_usuario` varchar(13) COLLATE latin1_spanish_ci NOT NULL,
   `nombres` varchar(46) COLLATE latin1_spanish_ci NOT NULL,
-  `apellidos` int(46) NOT NULL,
+  `apellidos` varchar(46) COLLATE latin1_spanish_ci NOT NULL,
   `numero_cursos` int(11) DEFAULT NULL,
   `tag_line` varchar(255) COLLATE latin1_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `info_usuario`
+--
+
+INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos`, `tag_line`) VALUES
+('0923511547', 'Guillermo', 'Bernalasdasd', 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -288,8 +295,8 @@ CREATE TABLE `info_usuario` (
 CREATE TABLE `pago` (
   `id_factura` int(32) NOT NULL,
   `id_pago` int(11) NOT NULL,
-  `n_tarjeta` int(16) NOT NULL,
-  `n_deposito` int(16) NOT NULL,
+  `n_tarjeta` int(16) NOT NULL DEFAULT '-1',
+  `n_deposito` int(16) NOT NULL DEFAULT '-1',
   `forma_pago` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
@@ -313,7 +320,8 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nickname`, `contrasenia`, `email`, `last_login`, `rol`) VALUES
-('1604031238999', 'dui.', 'POO48HMU6HJ', 'adipiscing.lacus@risusDonec.net', '2017-02-02 08:24:33', 0),
+('0923511547', 'bernix01', '12345', 'adfsad@asdfassssdf.com', '0000-00-00 00:00:00', 1),
+('1604031238999', 'dui.', 'POO48HMU6HJ', 'adfsad@asdfasdf.com', '2017-02-02 08:24:33', 0),
 ('1604070162099', 'dignissim.', 'JWM51QWJ1XN', 'tempor.est.ac@gravidasagittisDuis.com', '2016-02-07 23:40:47', 1),
 ('1604110664599', 'natoque', 'PIH93DMX1ER', 'nulla@Intincidunt.net', '2016-10-25 20:33:21', 1),
 ('1606110798099', 'rhoncus.', 'KHC67OJD6IC', 'amet@viverraMaecenas.co.uk', '2017-09-06 15:19:24', 1),
