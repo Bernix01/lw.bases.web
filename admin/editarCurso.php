@@ -41,8 +41,9 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
             header("location: listarCursos.php");
         }
     }
-} else {
-
+} elseif(isset($_GET["id_curso"]) && !isset($_POST["id_curso"])&& isset($_SESSION["rol"]) && $_SESSION["rol"] == 2) {
+    $curso=$curso_colector->getCursoById($_GET["id_curso"]);
+    $info= $info_colector->getInfocursoById($_GET["id_curso"]);
 
     ?>
     <!DOCTYPE html>
@@ -122,13 +123,13 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                     <div class="form-group">
 
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" name="nombre" placeholder="nombre" class="form-control"
+                                        <input type="text" name="nombre" value="<?php echo $curso->getNombre();?>" placeholder="nombre" class="form-control"
                                                required="required"/>
                                     </div>
                                     <div class="form-group">
 
                                         <label for="exampleInputEmail1">cupo mínimo</label>
-                                        <input type="number" name="cupo_min" class="form-control"
+                                        <input type="number" name="cupo_min" value="<?php echo $info->get_cupo_min();?>" class="form-control"
                                                placeholder="cupo mínimo"
                                                required="required"
                                                pattern="-?[0-9]*(\.[0-9]+)?" min="1" max="99"/>
@@ -136,7 +137,7 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">cupo máximo</label>
 
-                                        <input type="number" name="cupo_max" class="form-control"
+                                        <input type="number" name="cupo_max" value="<?php echo $info->get_cupo_max();?>" class="form-control"
                                                placeholder="cupo máximo"
                                                required="required"
                                                pattern="-?[0-9]*(\.[0-9]+)?" min="1" max="99"/>
@@ -145,13 +146,13 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                     <div class="form-group">
 
                                         <label for="exampleInputEmail1">costo</label>
-                                        <input type="text" name="costo" class="form-control" placeholder="costo"
+                                        <input type="text" name="costo" class="form-control" value="<?php echo $curso->getCosto();?>" placeholder="costo"
                                                maxlength="6"
                                                required="required"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">descripcion</label>
-                                        <input type="text" name="descripcion" class="form-control"
+                                        <input type="text" name="descripcion" value="<?php echo $info->get_descripcion();?>" class="form-control"
                                                placeholder="Descripción del curso">
                                     </div>
 

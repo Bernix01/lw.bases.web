@@ -4,8 +4,10 @@ include_once("../php/clases/usuarioColector.php");
   if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
+  $col= new Colector();
+  $result= $col->execQueryArray("Select * from usuario LEFT JOIN info_usuario USING (id_usuario) ");
   $colector= new usuarioColector();
-  $result = $colector->getAll();
+  //$result = $colector->getAll();
   if(!$result)
       die("couldn't keep up!");
 ?>
@@ -85,6 +87,8 @@ include_once("../php/clases/usuarioColector.php");
                 <tr>
                   <th>ID</th>
                   <th>Nickname</th>
+                  <th>Nombre</th>
+                  <th>Apellidos</th>
                   <th>Email</th>
                   <th>Last_login</th>
                   <th>Rol</th>
@@ -95,28 +99,33 @@ include_once("../php/clases/usuarioColector.php");
                   <?php
 
                     foreach($result as $usuario){
+                      
                       $spanclass="";
-                      if($usuario->get_rol()===0){
+                      if($usuario->rol===0){
                         $spanclass="label label-success";
                       }
-                      if($usuario->get_rol()===1){
+                      if($usuario->rol===1){
                         $spanclass="label label-warning";
                       }
-                      if($usuario->get_rol()===2){
+                      if($usuario->rol===2){
                         $spanclass="label label-primary";
                       }
                       echo "<tr>
-                        <td>" . $usuario->get_id_usuario() . "</td>";
+                        <td>" . $usuario->id_usuario . "</td>";
                                             echo "
-                          <td>" . $usuario->get_nickname() . "</td>";
+                          <td>" . $usuario->nickname . "</td>";
+                          echo "
+                          <td>" . $usuario->nombres . "</td>";
+                          echo "
+                          <td>" . $usuario->apellidos . "</td>";
                                             echo "
-                            <td>" . $usuario->get_email() . "</td>";
+                            <td>" . $usuario->email . "</td>";
                                             echo "
-                              <td>" . $usuario->get_last_login() . "</td>";
+                              <td>" . $usuario->last_login . "</td>";
                                             echo "
-                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuario->get_rol() . "</span></td>";
-                      echo "<td><a href='editarUsuario.php?ius=".$usuario->get_id_usuario()."'>Editar</a></td>";
-                      echo "<td><a href='eliminarUsuario.php?ius=".$usuario->get_id_usuario()."'>Eliminar </a></td> </tr>";
+                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuario->rol . "</span></td>";
+                      echo "<td><a href='editarUsuario.php?ius=".$usuario->id_usuario."'>Editar</a></td>";
+                      echo "<td><a href='eliminarUsuario.php?ius=".$usuario->id_usuario."'>Eliminar </a></td> </tr>";
                     }
                 ?>
 

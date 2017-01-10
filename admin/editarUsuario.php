@@ -374,13 +374,13 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
 
     </div>
     <!-- ./wrapper -->
-  <!--  <script src="../js/jquery.js"></script>
+  <script src="../js/jquery.js"></script>
     <script src="../js/jquery.validate.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
     <script src="../js/edit-course-validation.js"></script>
-  -->
+  
 
     <!-- jQuery 2.2.3 -->
     <script src="/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
