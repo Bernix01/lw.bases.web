@@ -17,19 +17,18 @@ if ($usuario_colector === null) {
 }
 var_dump($_POST);
 echo "<br>";
-if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['rol'])) {
-    $usuario = new Usuario(null, $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
-    $resultado1 = $usuario_colector->addUsuario($usuario->get_nickname(), $usuario->get_contrasenia(), $usuario->get_email(), $usuario->get_rol());     //inserto el usuario
-
+if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['cedula']) && isset($_POST['rol'])) {
+    $usuario = new Usuario($_POST['cedula'], $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
+    $resultado1 = $usuario_colector->addUsuario($usuario->get_id_usuario(),$usuario->get_nickname(), $usuario->get_contrasenia(), $usuario->get_email(), $usuario->get_rol());     //inserto el usuario
     if (isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST["tagline"]) && $resultado1 != null) {
         //obtener el último id en la tabla de usuario, y agregarlo al campo id_usuario de info_usuario
-        $info_usuario = new Info_usuario($_POST["nombres"], $_POST["apellidos"], $_POST["tagline"]);
+        $info_usuario = new Info_usuario($resultado1->get_id_usuario, $_POST["nombres"], $_POST["apellidos"],0, $_POST["tagline"]);
+        var_dump($info_usuario);
         $resultado2 = $info_usuariocolector->addInfoUsuario($resultado1->get_id_usuario(), $info_usuario->get_nombres(), $info_usuario->get_apellidos(), 0, $info_usuario->get_tag_line());      //inserto la información de ese usuario
         if ($resultado2) {
-            //header("location: listarUsuarios.php?su=1&sinfo=1");
-            echo "nonull2";
+            header("location: listarUsuarios.php?su=1&sinfo=1");
         } else {
-           // header("location: listarUsuarios.php?su=1&sinfo=0");
+            //header("location: listarUsuarios.php?su=1&sinfo=0");
             echo "null2";
         }
 
@@ -116,8 +115,13 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                             <form role="form" method="post" name="create-usuario">
                                 <div class="box-body">
                                     <div class="form-group">
+                                        <label for="cedula">Cédula</label>
+                                        <input type="text" class="form-control" name="cedula" id="cedula"
+                                               placeholder="Ingresar cédula">
+                                    </div>
+                                    <div class="form-group">
                                         <label for="nombres">Nombres</label>
-                                        <input type="name" class="form-control" name="nombres" id="nombres"
+                                        <input type="text" class="form-control" name="nombres" id="nombres"
                                                placeholder="Ingresar nombres">
                                     </div>
                                     <div class="form-group">
@@ -127,7 +131,8 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                     </div>
                                     <div class="form-group">
                                         <label for="nickname">Nickname</label>
-                                        <input type="text" class="form-control" name="nickname" id="nickname" placeholder="Nickname">
+                                        <input type="text" class="form-control" name="nickname" id="nickname"
+                                               placeholder="Nickname">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">E-mail</label>
@@ -137,7 +142,7 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                     <div class="form-group">
                                         <label for="email">Tagline</label>
                                         <textarea maxlength="140" name="tagline" class="form-control" id="tagline"
-                                               placeholder="Una breve descripción."></textarea>
+                                                  placeholder="Una breve descripción."></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="contrasenia">Contraseña</label>

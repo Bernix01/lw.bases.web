@@ -1,5 +1,8 @@
 <?php
 include_once("../php/clases/colector.php");
+include_once("../php/clases/usuario.php");
+include_once("../php/clases/etiqueta.php");
+include_once("../php/clases/curso.php");
 session_start();
 if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
     header("location: /login.html");
@@ -11,17 +14,17 @@ if ($colector === null) {
     die('Could not connect to database');
 }
 
-$usuarios = $colector->listar("usuario");
+$usuarios = $colector->read("usuario",Usuario::class);
 if (!$usuarios) {
     die('Invalid query:');
 }
 
-$etiquetas = $colector->listar("etiqueta");
+$etiquetas = $colector->read("etiqueta",Etiqueta::class);
 if (!$etiquetas) {
     die("Invalid query: ");
 }
 
-$curso = $colector->listar("curso");
+$curso = $colector->read("curso",Curso::class);
 if (!$curso) {
     die('Invalid query:');
 }
@@ -30,26 +33,23 @@ $dbnum = $colector->contar("usuario");
 if (!$dbnum) {
     die('Invalid query:');
 }
-$usuarios_cantidad = mysqli_fetch_array($dbnum);
+$usuarios_cantidad = $dbnum;
 
-mysqli_free_result($dbnum);
 
 $dbnum = $colector->contar("curso");
 if (!$dbnum) {
     die('Invalid query:');
 }
 
-$cursos_cantidad = mysqli_fetch_array($dbnum);
+$cursos_cantidad = $dbnum;
 
 $dbnum = $colector->contar("etiqueta");
 if (!$dbnum) {
     die("Invalid query");
 }
-$etiquetas_cantidad = mysqli_fetch_array($dbnum);
+$etiquetas_cantidad = $dbnum;
 
-mysqli_free_result($dbnum);
 
-$colector->close_connection();
 
 ?>
 

@@ -5,7 +5,7 @@ include_once("../php/clases/colector.php");
     header("location: /");
   }
   $colector= new Colector();
-  $result = $colector->listar("emprendimiento");
+  $result = $colector->read("emprendimiento");
 ?>
 <!DOCTYPE html>
 <html>

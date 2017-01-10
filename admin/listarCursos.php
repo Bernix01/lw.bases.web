@@ -5,7 +5,7 @@ include_once("../php/clases/colector.php");
     header("location: /");
   }
   $colector= new Colector();
-  $result = $colector->listar("curso");
+  $result = $colector->read("curso");
 ?>
 <!DOCTYPE html>
 <html>

@@ -22,7 +22,8 @@ class InfoUsuarioColector{
     public function addInfoUsuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line)
     {
 		$info=new Info_usuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line);
-		$query="INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES ($id_usuario,\"$nombres\",\"$apellidos\",$numero_cursos,\"$tag_line\")";
+		$query="INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES (\"$id_usuario\",\"$nombres\",\"$apellidos\",$numero_cursos,\"$tag_line\")";
+		echo $query;
 		$result=$this->worker->query($query);
 		if($result!==null){
 			return $this->getInfoUsuarioById($id_usuario);

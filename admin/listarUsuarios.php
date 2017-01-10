@@ -1,11 +1,13 @@
 <?php
 session_start();
-include_once("../php/clases/colector.php");
+include_once("../php/clases/usuarioColector.php");
   if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!==2){
     header("location: /");
   }
-  $colector= new Colector();
-  $result = $colector->listar("usuario");
+  $colector= new usuarioColector();
+  $result = $colector->getAll();
+  if(!$result)
+      die("couldn't keep up!");
 ?>
 <!DOCTYPE html>
 <html>
