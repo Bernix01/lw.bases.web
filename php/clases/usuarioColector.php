@@ -30,19 +30,19 @@ class usuarioColector
     public function getUserByCredentials($nickname, $contrasenia)
     {
         $query = "SELECT * FROM usuario WHERE nickname='" . $nickname . "'AND contrasenia='" . $contrasenia . "'";
-        $result = $this->worker->query($query);
-        if ($result !== NULL) {
-            $data = mysqli_fetch_assoc($result); //count(array)(?)
-            $usuario = new Usuario();
-            $usuario->set_id_usuario($data['id_usuario']);
-            $usuario->set_nickname($data['nickname']);
-            $usuario->set_contrasenia($data['contrasenia']);
-            $usuario->set_email($data['email']);
-            $usuario->set_last_login($data['last_login']);
-            $usuario->set_rol($data['rol']);
-            return $usuario;
-        }
-        return NULL;
+        $result = $this->worker->execQueryReturning($query,Usuario::class);
+        //if ($result !== NULL) {
+            //$data = mysqli_fetch_assoc($result); //count(array)(?)
+            //$usuario = new Usuario();
+          //  $usuario->set_id_usuario($data['id_usuario']);
+          //  $usuario->set_nickname($data['nickname']);
+          //  $usuario->set_contrasenia($data['contrasenia']);
+          //  $usuario->set_email($data['email']);
+          //  $usuario->set_last_login($data['last_login']);
+          //  $usuario->set_rol($data['rol']);
+            return $result;
+        //}
+        //return NULL;
     }
 
     public function deleteUsuario($id_usuario)

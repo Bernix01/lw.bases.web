@@ -26,6 +26,18 @@ class Colector
             return false;
         }
     }
+    public function execQueryArray($query, $class = 'stdClass')
+    {
+        try {
+            $stmt = $this->con->prepare($query);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_CLASS, $class);
+            return $result;
+        } catch (PDOException $e) {
+            echo $e->getMessage();
+            return false;
+        }
+    }
 
     public function contar($table)
     {
@@ -70,12 +82,12 @@ class Colector
         }
     }
 
-    public function execQueryReturning($query, $class)
+    public function execQueryReturning($query, $class='stdClass')
     {
         try {
             $stmt = $this->con->prepare($query);
             $stmt->execute();
-            return $stmt->fetchObject($class);;
+            return $stmt->fetchObject($class);
         } catch (PDOException $e) {
             echo $e->getMessage();
             return false;

@@ -9,7 +9,7 @@ $colector= new Colector();
        //die('Could not connect: ' . mysql_error());
 }*/
 $query='SELECT * from curso, info_curso where curso.id_curso = info_curso.id_curso';
-$curso=$colector->query($query);
+$curso=$colector->execQueryArray($query);
 if(!$curso){
     die('Invalid query:');
 }
@@ -39,16 +39,16 @@ if(!$curso){
 		<div class="container">
 			<div class="row">
 
-          <?php while($row=mysqli_fetch_assoc($curso)) {
+          <?php foreach($curso as $row) {
           echo "<div class=\"col-sm-2 col-md-4 col-lg-4\"><div class=\"curso\">
-					<h3>".$row["nombre"]."</h3>
+					<h3>".$row->nombre."</h3>
 					<span class=\"pull-right\">
-					<span class=\"label label-info\">$".$row["costo"]."</span>
-					<span class=\"label label-success\"><i class=\"fa fa-person\"></i> ".$row["cupos_disponibles"]."/".$row["cupo_max"]."</span></span>
+					<span class=\"label label-info\">$".$row->costo."</span>
+					<span class=\"label label-success\"><i class=\"fa fa-person\"></i> ".$row->cupos_disponibles."/".$row->cupo_max."</span></span>
 					<br>
 					<hr>
-					<p>".$row["descripcion"]."</p>
-					<a href=\"carrito.php?add=".$row["id_curso"]."\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
+					<p>".$row->descripcion."</p>
+					<a href=\"carrito.php?add=".$row->id_curso."\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
 
 				</div></div>";
       }
