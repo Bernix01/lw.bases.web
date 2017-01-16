@@ -60,7 +60,7 @@ class usuarioColector
         $query = "INSERT into usuario(id_usuario,nickname, contrasenia, email, rol) values(\"$id\",\"$nickname\", \"$contrasenia\", \"$email\", $rol)";
         $result = $this->worker->execQuery($query);
         echo $query;
-        if ($result !== null) {
+        if ($result ) {
             $usuario = $this->getUserById($id);
             return $usuario->get_nickname() == $nickname ? $usuario : null;
         }

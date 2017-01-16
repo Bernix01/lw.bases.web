@@ -15,9 +15,9 @@ if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
 if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['cedula']) && isset($_POST['rol'])) {
     $usuario = new Usuario($_POST['cedula'], $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
     $resultado1 = $usuario_colector->addUsuario($usuario->get_id_usuario(),$usuario->get_nickname(), $usuario->get_contrasenia(), $usuario->get_email(), $usuario->get_rol());     //inserto el usuario
-    if (isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST["tagline"]) && $resultado1 != null) {
+    if (isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST["tag_line"]) && $resultado1 != null) {
         //obtener el último id en la tabla de usuario, y agregarlo al campo id_usuario de info_usuario
-        $info_usuario = new Info_usuario($resultado1->get_id_usuario(), $_POST["nombres"], $_POST["apellidos"],0, $_POST["tagline"]);
+        $info_usuario = new Info_usuario($resultado1->get_id_usuario(), $_POST["nombres"], $_POST["apellidos"],0, $_POST["tag_line"]);
         var_dump($info_usuario);
         $resultado2 = $info_usuariocolector->addInfoUsuario($resultado1->get_id_usuario(), $info_usuario->get_nombres(), $info_usuario->get_apellidos(), 0, $info_usuario->get_tag_line());      //inserto la información de ese usuario
         if ($resultado2) {
@@ -98,7 +98,7 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form" method="post" name="create-usuario">
+                            <form role="form" method="post" name="create-usuario" id="live_form">
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="cedula">Cédula</label>
@@ -137,11 +137,17 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                     </div>
                                     <div class="form-group">
                                         <label for="rol">Rol</label>
-                                        <select name="rol" id="rol" class="form-control">
+                                        <select name="rol" id="listarol" class="form-control" onChange="desplegar_tag(this.value)">
                                             <option value="0">Usuario</option>
                                             <option value="1">Profesor</option>
                                             <option value="2">Administrador</option>
                                         </select>
+                                    </div>
+                                    <div class="form-group hidden">
+                                      <label class="control-label" for="tag_line">
+                                        Perfil académico
+                                      </label>
+                                      <textarea class="form-control" id="tag_line" cols="40" maxlength="255" id="tag_line" name="tag_line"  rows="10"></textarea>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->
@@ -198,6 +204,19 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
     <script src="/admin/dist/js/pages/dashboard2.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/admin/dist/js/demo.js"></script>
+    <script type="text/javascript">
+    function desplegar_tag(valor) {
+        var tag = $('#live_form textarea[name="tag_line"]').parent();
+        if(valor==1){
+          tag.removeClass("hidden");
+        }
+        else{
+          tag.addClass("hidden");
+        }
+
+    }
+
+    </script>
     </body>
     </html>
     <?php

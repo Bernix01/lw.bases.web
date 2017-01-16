@@ -15,7 +15,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
       $rol = $_POST["rol"];
       $nombres=$_POST["nombres"];
       $apellidos=$_POST["apellidos"];
-      $tag_line=null;
+      $tag_line=$_POST["tag_line"];
       $result1=$usuarioColector->updateUsuario($id,$nickname,$contrasenia,$email,$rol);
       if($infoColector->getInfoUsuarioById($_GET["ius"])!=null){
         $result2= $infoColector->updateInfoUsuario($id,$nombres,$apellidos,$tag_line);
@@ -110,7 +110,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Editar usuario
-                                    <strong><?php echo $usuario->get_nickname(); ?></strong></h3>
+                                    <strong><?php echo $usuario->get_nickname(); ?></strongssss></h3>
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
@@ -147,7 +147,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                                     <div class="form-group">
                                         <label for="rol">Rol</label>
 
-                                        <select name="rol" id="listarol" class="form-control">
+                                        <select name="rol" id="listarol" class="form-control" onChange="desplegar_tag(this.value)">
                                             <option value="0" <?php echo $usuario->get_rol() == '0' ? "selected=\"true\"" : ""; ?>>
                                                 Usuario
                                             </option>
@@ -163,7 +163,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                                       <label class="control-label" for="tag_line">
                                         Perfil académico
                                       </label>
-                                      <textarea class="form-control" id="tag_line" cols="40" maxlength="255" id="tag_line" name="tag_line" rows="10"></textarea>
+                                      <textarea class="form-control" id="tag_line" cols="40" maxlength="255" id="tag_line" name="tag_line" value="<?php echo $iusuario->get_tag_line();?>" rows="10"></textarea>
                                     </div>
                                     <input type="hidden" name="ius" id="ius" value="<?php echo $_GET['ius']; ?>">
                                 </div>
@@ -418,16 +418,16 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
     <!-- AdminLTE for demo purposes -->
     <script src="/admin/dist/js/demo.js"></script>
     <script type="text/javascript">
-    $(document).ready(function () {
-      //$('#listarol').change(function () {
-        //var selectedText = $(this).find("option:selected").text();
-        var selectedText = $('#listarol').find(":selected").text();
-        //var tag = $('#live_form textarea[name="tag_line"]').parent();
-        if(selectedText=="Profesor"){
-          $('#tag_line').css('visibility','visible').hide().fadeIn().removeClass('hidden');
+    function desplegar_tag(valor) {
+        var tag = $('#live_form textarea[name="tag_line"]').parent();
+        if(valor==1){
+          tag.removeClass("hidden");
         }
-      //});
-    });
+        else{
+          tag.addClass("hidden");
+        }
+
+    }
 
     </script>
     </body>
