@@ -17,14 +17,14 @@ class InfoUsuarioColector{
 
     public function addInfoUsuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line)
     {
+      if($numero_cursos==null){
+        $numero_cursos=0;
+      }
 		$info=new Info_usuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line);
 		$query="INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES (\"$id_usuario\",\"$nombres\",\"$apellidos\",$numero_cursos,\"$tag_line\")";
 		echo $query;
 		$result=$this->worker->execQuery($query);
-		if($result!==null){
-			return $this->getInfoUsuarioById($id_usuario);
-		}
-		return null;
+		return $result;
     }
 
     public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$tag_line=null)
@@ -32,7 +32,7 @@ class InfoUsuarioColector{
       $query="UPDATE info_usuario SET nombres=\"$nombres\", apellidos=\"$apellidos\", tag_line=". ($tag_line ? "\"$tag_line\"":"null")." WHERE id_usuario=\"$id_usuario\"";
       echo $query;
       $result=$this->worker->execQuery($query);
-      return $result!==null;
+      return $result;
     }
     public function deleteInfoUsuario($id){
       $query="DELETE FROM info_usuario WHERE id_usuario=$id";

@@ -17,8 +17,12 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
       $apellidos=$_POST["apellidos"];
       $tag_line=null;
       $result1=$usuarioColector->updateUsuario($id,$nickname,$contrasenia,$email,$rol);
-      $result2= $infoColector->updateInfoUsuario($id,$nombres,$apellidos,$tag_line);
-
+      if($infoColector->getInfoUsuarioById($_GET["ius"])!=null){
+        $result2= $infoColector->updateInfoUsuario($id,$nombres,$apellidos,$tag_line);
+      }
+      else{
+        $result2=$infoColector->addInfoUsuario($id,$nombres,$apellidos,null,$tag_line);
+      }
       if ($result1 && $result2) {
         ?>
         <script type="text/javascript">
@@ -40,6 +44,10 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
 
     $usuario = $usuarioColector->getUserById($_GET["ius"]);
     $iusuario = $infoColector->getInfoUsuarioById($_GET["ius"]);
+    if(!$iusuario){
+      $iusuario= new Info_usuario();
+    }
+
     ?>
 
     <!DOCTYPE html>
@@ -106,7 +114,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form role="form" method="post" name="edit-usuario-form" >
+                            <form role="form" method="post" name="edit-usuario-form" id="live_form" >
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="nombres">Nombres</label>
@@ -127,8 +135,8 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                                     </div>
                                     <div class="form-group">
                                         <label for="email">E-mail</label>
-                                        <input type="email" name="email" class="form-control"
-                                               id="<?php echo $usuario->get_email(); ?>" placeholder="email">
+                                        <input type="email" name="email" class="form-control" id="email"
+                                               value="<?php echo $usuario->get_email(); ?>" placeholder="email">
                                     </div>
                                     <div class="form-group">
                                         <label for="contrasenia">Contraseña</label>
@@ -139,7 +147,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                                     <div class="form-group">
                                         <label for="rol">Rol</label>
 
-                                        <select name="rol" id="rol" class="form-control">
+                                        <select name="rol" id="listarol" class="form-control">
                                             <option value="0" <?php echo $usuario->get_rol() == '0' ? "selected=\"true\"" : ""; ?>>
                                                 Usuario
                                             </option>
@@ -150,6 +158,12 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
                                                 Administrador
                                             </option>
                                         </select>
+                                    </div>
+                                    <div class="form-group hidden">
+                                      <label class="control-label" for="tag_line">
+                                        Perfil académico
+                                      </label>
+                                      <textarea class="form-control" id="tag_line" cols="40" maxlength="255" id="tag_line" name="tag_line" rows="10"></textarea>
                                     </div>
                                     <input type="hidden" name="ius" id="ius" value="<?php echo $_GET['ius']; ?>">
                                 </div>
@@ -380,7 +394,7 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
     <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
     <script src="../js/edit-course-validation.js"></script>
-  
+
 
     <!-- jQuery 2.2.3 -->
     <script src="/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -403,6 +417,19 @@ if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["ius"]) && 
     <script src="/admin/dist/js/pages/dashboard2.js"></script>
     <!-- AdminLTE for demo purposes -->
     <script src="/admin/dist/js/demo.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+      //$('#listarol').change(function () {
+        //var selectedText = $(this).find("option:selected").text();
+        var selectedText = $('#listarol').find(":selected").text();
+        //var tag = $('#live_form textarea[name="tag_line"]').parent();
+        if(selectedText=="Profesor"){
+          $('#tag_line').css('visibility','visible').hide().fadeIn().removeClass('hidden');
+        }
+      //});
+    });
+
+    </script>
     </body>
     </html>
 

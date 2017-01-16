@@ -12,7 +12,7 @@ $colector= new Colector();
 $busqueda=$_POST['busqueda'];
 $busqueda=stripslashes($busqueda);
 $busqueda="%$busqueda%";
-$query="SELECT curso.nombre as nombre, curso.id_curso as idcurso, info_curso.descripcion as descripcion,curso.costo as costo, info_curso.cupo_max as cupo_max, info_curso.cupos_disponibles as disponibles from curso, info_curso where curso.id_curso= info_curso.id_curso and (info_curso.descripcion like '$busqueda' or curso.nombre like '$busqueda')";
+$query="SELECT curso.nombre as nombre, curso.id_curso as idcurso, info_curso.descripcion as descripcion,curso.costo as costo, info_curso.cupo_max as cupo_max, info_curso.cupos_disponibles as disponibles from curso, info_curso where curso.id_curso= info_curso.id_curso and curso.nombre like '$busqueda')";
 $curso=$colector->execQueryArray($query);
 if(!$curso){
     die('Invalid query:');

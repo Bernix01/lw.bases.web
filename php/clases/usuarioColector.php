@@ -50,6 +50,7 @@ class usuarioColector
     public function updateUsuario($id, $nickname, $contrasenia, $email, $rol)
     {
         $query = "UPDATE usuario SET nickname=\"$nickname\", contrasenia=\"$contrasenia\", rol=$rol, email=\"$email\" WHERE id_usuario=\"$id\"";
+        echo $query;
         $result = $this->worker->execQuery($query);
         return $result;
     }

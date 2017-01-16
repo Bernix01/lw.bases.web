@@ -99,7 +99,7 @@ include_once("../php/clases/usuarioColector.php");
                   <?php
 
                     foreach($result as $usuario){
-                      
+
                       $spanclass="";
                       if($usuario->rol===0){
                         $spanclass="label label-success";

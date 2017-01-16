@@ -195,15 +195,7 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
 
 
                     </div>
-                    <div class="col col-sm-10 col-sm-offset-1">
-                        <form class="create-course-form" name="create-course-form">
-
-                            <!-- Imagen de un "+" para desplegar más horarios
-                            <img src="media/1481019034_add.png">      -->
-
-
-                        </form>
-                    </div>
+          
                 </div>
                 <script src="../js/jquery.js"></script>
                 <script src="../js/jquery.validate.min.js"></script>

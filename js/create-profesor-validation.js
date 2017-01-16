@@ -15,7 +15,7 @@ $(function() {
       password: {required:true, minlength: 5, maxlength: 15},
       email: {required: true, email:true},
       nickname:{required:true, maxlength: 16, nowhitespace:true},
-      tagline:{required:true, maxlength: 100}
+      tagline:{required:true, maxlength: 255}
         },
     // Specify validation error messages
     messages: {
@@ -50,7 +50,7 @@ $(function() {
       },
       tagline:{
         required:"Debe llenar este campo con su información académica",
-        maxlength:"No se debe de exceder de 100 caracteres "
+        maxlength:"No se debe de exceder de 255 caracteres "
       }
     },
     // Make sure the form is submitted to the destination defined

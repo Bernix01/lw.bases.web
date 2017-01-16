@@ -1,51 +1,47 @@
 <?php
-ini_set("display_errors", 1);
+session_start();
 include_once("../php/clases/cursoColector.php");
 include_once("../php/clases/infoCursoColector.php");
-include_once("../php/clases/horarioColector.php");
+$cursoColector = new CursoColector();
+$infoColector = new InfoCursoColector();
+if (isset($_SESSION["rol"]) && $_SESSION["rol"] == 2 && isset($_POST["idc"]) && isset($_POST["nombre"]) && isset($_POST["costo"]) && isset($_POST["descripcion"]) && isset($_POST["cupo_min"]) && isset($_POST["cupo_max"]) && isset($_POST["fecha_inicio"]) && isset($_POST["fecha_fin"])) {
 
-$curso_colector = new CursoColector();
-$info_colector = new InfocursoColector();
-$horario_colector = new HorarioColector();
-$agregado = false;
-$posted = false;
-session_start();
-if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 2) {
-    header("location: ../html/login.html");
-    die();
-}
 
-//if connection is not successful you will see text error
-if ($curso_colector == null || $info_colector == null) {
-    die('Could not connect: ');
-}
-if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripcion']) && isset($_POST['cupo_min']) && isset($_POST['cupo_max']) && isset($_POST['fecha_inicio']) && isset($_POST['fecha_fin']) && isset($_POST["horarios"])) {
+      $id = $_POST["idc"];
+      $id = stripslashes($id);
+      $nombre = $_POST["nombre"];
+      $costo = $_POST["costo"];
+      $descripcion = $_POST["descripcion"];
+      $cupo_min = $_POST["cupo_min"];
+      $cupo_max= $_POST["cupo_max"];
+      $fecha_inicio=$_POST["fecha_inicio"];
+      $fecha_fin=$_POST["fecha_fin"];
+      $result1=$cursoColector->updateCurso($id,$nombre,$costo);
+      $result2= $infoColector->updateInfoCurso($id,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin);
 
-    var_dump($_POST);
-    $curso = new Curso(null, $_POST['nombre'], $_POST['costo']);
-    $resultado = $curso_colector->addCurso($curso);
-    if ($resultado) {
-        var_dump($resultado);
-        $resultado2 = $info_colector->addInfoCurso($resultado->get_id_curso(), $_POST['descripcion'], $_POST['cupo_min'], $_POST['cupo_max'], $_POST['cupo_max'], $_POST['fecha_inicio'], $_POST['fecha_fin']);
-        if ($resultado2) {
-            var_dump($resultado2);
-            foreach ($_POST["horarios"] as $horario) {
-                $h = $horario_colector->addHorario(str_replace("T"," ",$horario["inicio"]),str_replace("T"," ",$horario["fin"]));
-                var_dump($h);
-                $b = $horario_colector->setCurso($h->get_id_horario(),$resultado);
-                if(!$b) {
-                    die("error al ingresar curso");
-                }
-            }
-
-            header("location: listarCursos.php");
-        }
+      if ($result1 && $result2) {
+        ?>
+        <script type="text/javascript">
+            alert("Curso editado con éxito");
+        </script>
+        <?php
+        header("location: /admin/editarCurso.php?us=".$_POST["idc"]);
     }
-} elseif(isset($_GET["id_curso"]) && !isset($_POST["id_curso"])&& isset($_SESSION["rol"]) && $_SESSION["rol"] == 2) {
-    $curso=$curso_colector->getCursoById($_GET["id_curso"]);
-    $info= $info_colector->getInfocursoById($_GET["id_curso"]);
+    else{
+      ?>
+      <script type="text/javascript">
+          alert("No se pudo editar el curso");
+      </script>
+      <?php
+      header("location: /admin/editarCurso.php?us=".$_POST["idc"]);
 
+    }
+} elseif (isset($_GET['idc']) && !isset($_POST["idc"]) && isset($_SESSION["rol"]) && $_SESSION["rol"] == 2) {
+
+    $curso = $cursoColector->getCursoById($_GET["idc"]);
+    $icurso = $infoColector->getInfoCursoById($_GET["idc"]);
     ?>
+
     <!DOCTYPE html>
     <html>
     <head>
@@ -81,15 +77,8 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
 
         <?php
         include('../php/paginas/menu-admin.php');
-
-        if ($posted) {
-            if ($agregado)
-                echo "<script type='text/javascript'>alert('¡Usuario agregado exitosamente!')</script>";
-            else
-                echo "<script type='text/javascript'>alert('¡No se pudo agregar el usuario!')</script>";
-        }
-
         ?>
+        <!-- Content Wrapper. Contains page content -->
         <!-- Content Wrapper. Contains page content -->
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -114,31 +103,32 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                         <!-- general form elements -->
                         <div class="box box-primary">
                             <div class="box-header with-border">
-                                <h3 class="box-title">Crear nuevo curso</h3>
+                                <h3 class="box-title">Editar curso
+                                <strong><?php echo $curso->getNombre(); ?></strong></h3>
                             </div>
                             <!-- /.box-header -->
                             <!-- form start -->
-                            <form class="create-course-form" name="create-course-form" role="form" method="post">
+                            <form class="edit-course-form" name="edit-course-form" role="form" method="post">
                                 <div class="box-body">
                                     <div class="form-group">
 
                                         <label for="nombre">Nombre</label>
-                                        <input type="text" name="nombre" value="<?php echo $curso->getNombre();?>" placeholder="nombre" class="form-control"
+                                        <input type="text" name="nombre"  value="<?php echo $curso->getNombre(); ?>" placeholder="nombre" class="form-control"
                                                required="required"/>
                                     </div>
                                     <div class="form-group">
 
                                         <label for="exampleInputEmail1">cupo mínimo</label>
-                                        <input type="number" name="cupo_min" value="<?php echo $info->get_cupo_min();?>" class="form-control"
-                                               placeholder="cupo mínimo"
+                                        <input type="number" name="cupo_min" class="form-control"
+                                               placeholder="cupo mínimo" value="<?php echo $icurso->get_cupo_min(); ?>"
                                                required="required"
                                                pattern="-?[0-9]*(\.[0-9]+)?" min="1" max="99"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">cupo máximo</label>
 
-                                        <input type="number" name="cupo_max" value="<?php echo $info->get_cupo_max();?>" class="form-control"
-                                               placeholder="cupo máximo"
+                                        <input type="number" name="cupo_max" class="form-control"
+                                               placeholder="cupo máximo" value="<?php echo $icurso->get_cupo_max(); ?>"
                                                required="required"
                                                pattern="-?[0-9]*(\.[0-9]+)?" min="1" max="99"/>
 
@@ -146,13 +136,13 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                     <div class="form-group">
 
                                         <label for="exampleInputEmail1">costo</label>
-                                        <input type="text" name="costo" class="form-control" value="<?php echo $curso->getCosto();?>" placeholder="costo"
+                                        <input type="text" name="costo" value="<?php echo $curso->getCosto();?>" class="form-control" placeholder="costo"
                                                maxlength="6"
                                                required="required"/>
                                     </div>
                                     <div class="form-group">
                                         <label for="exampleInputEmail1">descripcion</label>
-                                        <input type="text" name="descripcion" value="<?php echo $info->get_descripcion();?>" class="form-control"
+                                        <input type="text" name="descripcion" value="<?php echo $icurso->get_descripcion(); ?>" class="form-control"
                                                placeholder="Descripción del curso">
                                     </div>
 
@@ -175,12 +165,12 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                             <label>Horario inicio</label>
                                             <input class="inicio" type="datetime-local" name="horarios[0][inicio]"
                                                    value="2016-04-12T23:20"
-                                                   min="<?php echo (new DateTime())->format('Y-m-d H:i'); ?>">
+                                                   min="<?php echo (new DateTime())->format('Y-m-d H:i',$icurso->get_fecha_inicio()); ?>">
                                             <br></br>
                                             <label>Horario fin</label>
                                             <input class="fin" type="datetime-local" name="horarios[0][fin]"
                                                    value="2016-04-12T23:20"
-                                                   min="<?php echo (new DateTime())->format('Y-m-d H:i'); ?>">
+                                                   min="<?php echo (new DateTime())->format('Y-m-d H:i',$icurso->get_fecha_fin()); ?>">
                                         </div>
                                         <a href="#" onclick="agregarHorario()"> Agregar horario </a>
                                     </div>
@@ -188,7 +178,7 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                                 <!-- /.box-body -->
 
                                 <div class="box-footer">
-                                    <button type="submit" class="btn btn-info">Crear curso</button>
+                                    <button type="submit" class="btn btn-info">Editar curso</button>
                                 </div>
                             </form>
                         </div>
@@ -196,74 +186,45 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
 
 
                     </div>
-                    <div class="col col-sm-10 col-sm-offset-1">
-                        <form class="create-course-form" name="create-course-form">
 
-                            <!-- Imagen de un "+" para desplegar más horarios
-                            <img src="media/1481019034_add.png">      -->
-
-
-                        </form>
-                    </div>
                 </div>
-                <script src="../js/jquery.js"></script>
-                <script src="../js/jquery.validate.min.js"></script>
-                <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
-                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
-                <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
-                <script src="../js/create-course-validation.js"></script>
-                <script src="moment.js"></script>
-                <script>
-                    moment().format();
-                    var f_inicio = document.getElementsByName("fecha_inicio").value;
-                    var f_fin = document.getElementsByName("fecha_fin").value;
-                    if (moment(f_fin).isBefore(f_inicio)) {
-                        //La fecha de fin de curso está incorrecta
-                    }
-                    else {
-                        var inicios = document.getElementsByClassName("inicio");
-                        var fines = document.getElementsByClassName("fin");
-                        var tam = len(inicios);
-                        for (var i = 0; i < tam; i++) {
-                            if (!(moment(inicios[i]).isBetween(f_inicio, f_fin, null, '[]'))) {
-                                //la fecha inicial no está en el rango
-                            }
-                            else {
-                                if (!(moment(fines[i]).isBetween(f_inicio, f_fin, null, '[]'))) {
-                                    //la fecha final no está en el rango
-                                }
-                            }
-                        }
-                    }
-
-                </script>
-                <script type="text/javascript">
-                    var indice = 1;
-                    function agregarHorario() {
-                        $('#horario').append("<br/><br/><label>Horario inicio</label><input type=\"datetime-local\"  class=\"inicio\"name=\"horarios[" + indice + "][inicio]\" value=\"2016-04-12T23:20\" min=\"<?php echo (new DateTime())->format('Y-m-d H:i');?>\" >   <br></br> <label>Horario fin</label><input class=\"fin\" type=\"datetime-local\" name=\"horarios[" + indice + "][fin]\" value=\"2016-04-12T23:20\" min=\"<?php echo (new DateTime())->format('Y-m-d H:i');?>0\" >");
-                        indice++;
-                        var f_inicio = document.getElementsByName("fecha_inicio")[0].value;
-                        var f_fin = document.getElementsByName("fecha_fin")[0].value;
-                        console.log(f_inicio);
-                        var inicios = document.getElementsByClassName("inicio");
-                        var fines = document.getElementsByClassName("fin");
-                        var tam = inicios.length;
-                    }
-                    function validar(event) {
-                        //event.preventDefault();
+    <!-- ./wrapper -->
+  <script src="../js/jquery.js"></script>
+    <script src="../js/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+    <script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/additional-methods.min.js"></script>
+    <script src="../js/edit-course-validation.js"></script>
 
 
-                        //return false;
-                    }
-
-                    //  $(document).ready(function () {
-                    //      $("form[name='create-course-form']").on('submit',function (e) {
-                    //          if(!valid)
-                    //              return false;
-                    //          return false;
-                    //      });
-
-                </script>
+    <!-- jQuery 2.2.3 -->
+    <script src="/admin/plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- Bootstrap 3.3.6 -->
+    <script src="/admin/bootstrap/js/bootstrap.min.js"></script>
+    <!-- FastClick -->
+    <script src="/admin/plugins/fastclick/fastclick.js"></script>
+    <!-- AdminLTE App -->
+    <script src="/admin/dist/js/app.min.js"></script>
+    <!-- Sparkline -->
+    <script src="/admin/plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="/admin/plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- SlimScroll 1.3.0 -->
+    <script src="/admin/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- ChartJS 1.0.1 -->
+    <script src="/admin/plugins/chartjs/Chart.min.js"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script src="/admin/dist/js/pages/dashboard2.js"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script src="/admin/dist/js/demo.js"></script>
     </body>
     </html>
-<?php }
+
+
+    <?php
+} else {
+    header("location: listarCursos.php");
+    exit();
+}
+?>

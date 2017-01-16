@@ -127,7 +127,7 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                     </div>
                                     <div class="form-group">
                                         <label for="email">Tagline</label>
-                                        <textarea maxlength="140" name="tagline" class="form-control" id="tagline"
+                                        <textarea maxlength="255" name="tagline" class="form-control" id="tagline"
                                                   placeholder="Una breve descripción."></textarea>
                                     </div>
                                     <div class="form-group">
