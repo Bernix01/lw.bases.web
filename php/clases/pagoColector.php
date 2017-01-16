@@ -21,7 +21,7 @@ class PagoColector
         $info = new Pago(null, $forma_pago, null, $n_tarjeta, null);
         $query = "INSERT INTO pago(id_factura,forma_pago,n_tarjeta) VALUES ($id_f,$forma_pago,$n_tarjeta)";
         $result = $this->worker->execQuery($query);
-        if ($result !== null) {
+        if ($result ) {
             $id_pago = $this->worker->getLastID();
             return $this->getPagoById($id_pago);
         }
@@ -33,7 +33,7 @@ class PagoColector
         $info = new Pago(null, $forma_pago, $id_factura, null, $n_deposito);
         $query = "INSERT INTO Pago(id_factura,forma_pago,id_factura,n_deposito) VALUES ($id_f,$forma_pago,$id_factura,$n_deposito)";
         $result = $this->worker->execQuery($query);
-        if ($result !== null) {
+        if ($result) {
             return $this->getPagoById($this->worker->getLastID());
         }
         return null;
@@ -42,12 +42,8 @@ class PagoColector
     public function deletePago($id)
     {
         $query = "DELETE FROM pago WHERE id_pago=$id";
-        $result = $this->worker->query($query);
-        if ($result !== null) {
-            return true;
-        } else {
-            return false;
-        }
+        $result = $this->worker->execQuery($query);
+        return $result;
     }
 
     public function getAll()
