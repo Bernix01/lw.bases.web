@@ -20,6 +20,7 @@ class Colector
             $stmt = $this->con->prepare($queryRead);
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_CLASS, $class);
+
             return $result;
         } catch (PDOException $e) {
             echo $e->getMessage();

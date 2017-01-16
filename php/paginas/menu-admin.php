@@ -344,7 +344,7 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="/admin/listarEmprendimientos.php">
+                <a >
                     <i class="fa fa-table"></i> <span>Emprendimiento</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
@@ -357,12 +357,15 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="/admin/listarFacturas.php">
+                <a >
                     <i class="fa fa-table"></i> <span>Facturas</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
                 </a>
+                <ul class="treeview-menu">
+                <li><a href="/admin/listarFacturas.php"><i class="fa fa-circle-o"></i>Reporte de facturas</a></li>
+                </ul>
             </li>
             <li class="treeview">
                 <a href="/admin/listarPagos.php">

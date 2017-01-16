@@ -1,7 +1,7 @@
 <?php
 	class Factura{
 		private $id_factura;
-		private $nombres
+		private $nombres;
 		private $apellidos;
 		private $total;
 		private $direccion;
