@@ -13,7 +13,7 @@
   }
 
   if (isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['id_estudiante'])) {
-      $result=$emp_colector->addEmprendimiento(_POST['nombre'],$_POST['descripcion'],$_POST['id_estudiante']);
+      $result=$emp_colector->addEmprendimiento($_POST['nombre'],$_POST['descripcion'],$_POST['id_estudiante']);
       if($result!==null){
         ?>
         <script type="text/javascript">

@@ -68,10 +68,10 @@ include_once("../php/clases/facturaColector.php");
 
               <div class="box-tools">
                 <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+                  <input type="text" id="BuscarPorNombreBox" name="table_search" class="form-control pull-right" onkeyup="filtrarPorNombre();" placeholder="Buscar por nombre...">
 
                   <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                    <button type="submit" onclick="filtrarPorNombre()"class="btn btn-default"><i class="fa fa-search"></i></button>
                   </div>
                 </div>
               </div>
@@ -81,7 +81,7 @@ include_once("../php/clases/facturaColector.php");
       			</div>
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
+              <table class="table table-hover" name="tablaFacturas">
                 <tr>
                   <th>id_factura</th>
                   <th>id_estudiante</th>
@@ -373,6 +373,28 @@ include_once("../php/clases/facturaColector.php");
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script type="text/javascript">
+function filtrarPorNombre() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("buscarPorNombreBox");d
+  filter = input.value.toUpperCase();
+  table = document.getElementById("tablaFacturas");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[3];
+    td2= tr[i].getElementsByTagName("td")[4];
+    if (td || td2) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].display = "";
+      }
+      else if (td.innerHTML.toUpperCase().indexOf(filter)>-1) {
+        tr[i].display="";
+      }
+      else {
+        tr[i].display = "none";
+      }
+    }
+  }
+}
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
