@@ -1,8 +1,6 @@
 <?php
 include_once('colector.php');
-include_once('
-    public function ($id_usuario,$id_curso,$habilitadousuario.php');
-
+include_once ("usuario.php");
 class usuarioColector
 {
     private $worker = NULL;

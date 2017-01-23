@@ -9,6 +9,7 @@ include_once("../php/clases/pagoColector.php");
 include_once ('../php/clases/usuarioColector.php');
 include_once ('../php/clases/cursoColector.php');
 
+$colector_usuario= new usuarioColector();
 
 
 
