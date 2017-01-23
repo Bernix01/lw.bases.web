@@ -43,7 +43,7 @@ class usuarioColector
 
     public function deleteUsuario($id_usuario)
     {
-        $query = "DELETE FROM usuario WHERE usuario.id_usuario=$id_usuario";
+        $query = 'call borrar_usuario(?)';
         $result = $this->worker->execQuery($query);
         return $result;
     }
