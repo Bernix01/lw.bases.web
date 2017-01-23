@@ -1,3 +1,18 @@
+<?php
+session_start();
+if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 0) {
+    header("location: /");
+}
+include_once("../php/clases/facturaColector.php");
+include_once("../php/clases/detalleFacturaColector.php");
+include_once("../php/clases/pagoColector.php");
+include_once ('../php/clases/usuarioColector.php');
+include_once ('../php/clases/cursoColector.php');
+
+
+
+
+ ?>
 <!DOCTYPE html>
 <html lang="">
     <head>

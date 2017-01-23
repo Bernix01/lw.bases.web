@@ -1,13 +1,14 @@
 <?php
 	class Factura{
 		private $id_factura;
+		private $numero_factura;
 		private $nombres;
 		private $apellidos;
 		private $total;
 		private $direccion;
 		private $fecha;
-		private $ruc;
-		private $cupos;
+		//private $ruc; //será el mismo ruc del estudiante
+		//private $cupos; //ya no habrán cupos
 		private $id_estudiante;
 		private $id_pago;
 

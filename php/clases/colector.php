@@ -9,7 +9,6 @@ class Colector
     public function __construct()
     {
         $this->con = Database::connect();
-
         date_default_timezone_set("America/Guayaquil");
     }
 

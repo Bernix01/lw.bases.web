@@ -12,9 +12,12 @@ class Database
 {
     private static $connection;
     private static $database = "lw";
-    private static $host = "localhost";
+    private static $host = "192.168.100.2";
     private static $user = "miniroot";
     private static $password = "viveminirootvive";
+    //private static $user = "root";
+    //private static $password = "root";
+
 
     public function __construct()
     {

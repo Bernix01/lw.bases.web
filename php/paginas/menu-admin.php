@@ -307,6 +307,8 @@
                 <ul class="treeview-menu">
                     <li><a href="/admin/ingresarUsuario.php"><i class="fa fa-circle-o"></i> Crear usuario</a></li>
                     <li><a href="/admin/listarUsuarios.php"><i class="fa fa-circle-o"></i> Reporte de usuarios</a></li>
+                    <li><a href="/admin/listarEstudiantesSustentacion.php"><i class="fa fa-circle-o"></i> Estudiantes</a></li>
+
                 </ul>
             </li>
             <li class="treeview">

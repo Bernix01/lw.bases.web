@@ -1,6 +1,7 @@
 <?php
 include_once('colector.php');
-include_once('usuario.php');
+include_once('
+    public function ($id_usuario,$id_curso,$habilitadousuario.php');
 
 class usuarioColector
 {
@@ -65,6 +66,12 @@ class usuarioColector
             return $usuario->get_nickname() == $nickname ? $usuario : null;
         }
         return null;
+    }
+    public function realizarPagoDeposito($id_estudiante,$nombres,$apellidos,$total,$direccion,$id_curso){
+
+      $this->worker->beginTransaction();
+      $result=$this->worker->execQuery("call realizarPagoDeposito($nombres,$apellidos,$total,$direccion,$id_estudiante,null,$id_curso)");
+      return $result;
     }
 
 }

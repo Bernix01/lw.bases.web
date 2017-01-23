@@ -5,9 +5,11 @@ include_once("../php/clases/usuarioColector.php");
     header("location: /");
   }
   $col= new Colector();
-  $result= $col->execQueryArray("Select * from usuario LEFT JOIN info_usuario USING (id_usuario) ");
+  $result= $col->execQueryArray("call sustentacion();");
   $colector= new usuarioColector();
   //$result = $colector->getAll();
+//var_dump($result);
+//die();
   if(!$result)
       die("couldn't keep up!");
 ?>
@@ -92,8 +94,8 @@ include_once("../php/clases/usuarioColector.php");
                   <th>Email</th>
                   <th>Last_login</th>
                   <th>Rol</th>
-                  <th></th>
-                  <th></th>
+                  <th>Num cursos</th>
+
                 </tr>
                 <tr>
                   <?php
@@ -124,8 +126,9 @@ include_once("../php/clases/usuarioColector.php");
                               <td>" . $usuario->last_login . "</td>";
                                             echo "
                                 <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuario->rol . "</span></td>";
-                      echo "<td><a href='editarUsuario.php?ius=".$usuario->id_usuario."'>Editar</a></td>";
-                      echo "<td><a href='eliminarUsuario.php?ius=".$usuario->id_usuario."'>Eliminar </a></td> </tr>";
+                                echo "
+                  <td>" . $usuario->numero_cursos . "</td>";
+
                     }
                 ?>
 
