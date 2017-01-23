@@ -10,7 +10,9 @@ class Colector
     {
         $this->con = Database::connect();
         date_default_timezone_set("America/Guayaquil");
+        $this->con->
     }
+
 
     public function read($table, $class = 'stdClass')
     {
@@ -26,7 +28,7 @@ class Colector
             return false;
         }
     }
-    public function execQueryArray($query, $class = 'stdClass')
+    public function execQueryArray($query, $class =  stdClass::class)
     {
         try {
             $stmt = $this->con->prepare($query);
