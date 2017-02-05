@@ -8,21 +8,21 @@ class CertificadoColector{
       $this->worker= new Colector();
     }
 
+    public function getAll(){
+      $query="call listarCertificados";
+      $result=$this->worker->execQueryArray($query,Certificado::class);
+      return $result;
+    }
     public function getCertificadoById($id_certificado){
-      $query= "SELECT * FROM certificado WHERE id_certificado=".$id_certificado." limit 1";
-      $result=$this->worker->query($query);
-      if($result!==NULL){
-        $data=mysqli_fetch_object($result,'Certificado'); //count(array)(?)
-
-        return $data;
-      }
-      return NULL;
+      $query= "call getCertificadoById($id_certificado)";
+      $result=$this->worker->execQueryReturning($query,Certificado::class);
+      return $result;
     }
 
-	public function addCertificado($contenido,$id_usuario)
+	public function addCertificado($contenido,$id_estudiante)
 	{
-		$info = new Certificado(null,$contenido,$id_usuario);
-		$query= "INSERT INTO Certificado(contenido,id_usuario) VALUES (\"$contenido\",\"$id_usuario\")";
+		$info = new Certificado(null,$contenido,$id_estudiante);
+		$query= "INSERT INTO Certificado(contenido,id_estudiante) VALUES (\"$contenido\",\"$id_estudiante\")";
 		$result=$this->worker->query($query);
 		if($result!==null){
       $lastid=$this->worker->query("SELECT LAST_INSERT_ID()");

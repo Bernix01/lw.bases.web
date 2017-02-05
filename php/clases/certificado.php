@@ -2,22 +2,22 @@
 	class Certificado{
 		private $id_certificado;
 		private $contenido;
-		private $id_usuario;
-		
-		
-		public function __construct($id_certificado=null,$contenido=null,$id_usuario=null){
+		private $id_estudiante;
+
+
+		public function __construct($id_certificado=null,$contenido=null,$id_estudiante=null){
 			if($id_certificado!==null){
 				$this->id_certificado=$id_certificado;
 			}
 			if($contenido!==null){
 				$this->contenido=$contenido;
 			}
-			if($id_usuario!==null){
-				$this->id_usuario=$id_usuario;
+			if($id_estudiante!==null){
+				$this->id_estudiante=$id_estudiante;
 			}
-			
+
 		}
-		
+
 		public function get_id_certificado(){
 			return $this->id_certificado;
 		}
@@ -30,12 +30,12 @@
 		public function set_contenido($contenido){
 			$this->contenido=$contenido;
 		}
-		public function get_id_usuario(){
-			return $this->id_usuario;
+		public function get_id_estudiante(){
+			return $this->id_estudiante;
 		}
-		public function set_id_usuario($id_usuario){
-			$this->id_usuario=$id_usuario;
+		public function set_id_estudiante($id_estudiante){
+			$this->id_estudiante=$id_estudiante;
 		}
-		
+
 	}
 ?>
