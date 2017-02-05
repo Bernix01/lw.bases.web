@@ -16,6 +16,9 @@ session_start();
        header('Location: '.$_SERVER['PHP_SELF']);
        exit();
      }
+	 else{
+		 
+	 }
  }
  else{ ?>
     <!DOCTYPE html>
