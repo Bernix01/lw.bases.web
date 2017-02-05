@@ -335,16 +335,19 @@
                 </ul>
             </li>
             <li class="treeview">
-                <a href="/admin/listarCertificados.php">
+                <a>
                     <i class="fa fa-table"></i> <span>Certificados</span>
                     <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
-            </span>
                 </a>
+                </span>
+
                 <ul class="treeview-menu">
-                    <li><a href="/admin/insertarCertificado.php"><i class="fa fa-circle-o"></i> Ingresar certificado</a></li>
+                    <li><a href="/admin/ingresarCertificado.php"><i class="fa fa-circle-o"></i> Crear certificado</a></li>
+                    <li><a href="/admin/listarCertificados.php"><i class="fa fa-circle-o"></i> Reporte de certificados</a></li>
+
+
                 </ul>
-            </li>
             <li class="treeview">
                 <a >
                     <i class="fa fa-table"></i> <span>Emprendimiento</span>
