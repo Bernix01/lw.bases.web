@@ -16,7 +16,7 @@ class usuarioColector
 
     public function getUserById($id)
     {
-        $query = "SELECT * FROM usuario WHERE id_usuario=\"" . $id . "\" LIMIT 1";
+        $query = "call getUserById($id)";
         $result = $this->worker->execQueryReturning($query,Usuario::class);
         return $result;
     }

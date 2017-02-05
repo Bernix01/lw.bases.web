@@ -124,68 +124,7 @@ include_once("../php/clases/certificadoColector.php");
 
   </div>
   </div>
-    <!-- Main content -->
-    <!-- <section class="content">
 
-
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
-
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
-
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover" id="example">
-                <tr>
-                  <th>id_certificado</th>
-                  <th>id_estudiante</th>
-                  <th>Contenido</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                <tr>
-                  <?php
-
-                  //  foreach ($result as $cert){
-
-                    //  echo "<tr>
-                      //  <td>" . $cert->get_id_certificado() . "</td>";
-                                        //    echo "
-                        //  <td>" . $cert->get_id_estudiante() . "</td>";
-
-                                      //      echo "
-                            //  <td>" . $cert->get_contenido() . "</td>";
-                              //echo "<td><a href='editarEmprendimiento.php?id_emprendimiento=".$cert->get_id_certificado()."'>Editar</a></td>";
-                              //echo "<td><a href='eliminarEmprendimiento.php?id_emprendimiento=".$cert->get_id_certificado()."'>Eliminar </a></td> </tr>";
-
-                    //}
-                ?>
-
-
-              </table>
-            </div>
-
-
-
-          </div>
-
-        </div>
-      </div>
-    </section> -->
-    <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
@@ -454,7 +393,18 @@ $(document).ready(function(){
 
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-});
+
+function myFunction() {
+    var x= getURLParameter("su");
+    if(x=="0")
+      alert("No existe un usuario con el id ingresado");
+    else if(x=="2") {
+      alert("No se pudo ingresar el certificado :(");
+    }
+    else{
+      alert("Certificado ingresado con éxito");
+    }
+}
 </script>
 </body>
 </html>
