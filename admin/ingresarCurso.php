@@ -12,7 +12,7 @@ $posted = false;
 session_start();
 if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 2) {
     header("location: ../html/login.html");
-    die();
+    exit();
 }
 
 //if connection is not successful you will see text error
@@ -195,7 +195,7 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
 
 
                     </div>
-          
+
                 </div>
                 <script src="../js/jquery.js"></script>
                 <script src="../js/jquery.validate.min.js"></script>

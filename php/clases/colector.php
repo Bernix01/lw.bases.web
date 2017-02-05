@@ -10,7 +10,7 @@ class Colector
     {
         $this->con = Database::connect();
         date_default_timezone_set("America/Guayaquil");
-        $this->con->
+        //setear utf-8 $this->con->str
     }
 
 

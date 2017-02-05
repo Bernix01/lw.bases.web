@@ -69,6 +69,8 @@ class usuarioColector
 
       $this->worker->beginTransaction();
       $result=$this->worker->execQuery("call realizarPagoDeposito($nombres,$apellidos,$total,$direccion,$id_estudiante,null,$id_curso)");
+      $this->worker->commit();
+      $result= $result->fetchObject(Factura::class);
       return $result;
     }
 

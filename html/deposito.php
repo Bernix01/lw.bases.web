@@ -9,10 +9,9 @@ include_once("../php/clases/pagoColector.php");
 include_once ('../php/clases/usuarioColector.php');
 include_once ('../php/clases/cursoColector.php');
 
-$colector_usuario= new usuarioColector();
-
-
-
+if (isset($_GET("id_estudiante")) && isset($_))
+  $colector_usuario= new usuarioColector();
+  $factura= $colector_usuario->realizarPagoDeposito();
  ?>
 <!DOCTYPE html>
 <html lang="">
@@ -67,6 +66,42 @@ $colector_usuario= new usuarioColector();
   Realiza tu depósito en la cuenta #2345456456345 del Banco del Pichincha y envía tu correo a ventas@e-voicemarketing.com
   Procesaremos tu depósito y te avisaremos del pago exitoso.
 </div>
+</div>
+<div class="box-body table-responsive no-padding">
+  <table class="table table-hover">
+    <tr>
+      <th>Número de factura</th>
+   </tr>
+   <tr>
+     <th><?php echo $factura->get_numero_factura(); ?></th>
+   </tr>
+    <tr>
+      <th>Nombre</th>
+   </tr>
+   <tr>
+     <th><?php echo $factura->get_nombres()." ".$factura->get_apellidos(); ?></th>
+   </tr>
+   <tr>
+     <th>RUC</th>
+  </tr>
+  <tr>
+    <th><?php echo $factura->get_ruc(); ?></th>
+  </tr>
+   <tr><th>Total</th></tr>
+   <tr>
+      <th><?php echo $factura->get_total(); ?></th>
+  </tr>
+  <tr><th>Dirección</th></tr>
+  <tr>
+    <th><?php echo $factura->get_direccion(); ?></th>
+  </tr>
+  <tr>
+    <th>Fecha</th>
+  </tr>
+  <tr>
+   <th><?php echo $factura->get_fecha(); ?></th>
+  </tr>
+  </table>
 </div>
 		<!-- jQuery -->
 		<script src="/js/jquery.js"></script>

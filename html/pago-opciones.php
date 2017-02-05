@@ -1,7 +1,10 @@
 <?php
 session_start();
-
-?>
+if(isset($_SESSION["rol"]) && $_SESSION["rol"]!=0){
+	header("location:../");
+	exit();
+}
+ ?>
 <!DOCTYPE html>
 <html lang="">
 	<head>
@@ -123,7 +126,7 @@ session_start();
         	</head>
 <body>
 <div><a href="pago.html" class="btn btn-default" >Pago con Tarjeta</a></div>
-<div><a href="deposito.php?id_estudiante=" class="btn btn-default" >Pago en efectivo</a></div>
+<div><a href="deposito.php?" class="btn btn-default" >Pago en efectivo</a></div>
 
 </body>
 </html>
