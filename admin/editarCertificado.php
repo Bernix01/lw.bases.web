@@ -1,21 +1,21 @@
 <?php
 session_start();
-  include_once("../php/clases/certificadoColector.php");
- if(isset($_SESSION["rol"]) && $_SESSION["rol"]==2 && isset(_$GET["id_certificado"])){
+include_once("../php/clases/certificadoColector.php");
+if(isset($_SESSION["rol"]) && $_SESSION["rol"]==2 && isset($_GET["id_certificado"])){
 
    $certificado_colector= new CertificadoColector();
-   $certificado= $certificado_colector->getCertificadoById(_$GET["id_certificado"]);
+   $certificado= $certificado_colector->getCertificadoById($_GET["id_certificado"]);
    if(isset($_POST["id_estudiante"]) && isset($_POST["contenido"])){
-     $result= $certificado_colector->updateCertificado(_$POST["id_certificado"],$_POST["id_estudiante"],$_POST["contenido"]);
-     if($result){
-       ?>
-       <script type="text/javascript">
-        alert("Certificado editado con éxito");
-       </script>
-       <?php
-       header('Location: '.$_SERVER['PHP_SELF']);
-       exit();
-     }
+        $result= $certificado_colector->updateCertificado($_GET["id_certificado"],$_POST["id_estudiante"],$_POST["contenido"]);
+        if($result){
+         ?>
+         <script type="text/javascript">
+          alert("Certificado editado con éxito");
+         </script>
+         <?php
+         header('Location: listarCertificados.php');
+         exit();
+       }
 
  }
  else{ ?>
@@ -82,7 +82,7 @@ session_start();
                            </div>
                            <!-- /.box-header -->
                            <!-- form start -->
-                           <form role="form" method="post" name="create-certificado" >
+                           <form role="form" method="post" name="create-certificado" action="editarCertificado.php?id_certificado=<?php echo $_GET["id_certificado"];?>">
                                <div class="box-body">
                                    <div class="form-group">
                                        <label for="id_estudiante">Id del estudiante</label>
