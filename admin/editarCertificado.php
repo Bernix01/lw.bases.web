@@ -150,6 +150,7 @@ if(isset($_SESSION["rol"]) && $_SESSION["rol"]==2 && isset($_GET["id_certificado
    <script src="/admin/dist/js/pages/dashboard2.js"></script>
    <!-- AdminLTE for demo purposes -->
    <script src="/admin/dist/js/demo.js"></script>
+     <script src="../js/create-certificado-validation.js"></script>
 
    </body>
    </html>

@@ -9,20 +9,27 @@ $(function() {
       // The key name on the left side is the name attribute
       // of an input field. Validation rules are defined
       // on the right side
-
+      id_estudiante:{
+        required:true,
+        minlength:13,
+        maxlength:13
+      }
       contenido:{
         required:true,
         maxlength:100,
-        url:true
       }
 
         },
     // Specify validation error messages
     messages: {
+      id_estudiante:{
+        required:"Por favor, ingrese la URL del certificado",
+        maxlength: "El id del usuario no debe sobrepasar los 13 caracteres",
+        minlength: "El id del usuario debe tener 13 caracteres"
+      }
       contenido:{
         required:"Por favor, ingrese la URL del certificado",
-        maxlength: "La URL no debe de sobrepasar 100 caracteres",
-        url: "URL no válida"
+        maxlength: "La URL no debe de sobrepasar 100 caracteres"
     }
         },
     // Make sure the form is submitted to the destination defined
