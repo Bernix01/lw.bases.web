@@ -39,20 +39,15 @@ class CertificadoColector{
     return null;
   }
   public function deleteCertificado($id){
-    $query="DELETE FROM certificado WHERE id_certificado=$id";
-    $result=$this->worker->query($query);
-    if($result!==null){
-      return true;
-    }
-    else{
-      return false;
-    }
+    $query="call deleteCertificado($id)";
+    $result=$this->worker->execQuery($query);
+    return $result;
   }
   public function updateCertificado($id,$id_estudiante,$contenido)
   {
-    $query="UPDATE certificado SET id_estudiante=$id_estudiante, contenido=$contenido WHERE id_certificado= $id";
-    $result=$this->worker->query($query);
-    return $result!==null;
+    $query="call updateCertificado($id,\"$id_estudiante\",\"$contenido\")";
+    $result=$this->worker->execQuery($query);
+    return $result;
   }
 
 }

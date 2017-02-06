@@ -5,7 +5,7 @@ include_once("../php/clases/etiqueta.php");
 include_once("../php/clases/curso.php");
 
 session_start();
-if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
+if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 2) {
     header("location: /login.html");
     die();
 }

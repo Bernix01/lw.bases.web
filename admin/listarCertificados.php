@@ -112,8 +112,8 @@ include_once("../php/clases/certificadoColector.php");
 
                                     echo "
                       <td>" . $cert->get_contenido() . "</td>";
-                      echo "<td><a href='editarEmprendimiento.php?id_emprendimiento=".$cert->get_id_certificado()."'>Editar</a></td>";
-                      echo "<td><a href='eliminarEmprendimiento.php?id_emprendimiento=".$cert->get_id_certificado()."'>Eliminar </a></td> </tr>";
+                      echo "<td><a href='editarCertificado.php?id_certificado=".$cert->get_id_certificado()."'>Editar</a></td>";
+                      echo "<td><a href='eliminarCertificado.php?id_certificado=".$cert->get_id_certificado()."'>Eliminar </a></td> </tr>";
 
             }
         ?>
