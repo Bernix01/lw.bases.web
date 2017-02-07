@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 05, 2017 at 07:12 PM
+-- Generation Time: Feb 06, 2017 at 10:55 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -34,6 +34,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadoById` (IN `id_cert` INT)  BEGIN
 SELECT * FROM certificado WHERE id_certificado=id_cert;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursoAndInfoById` (IN `idc` INT)  BEGIN
+SELECT * FROM curso,info_curso WHERE curso.id_curso=info_curso.id_curso and curso.id_curso=idc;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `id` VARCHAR(13))  BEGIN
@@ -71,7 +75,7 @@ CREATE TABLE `certificado` (
 --
 
 INSERT INTO `certificado` (`id_certificado`, `id_estudiante`, `contenido`) VALUES
-(1, '1604070162099', 'Certificado#1'),
+(1, '1604070162099', 'Certificado #111'),
 (5, '1604031238999', 'asdfa'),
 (14, '1604031238999', 'afsdgadfsgdsf');
 
@@ -641,7 +645,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `certificado`
 --
 ALTER TABLE `certificado`
-  MODIFY `id_certificado` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_certificado` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
 -- AUTO_INCREMENT for table `curso`
 --
