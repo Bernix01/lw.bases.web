@@ -76,25 +76,25 @@ $_SESSION["carro"]=$carro;
   <?php
   $total = 0;
   foreach($cursos as $row) {
-    $total+=$row["costo"]*$carro[$row["id_curso"]];
+    $total+=$row->costo*$carro[$row->id_curso];
   echo "<div class=\"product\">
     <div class=\"product-image\">
       <img src=\"\">
     </div>
     <div class=\"product-details\">
-      <div class=\"product-title\">".$row["nombre"]."</div>
-      <p class=\"product-description\">".$row["descripcion"]."</p>
+      <div class=\"product-title\">".$row->nombre."</div>
+      <p class=\"product-description\">".$row->descripcion."</p>
     </div>
-    <div class=\"product-price\">".$row["costo"]."</div>
+    <div class=\"product-price\">".$row->costo."</div>
     <div class=\"product-quantity\">
-      <input type=\"number\" value=\"".$carro[$row["id_curso"]]."\" min=\"1\">
+      <input type=\"number\" value=\"".$carro[$row->id_curso]."\" min=\"1\">
     </div>
     <div class=\"product-removal\">
-      <a href=\"carrito.php?rem=".$row["id_curso"]."\" class=\"remove-product\">
+      <a href=\"carrito.php?rem=".$row->id_curso."\" class=\"remove-product\">
         Remove
       </a>
     </div>
-    <div class=\"product-line-price\">".($row["costo"]*$carro[$row["id_curso"]])."</div>
+    <div class=\"product-line-price\">".($row->costo*$carro[$row->id_curso])."</div>
   </div>
 ";
 }?>
