@@ -17,7 +17,7 @@ class detalleFacturaColector
 
     public function getDetallesByFacturaId($id)
     {
-        $query = "SELECT * FROM detalle_factura WHERE id_factura=\"" . $id . "\" ";
+        $query = "call getDetallesByFacturaId($id)";
         $result = $this->worker->execQueryArray($query,DetalleFactura::class);
         return $result;
     }
@@ -25,14 +25,14 @@ class detalleFacturaColector
 
     public function deleteDetalleFactura($id)
     {
-        $query = "DELETE FROM detalle_factura WHERE id_factura=$id";
+        $query = "call deleteDetalleFactura($id)";
         $result = $this->worker->execQuery($query);
         return $result;
     }
 
-    public function updatDetalleUsuario($id_factura, $id_curso)
+    public function updateDetalleFactura($id_factura, $id_curso,$fecha,$total,$nombres,$apellidos,$numero_factura,$ruc,$cupos)
     {
-        $query = "UPDATE detalle_factura SET  id_curso=\"$id_curso\" WHERE id_factura=\"$id_factura\"";
+        $query = "call updateDetalleFactura($id_factura,$id_curso)";
         echo $query;
         $result = $this->worker->execQuery($query);
         return $result;

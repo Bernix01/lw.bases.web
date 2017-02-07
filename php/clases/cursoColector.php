@@ -29,31 +29,32 @@ class CursoColector
 
     public function addCurso(Curso $curso)
     {
-        $query = "INSERT INTO curso VALUE (DEFAULT,\"" . $curso->getNombre() . "\"," . $curso->getCosto() . ")";
+        $query = "call addCurso(\"".$curso->getNombre()."\",".$curso->getCosto().")";
         $result = $this->worker->execQuery($query);
 
         if ($result !== null) {
-            return $this->getCursoById($this->worker->getLastID());
+            return $curso; //falta agregarle el id al curso
         }
         return null;
     }
 
     public function updateCurso($id, $nombre, $costo)
     {
-        $query = "UPDATE curso SET nombre=\"$nombre\", costo=$costo WHERE id_curso=$id";
+        $query = "call updateCurso($id,\"$nombre\",$costo)";
         return $this->worker->execQuery($query);
     }
 
     public function deleteCurso($id)
     {
-        $query = "DELETE FROM curso WHERE id_curso=$id";
+        $query = "call deleteCurso($id)";
         $result = $this->worker->execQuery($query);
         return $result;
     }
-    public function getCursosByIds($lista_ids){
-        $query="call getCursosByIds($lista_ids)";
-        $result=$this->worker->execQueryArray($query);
-        return $result;
+    public function getCursosByUsuarioId($id_usuario){
+      $query="call getCursosByUsuarioId(\"$id_usuario\")";
+      $result=$this->worker->execQueryArray($query);
+      return $result;
+
     }
 }
 
