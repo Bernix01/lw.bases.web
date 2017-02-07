@@ -109,7 +109,7 @@ include_once("../php/clases/certificadoColector.php");
         </thead>
         <tbody>
           <?php
-
+          
            foreach ($result as $cert){
 
              echo "<tr>

@@ -10,7 +10,7 @@ class EtiquetaColector{
     }
 
     public function getEtiquetaById($id){
-      $query= "SELECT * FROM etiqueta WHERE id_etiqueta=".$id." limit 1";
+      $query= "call getEtiquetaById($id)";
       $result=$this->worker->query($query);
       if($result!==NULL){
         $data=mysqli_fetch_object($result,'Etiqueta'); //count(array)(?)
@@ -22,8 +22,8 @@ class EtiquetaColector{
 
 	public function addEtiqueta($nombre)
 	{
-		$info = new Certificado(null,$nombre);
-		$query= "INSERT INTO Certificado(nombre) VALUES (\"$nombre\")";
+		$info = new Etiqueta(null,$nombre);
+		$query= "call addEtiqueta(\"$nombre\")";
 		$result=$this->worker->query($query);
 		if($result!==null){
       $lastid=$this->worker->query("SELECT LAST_INSERT_ID()");
@@ -33,7 +33,7 @@ class EtiquetaColector{
 	}
 
   public function deleteEtiqueta($id){
-    $query="DELETE FROM etiqueta WHERE id_etiqueta=$id";
+    $query="call deleteEtiqueta($id)";
     $result=$this->worker->query($query);
     if($result!==null){
       return true;
@@ -44,7 +44,7 @@ class EtiquetaColector{
   }
   public function updateEtiqueta($id,$nombre)
   {
-    $query="UPDATE etiqueta SET nombre=$nombre WHERE id_etiqueta= $id";
+    $query="call updateEtiqueta($id,\"$nombre\")";
     $result=$this->worker->query($query);
     return $result!==null;
   }

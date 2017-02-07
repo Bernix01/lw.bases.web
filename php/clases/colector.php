@@ -12,7 +12,7 @@ class Colector
         date_default_timezone_set("America/Guayaquil");
         //set_charset("utf8");
     }
-
+  
 
     public function read($table, $class = 'stdClass')
     {
@@ -116,9 +116,7 @@ class Colector
         return $this->conn->real_escape_string($data);
     }
 
-    public function getLastID(){
-        return $this->con->lastInsertId();
-    }
+
 }
 
 

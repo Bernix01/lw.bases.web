@@ -14,7 +14,7 @@ include_once ('emprendimiento.php');
       return $this->worker->read("emprendimiento",Emprendimiento::class);
     }
     public function getEmprendimientoById($id){
-      $query= "SELECT * FROM emprendimiento WHERE id_emprendimiento=".$id." limit 1";
+      $query= "call getEmprendimientoById($id)";
       $result=$this->worker->query($query);
       if($result!==NULL){
         $data=mysqli_fetch_assoc(); //count(array)(?)
@@ -22,14 +22,14 @@ include_once ('emprendimiento.php');
         $emprendimiento->set_id_estudiante($data['id_estudiante']);
         $emprendimiento->set_nombre($data['nombre']);
         $emprendimiento->set_descripcion($data['descripcion']);
-        $emprendimiento->set_id_emprendimiento($data['id_emprendimiento']);
+        $emprendimiento->set_id_emprendimiento($data['id_emprendimiento']); //seleccionar ultimo id insertado
         return $emprendimiento;
       }
       return NULL;
     }
 
     public function getEmprendimientosByStudentId($id){
-      $query="SELECT * FROM emprendimiento WHERE id_estudiante=$id";
+      $query="call getEmprendimientosByStudentId( \"$id\")";
       $result=$this->worker->query($query);
       if($result!==null){
         $emprendimientos=array();
@@ -44,7 +44,7 @@ include_once ('emprendimiento.php');
     public function addEmprendimiento($id_estudiante,$nombre,$descripcion)
     {
       $emp=new Emprendimiento(null,$id_estudiante,$nombre,$descripcion);
-      $query="INSERT INTO emprendimiento(id_estudiante,nombre,descripcion) VALUES ($id_estudiante,$nombre,$descripcion)";
+      $query="call addEmprendimiento(\"$id_estudiante\",\"$nombre\",\"$descripcion\")";
       //SELECT LAST_INSERT_ID();";
       $result=$this->worker->query($query);
       if($result!==null){
@@ -57,12 +57,12 @@ include_once ('emprendimiento.php');
 
     public function updateEmprendimiento($id,$id_estudiante,$nombre,$descripcion)
     {
-      $query="UPDATE emprendimiento SET nombre=$nombre, descripcion=$descripcion, id_estudiante=$id_estudiante WHERE id_emprendimiento=$id";
+      $query="call updateEmprendimiento($id,\"$id_estudiante\",\"$nombre\",\"$descripcion\")";
       $result=$this->worker->query($query);
       return $result!==null;
     }
     public function deleteEmprendimiento($id){
-      $query="DELETE FROM emprendimiento WHERE id_emprendimiento=$id";
+      $query="call deleteEmprendimiento($id)";
       $result=$this->worker->query($query);
       if($result!==null){
         return true;

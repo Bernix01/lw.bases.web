@@ -19,6 +19,7 @@ class CertificadoColector{
       return $result;
     }
 
+
 	public function addCertificado($contenido,$id_estudiante)
 	{
 
@@ -27,7 +28,7 @@ class CertificadoColector{
 		return $result;
 	}
   public function getCertificadosByStudentId($id){
-    $query="SELECT * FROM certificado WHERE id_estudiante=$id";
+    $query="call getCertificadosByStudentId(\"$id\")";
     $result=$this->worker->query($query);
     if($result!==null){
       $certificados=array();
