@@ -1,3 +1,12 @@
+<?php
+session_start();
+if(isset($_SESSION["rol"]) && isset($_POST["cursos"])){
+  if(isset($_POST["nombres-tarjeta"]) && isset($_POST["apellidos-tarjeta"]) && isset($_POST["num_tarjeta"])&& isset($_POST["expire"])&& isset($_POST["ccv"])&& isset($_POST["nombres"])&& isset($_POST["apellidos"])&& isset($_POST["direccion"])&& isset($_POST["telefono"])){
+
+  }
+}
+header("location: /")
+ ?>
 <html>
 
 <head>
@@ -37,28 +46,28 @@
             <h2 class="mdl-card__title-text">Pago</h2>
         </div>
         <div class="mdl-card__supporting-text mdl-grid">
-            <form name="formulario-pago" action="pago-exitoso.html">
+            <form name="formulario-pago" >
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="nombres-tarjeta" required='required' placeholder="Nombres" />
+                    <input class="mdl-textfield__input" type="text" name= "nombres-tarjeta" id="nombres-tarjeta" required='required' placeholder="Nombres" />
                     <label class="mdl-textfield__label" for="cardholder">Nombres</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="apellidos-tarjeta" required='required' placeholder="Apellidos" />
+                    <input class="mdl-textfield__input" type="text" name= "apellidos-tarjeta"id="apellidos-tarjeta" required='required' placeholder="Apellidos" />
                     <label class="mdl-textfield__label" for="cardholder">Apellidos</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="num_tarjeta" placeholder="XXXX XXXX XXXX XXXX" pattern="-?[0-9]*(\.[0-9]+)?" minlength="16" maxlength="16" required='required' />
+                    <input class="mdl-textfield__input" type="text" name="num_tarjeta" id="num_tarjeta" placeholder="XXXX XXXX XXXX XXXX" pattern="-?[0-9]*(\.[0-9]+)?" minlength="16" maxlength="16" required='required' />
                     <label class="mdl-textfield__label" for="cardnumber">XXXX XXXX XXXX XXXX</label>
                     <span class="mdl-textfield__error">Solo números!</span>
                 </div>
                 <div class="mdl-cell mdl-cell--12-col">
                     <div class="mdl-textfield mdl-js-textfield mdl-cell--6-col">
-                        <input class="mdl-textfield__input" type="text" id="expire" placeholder="MM / YY" pattern="^(0[1-9]|1[1-2])\/[0-9]{2}\b" maxlength="5" required='required'/>
+                        <input class="mdl-textfield__input" type="text" name="expire" id="expire" placeholder="MM / YY" pattern="^(0[1-9]|1[1-2])\/[0-9]{2}\b" maxlength="5" required='required'/>
                         <label class="mdl-textfield__label" for="expire">MM / YY</label>
                         <span class="mdl-textfield__error">Formato incorrecto!</span>
                     </div>
                     <div class="mdl-textfield mdl-js-textfield mdl-cell--6-col">
-                        <input class="mdl-textfield__input" type="text" id="ccv" placeholder="CCV" pattern="-?[0-9]*(\.[0-9]+)?" required='required' minlength="3" maxlength="3" />
+                        <input class="mdl-textfield__input" type="text" name= "ccv" id="ccv" placeholder="CCV" pattern="-?[0-9]*(\.[0-9]+)?" required='required' minlength="3" maxlength="3" />
                         <label class="mdl-textfield__label" for="ccv">CCV</label>
                         <span class="mdl-textfield__error">Solo números!</span>
                     </div>
@@ -67,19 +76,19 @@
 
                 <h2 class="mdl-card__title-text">Datos de facturación</h2>
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="nombres" required='required' placeholder="Nombre" />
+                    <input class="mdl-textfield__input" type="text" name= "nombres" id="nombres" required='required' placeholder="Nombre" />
                     <label class="mdl-textfield__label" for="nholder">Nombre</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="apellidos" required='required' placeholder="Nombre" />
+                    <input class="mdl-textfield__input" type="text" name="apellidos" id="apellidos" required='required' placeholder="Nombre" />
                     <label class="mdl-textfield__label" for="nholder">Nombre</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="direccion" required='required' placeholder="Dirección" />
+                    <input class="mdl-textfield__input" type="text" name="direccion" id="direccion" required='required' placeholder="Dirección" />
                     <label class="mdl-textfield__label" for="dirholder">Dirección</label>
                 </div>
                 <div class="mdl-textfield mdl-js-textfield mdl-cell mdl-cell--12-col">
-                    <input class="mdl-textfield__input" type="text" id="telefono" required='required' pattern="-?[0-9]*(\.[0-9]+)?" placeholder="Teléfono" />
+                    <input class="mdl-textfield__input" type="text" name= "telefono" id="telefono" required='required' pattern="-?[0-9]*(\.[0-9]+)?" placeholder="Teléfono" />
                     <label class="mdl-textfield__label" for="phonholder">Teléfono</label>
                 </div>
                 <div class="mdl-card__actions mdl-cell--12-col send-button">

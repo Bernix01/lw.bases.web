@@ -1,5 +1,6 @@
 <?php
 session_start();
+include_once("php/clases/cursoColector.php");
 if(!isset($_SESSION["carro"])){
   $_SESSION["carro"] = array();
 }
@@ -24,26 +25,17 @@ if(sizeof($carro)==0){
   header("location: paginas/");
   die();
 }
-$HOST="localhost";
-$USERNAME="root";
-$PASSWORD="root";
-$link = mysqli_connect($HOST, $USERNAME, $PASSWORD);
-mysqli_set_charset($link,"utf8");
-mysqli_select_db($link, "lw");
-//if connection is not successful you will see text error
-if (!$link) {
-       die('Could not connect: ' . mysql_error());
-}
+$curso_colector= new CursoColector();
 $list = "";
 foreach ($carro as $key => $value) {
   $list = $list.$key.',';
 }
 $list = substr($list,0,strlen($list)-1);
-$query='SELECT * from curso, info_curso where curso.id_curso = info_curso.id_curso AND curso.id_curso IN ('.$list.')';
+$cursos=array();
+foreach ($list as $id) {
+  $curso=$curso_colector->getCursoAndInfoById($id);
+  array_push($cursos,$curso);
 
-$curso=mysqli_query($link,$query);
-if(!$curso){
-    die('Invalid query:'.mysqli_error($link));
 }
 $_SESSION["carro"]=$carro;
  ?>
@@ -84,7 +76,7 @@ $_SESSION["carro"]=$carro;
 
   <?php
   $total = 0;
-  while($row=mysqli_fetch_assoc($curso)) {
+  foreach($cursos as $row) {
     $total+=$row["costo"]*$carro[$row["id_curso"]];
   echo "<div class=\"product\">
     <div class=\"product-image\">

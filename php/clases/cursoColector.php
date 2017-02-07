@@ -16,9 +16,15 @@ class CursoColector
         return $this->worker->read("curso", Curso::class);
     }
 
-    public function getCursoById($id)
-    {
-        return $this->worker->getById($id, "curso", "id_curso", Curso::class);
+    public function getCursoById($id_curso){
+      $query= "call getCursoById($id_curso)";
+      $result=$this->worker->execQueryReturning($query,Curso::class);
+      return $result;
+    }
+    public function getCursoAndInfoById($id_curso){
+      $query= "call getCursoAndInfoById($id_curso)";
+      $result=$this->worker->execQueryReturning($query);
+      return $result;
     }
 
     public function addCurso(Curso $curso)
@@ -42,6 +48,11 @@ class CursoColector
     {
         $query = "DELETE FROM curso WHERE id_curso=$id";
         $result = $this->worker->execQuery($query);
+        return $result;
+    }
+    public function getCursosByIds($lista_ids){
+        $query="call getCursosByIds($lista_ids)";
+        $result=$this->worker->execQueryArray($query);
         return $result;
     }
 }

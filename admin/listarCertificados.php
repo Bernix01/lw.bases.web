@@ -29,7 +29,12 @@ include_once("../php/clases/certificadoColector.php");
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
   <script src="jquery-3.1.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.2/jspdf.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+  <script type="text/javascript" src="tableExport.js"></script>
+  <script type="text/javascript" src="jquery.base64.js"></script>
+  <script type="text/javascript" src="jspdf/libs/sprintf.js"></script>
+  <script type="text/javascript" src="jspdf/jspdf.js"></script>
+  <script type="text/javascript" src="jspdf/libs/base64.js"></script>
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -86,14 +91,14 @@ include_once("../php/clases/certificadoColector.php");
     <div class="container-fluid" >
 
   <div class="row">
-  <div class="panel panel-primary filterable">
+  <div class="panel panel-primary filterable" >
     <div class="panel-heading">
         <h3 class="panel-title">Filtrar</h3>
         <div class="pull-right">
             <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
         </div>
     </div>
-    <table class="table" id="tabla-certificados">
+    <table class="table" id="certificados" >
 
         <thead>
             <tr class="filters">
@@ -125,7 +130,7 @@ include_once("../php/clases/certificadoColector.php");
   </div>
 
   </div>
-  <a href="javascript:demoFromHTML()" class="button">Generar PDF</a>
+  <a href="#" onclick ="$('#certificados').tableExport({type:'pdf',escape:'false'});">PDF</a>
   </div>
 
   </div>
@@ -348,10 +353,17 @@ include_once("../php/clases/certificadoColector.php");
 
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
+<script src="libs/jspdf.debug.js"></script>
+
+<script src="libs/faker.min.js"></script>
+<script src="libs/jspdf.plugin.autotable.js"></script>
+
+<script src="examples-legacy.js"></script>
 <script type="text/javascript">
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
+
 $(document).ready(function(){
     $('.filterable .btn-filter').click(function(){
         var $panel = $(this).parents('.filterable'),
@@ -397,7 +409,7 @@ $(document).ready(function(){
 
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-
+}
 function myFunction() {
     var x= getURLParameter("su");
     if(x=="0")
@@ -409,46 +421,8 @@ function myFunction() {
       alert("Certificado ingresado con éxito");
     }
 }
-function demoFromHTML() {
-        var pdf = new jsPDF('p', 'pt', 'letter');
-        // source can be HTML-formatted string, or a reference
-        // to an actual DOM element from which the text will be scraped.
-        source = $('#tabla-certificados')[0];
 
-        // we support special element handlers. Register them with jQuery-style
-        // ID selector for either ID or node name. ("#iAmID", "div", "span" etc.)
-        // There is no support for any other type of selectors
-        // (class, of compound) at this time.
-        specialElementHandlers = {
-            // element with id of "bypass" - jQuery style selector
-            '#bypassme': function (element, renderer) {
-                // true = "handled elsewhere, bypass text extraction"
-                return true
-            }
-        };
-        margins = {
-            top: 80,
-            bottom: 60,
-            left: 40,
-            width: 522
-        };
-        // all coords and widths are in jsPDF instance's declared units
-        // 'inches' in this case
-        pdf.fromHTML(
-            source, // HTML string or DOM elem ref.
-            margins.left, // x coord
-            margins.top, { // y coord
-                'width': margins.width, // max width of content on PDF
-                'elementHandlers': specialElementHandlers
-            },
 
-            function (dispose) {
-                // dispose: object with X, Y of the last line add to the PDF
-                //          this allow the insertion of new lines after html
-                pdf.save('Test.pdf');
-            }, margins
-        );
-    }
 </script>
 </body>
 </html>

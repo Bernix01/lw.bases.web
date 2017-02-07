@@ -10,7 +10,7 @@ class Colector
     {
         $this->con = Database::connect();
         date_default_timezone_set("America/Guayaquil");
-        //setear utf-8 $this->con->str
+        //set_charset("utf8");
     }
 
 
@@ -57,10 +57,11 @@ class Colector
      * @param  string $class Nombre de la clase en la cual se retornará el objeto.
      * @return mixed     una instancia de $class si se encuentra el objeto, caso contrario retorna false.
      */
-    public function getById($id, $table, $id_col, $class = 'stdClass')
+  /*  public function execFetchObject($id, $table, $id_col, $class = 'stdClass')
     {
         try {
-            $queryRead = 'SELECT * FROM ' . $table . ' WHERE ' . $id_col . '=:e_id';
+            //$queryRead = 'SELECT * FROM ' . $table . ' WHERE ' . $id_col . '=:e_id';
+
             $stmt = $this->con->prepare($queryRead);
             $stmt->execute(array(':e_id' => intval($id)));
             $result = $stmt->fetchObject($class);
@@ -69,7 +70,7 @@ class Colector
             echo $e->getMessage();
             return false;
         }
-    }
+    }*/
 
     public function execQuery($query)
     {
