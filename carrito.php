@@ -26,11 +26,10 @@ if(sizeof($carro)==0){
   die();
 }
 $curso_colector= new CursoColector();
-$list = "";
+$list = array();
 foreach ($carro as $key => $value) {
-  $list = $list.$key.',';
+    array_push($list, $key);
 }
-$list = substr($list,0,strlen($list)-1);
 $cursos=array();
 foreach ($list as $id) {
   $curso=$curso_colector->getCursoAndInfoById($id);

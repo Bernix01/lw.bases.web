@@ -14,13 +14,6 @@ class usuarioColector
         return $this->worker->read("usuario",Usuario::class);
     }
 
-    public function getUserById($id)
-    {
-        $query = "call getUserById($id)";
-        $result = $this->worker->execQueryReturning($query,Usuario::class);
-        return $result;
-    }
-
     public function getUserByCredentials($nickname, $contrasenia)
     {
         $query = "SELECT * FROM usuario WHERE nickname='" . $nickname . "'AND contrasenia='" . $contrasenia . "'";
@@ -65,6 +58,14 @@ class usuarioColector
         }
         return null;
     }
+
+    public function getUserById($id)
+    {
+        $query = "call getUserById($id)";
+        $result = $this->worker->execQueryReturning($query, Usuario::class);
+        return $result;
+    }
+
     public function realizarPagoDeposito($id_estudiante,$nombres,$apellidos,$total,$direccion,$id_curso){
 
       $this->worker->beginTransaction();
@@ -74,6 +75,5 @@ class usuarioColector
       return $result;
     }
 
-}
 
-?>
+}

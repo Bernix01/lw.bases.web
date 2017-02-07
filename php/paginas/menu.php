@@ -28,8 +28,8 @@
                     <li ><a href="../../login.html">Identifícate</a></li>
                     <?php }else {
                       ?>
-                        <li ><a href="#"><?php echo $_SESSION["nickname"] ?></a></li>
-                          <li ><a href="#">Cerrar sesión</a></li>
+                                        <li><a href="/perfil.php"><?php echo $_SESSION["nickname"] ?></a></li>
+                                        <li><a href="/logout.php">Cerrar sesión</a></li>
                       <?php
                     } ?>
                 </ul>

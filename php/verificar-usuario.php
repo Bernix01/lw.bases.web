@@ -19,6 +19,7 @@ $password = stripslashes($password);
 $usuario=$usuarioColector->getUserByCredentials($username,$password); //buscar en la base de datos al usuario por sus credenciales
 
 if($usuario){ //hizo match con el nickname y la contraseña
+    $_SESSION["id"] = $usuario->get_id_usuario();
   $_SESSION["nickname"]=$usuario->get_nickname();
   $_SESSION["rol"]=$usuario->get_rol();
   if($usuario->get_rol()==2){
