@@ -8,7 +8,11 @@ class EtiquetaColector{
     public function __construct(){
       $this->worker= new Colector();
     }
-
+    public function getAll(){
+      $query="call getAllEtiquetas";
+      return $this->worker->execQueryArray($query,Etiqueta::class);
+    }
+    
     public function getEtiquetaById($id){
       $query= "call getEtiquetaById($id)";
       $result=$this->worker->query($query);

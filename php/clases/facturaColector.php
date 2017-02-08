@@ -16,22 +16,21 @@ class FacturaColector
         return $this->worker->getById($id, "factura", "id_factura", Factura::class);
     }
 
-    public function addFactura($nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$id_pago)
+    public function addFactura($nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$num_factura)
     {
-        $factura = new Factura(null,$nombres,$apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$id_pago);
-        $query = "INSERT INTO factura(nombres,apellidos,total,direccion,fecha,ruc,cupos,id_estudiante,id_pago) VALUES (\"$nombres\",\"$apellidos\",$total,\"$direccion\",\"$fecha\",\"$ruc\",$cupos,$id_estudiante,$id_pago)";
+        $factura = new Factura(null,$nombres,$apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$num_factura);
+        $query = "call addFactura(\"$nombres\",\"$apellidos\",$total,\"$direccion\",\"$fecha\",\"$ruc\",$cupos,\"$id_estudiante\",$numero_factura)";
         $result = $this->worker->execQuery($query);
         if ($result) {
-            $id_factura = $this->worker->getLastID();
-            return $this->getFacturaById($id_factura);
+            //$id_factura = $this->worker->getLastID();
+            return $factura;
         }
         return null;
     }
 
-    public function updateFactura($id,$nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$id_pago)
+    public function updateFactura($id,$nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante)
     {
-        $query = "UPDATE factura SET nombres=\"$nombres\", apellidos=\"$apellidos\", total=$total, direccion=\"$direccion\", fecha=\"$fecha\",ruc=\"$ruc\",cupos=$cupos,id_estudiante=\"$id_estudiante\",id_pago=$id_pago WHERE id_factura=$id";
-        echo $query;
+        $query = "call updateFactura($id,\"$nombres\",\"$apellidos\", $total, \"$direccion\",\"$fecha\",\"$ruc\",$cupos,\"$id_estudiante\")";
         $result = $this->worker->execQuery($query);
         return $result;
     }
@@ -39,14 +38,15 @@ class FacturaColector
 
     public function deleteFactura($id)
     {
-        $query = "DELETE FROM factura WHERE id_factura=$id";
+        $query = "call deleteFactura($id)";
         $result = $this->worker->execQuery($query);
         return $result;
     }
 
     public function getAll()
     {
-        return $this->worker->read("factura",Factura::class);
+        $query="call getAllFacturas";
+        return $this->worker->execQueryArray($query,Factura::class);
     }
 
 }

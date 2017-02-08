@@ -12,7 +12,7 @@
 		private $id_estudiante;
 
 
-		public function __construct($id_factura=null,$nombres=null,$apellidos=null,$total=null,$direccion=null,$fecha=null,$ruc=null,$id_estudiante=null){
+		public function __construct($id_factura=null,$nombres=null,$apellidos=null,$total=null,$direccion=null,$fecha=null,$ruc=null,$id_estudiante=null,$numero_factura=null){
 			if($id_factura!==null){
 				$this->id_factura=$id_factura;
 			}
@@ -37,6 +37,9 @@
 
 			if($id_estudiante!==null){
 				$this->id_estudiante=$id_estudiante;
+			}
+			if($numero_factura!==null){
+				$this->numero_factura=$numero_factura;
 			}
 
 		}

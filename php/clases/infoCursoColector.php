@@ -15,8 +15,7 @@ class InfocursoColector{
 
 
     public function addInfoCurso($id_curso,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin){
-        $query= "INSERT INTO info_curso(id_curso,descripcion,cupo_min,cupo_max,cupos_disponibles,fecha_inicio,fecha_fin) VALUES ($id_curso,\"$descripcion\",$cupo_min,$cupo_max,$cupos_disponibles,\"$fecha_inicio\",\"$fecha_fin\")";
-
+        $query= "call addInfoCurso($id_curso,\"$descripcion\",$cupo_min,$cupo_max,$cupos_disponibles,\"$fecha_inicio\",\"$fecha_fin\")";
         $result=$this->worker->execQuery($query);
         if($result!==null){
          return $this->getInfocursoById($id_curso);
@@ -26,19 +25,14 @@ class InfocursoColector{
     }
     public function updateInfoCurso($id_curso,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin)
     {
-      $query="UPDATE info_curso SET descripcion=$descripcion, cupo_min=$cupo_min, cupo_max=$cupo_max, cupos_disponibles=$cupos_disponibles, fecha_inicio=$fecha_inicio, fecha_fin=$fecha_fin WHERE id_curso=$id_curso";
+      $query="call updateInfoCurso($id_curso,\"$descripcion\",$cupo_min,$cupo_max,$cupos_disponibles,\"$fecha_inicio\",\"$fecha_fin\")";
       $result=$this->worker->execQuery($query);
-      return $result!==null;
+      return $result;
     }
     public function deleteInfoCurso($id){
-      $query="DELETE FROM info_curso WHERE id_curso=$id";
+      $query="call deleteInfoCurso($id)";
       $result=$this->worker->execQuery($query);
-      if($result!==null){
-        return true;
-      }
-      else{
-        return false;
-      }
+      return $result;
     }
 }
 ?>

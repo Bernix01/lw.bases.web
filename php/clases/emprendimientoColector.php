@@ -11,7 +11,8 @@ include_once ('emprendimiento.php');
     }
     public function getAll()
     {
-      return $this->worker->read("emprendimiento",Emprendimiento::class);
+      $query="call getAllEmprendimientos";
+      return $this->worker->execQueryArray($query,Emprendimiento::class);
     }
     public function getEmprendimientoById($id){
       $query= "call getEmprendimientoById($id)";

@@ -12,7 +12,8 @@ class detalleFacturaColector
     }
 
     public function getAll(){
-        return $this->worker->read("detalle_factura",DetalleFactura::class);
+      $query="call getAllDetalles";
+      return $this->worker->execQueryArray($query,DetalleFactura::class);
     }
 
     public function getDetallesByFacturaId($id)

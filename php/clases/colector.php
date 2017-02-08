@@ -12,9 +12,9 @@ class Colector
         date_default_timezone_set("America/Guayaquil");
         //set_charset("utf8");
     }
-  
 
-    public function read($table, $class = 'stdClass')
+
+    /*public function read($table, $class = 'stdClass')
     {
         try {
             $queryRead = 'SELECT * FROM ' . $table;
@@ -27,7 +27,7 @@ class Colector
             echo $e->getMessage();
             return false;
         }
-    }
+    }*/
     public function execQueryArray($query, $class =  stdClass::class)
     {
         try {

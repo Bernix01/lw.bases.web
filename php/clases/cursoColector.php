@@ -13,7 +13,8 @@ class CursoColector
 
     public function getAll()
     {
-        return $this->worker->read("curso", Curso::class);
+      $query="call getAllCursos";
+      return $this->worker->execQueryArray($query,Curso::class);
     }
 
     public function getCursoById($id_curso){
