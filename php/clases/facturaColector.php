@@ -18,14 +18,10 @@ class FacturaColector
 
     public function addFactura($nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$num_factura)
     {
-        $factura = new Factura(null,$nombres,$apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$num_factura);
+        //$factura = new Factura(null,$nombres,$apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$num_factura);
         $query = "call addFactura(\"$nombres\",\"$apellidos\",$total,\"$direccion\",\"$fecha\",\"$ruc\",$cupos,\"$id_estudiante\",$numero_factura)";
         $result = $this->worker->execQuery($query);
-        if ($result) {
-            //$id_factura = $this->worker->getLastID();
-            return $factura;
-        }
-        return null;
+        return $result;
     }
 
     public function updateFactura($id,$nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante)

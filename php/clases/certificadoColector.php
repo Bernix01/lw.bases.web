@@ -29,15 +29,9 @@ class CertificadoColector{
 	}
   public function getCertificadosByStudentId($id){
     $query="call getCertificadosByStudentId(\"$id\")";
-    $result=$this->worker->query($query);
-    if($result!==null){
-      $certificados=array();
-      while($data=mysqli_fetch_object($result,"Certificado")){
-        array_push($certificados,$data);
-      }
-      return $certificados;
-    }
-    return null;
+    $result=$this->worker->execQueryArray($query,Certificado::class);
+    return $result;
+
   }
   public function deleteCertificado($id){
     $query="call deleteCertificado($id)";

@@ -12,15 +12,11 @@ class EtiquetaColector{
       $query="call getAllEtiquetas";
       return $this->worker->execQueryArray($query,Etiqueta::class);
     }
-    
+
     public function getEtiquetaById($id){
       $query= "call getEtiquetaById($id)";
-      $result=$this->worker->query($query);
-      if($result!==NULL){
-        $data=mysqli_fetch_object($result,'Etiqueta'); //count(array)(?)
-
-        return $data;
-      }
+      $result=$this->worker->execQueryReturning($query,Etiqueta::class);
+      return $result;
       return NULL;
     }
 
@@ -28,29 +24,20 @@ class EtiquetaColector{
 	{
 		$info = new Etiqueta(null,$nombre);
 		$query= "call addEtiqueta(\"$nombre\")";
-		$result=$this->worker->query($query);
-		if($result!==null){
-      $lastid=$this->worker->query("SELECT LAST_INSERT_ID()");
-			return $this->getEtiquetaById($lastid);
-		}
-		return null;
+		$result=$this->worker->execQuery($query);
+		return $return;
 	}
 
   public function deleteEtiqueta($id){
     $query="call deleteEtiqueta($id)";
-    $result=$this->worker->query($query);
-    if($result!==null){
-      return true;
-    }
-    else{
-      return false;
-    }
+    $result=$this->worker->execQuery($query);
+    return $result;
   }
   public function updateEtiqueta($id,$nombre)
   {
     $query="call updateEtiqueta($id,\"$nombre\")";
-    $result=$this->worker->query($query);
-    return $result!==null;
+    $result=$this->worker->execQuery($query);
+    return $result
   }
 
 }

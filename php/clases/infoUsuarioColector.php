@@ -34,7 +34,7 @@ class InfoUsuarioColector{
     }
     public function deleteInfoUsuario($id){
       $query="call deleteInfoUsuario($id)";
-      $result=$this->worker->query($query);
+      $result=$this->worker->execQuery($query);
       return $result;
     }
   }

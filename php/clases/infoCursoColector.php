@@ -17,11 +17,7 @@ class InfocursoColector{
     public function addInfoCurso($id_curso,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin){
         $query= "call addInfoCurso($id_curso,\"$descripcion\",$cupo_min,$cupo_max,$cupos_disponibles,\"$fecha_inicio\",\"$fecha_fin\")";
         $result=$this->worker->execQuery($query);
-        if($result!==null){
-         return $this->getInfocursoById($id_curso);
-        }
-
-        return null;
+        return $result;
     }
     public function updateInfoCurso($id_curso,$descripcion,$cupo_min,$cupo_max,$cupos_disponibles,$fecha_inicio,$fecha_fin)
     {

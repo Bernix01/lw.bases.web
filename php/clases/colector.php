@@ -10,7 +10,7 @@ class Colector
     {
         $this->con = Database::connect();
         date_default_timezone_set("America/Guayaquil");
-        //set_charset("utf8");
+        
     }
 
 
@@ -41,36 +41,7 @@ class Colector
         }
     }
 
-    public function contar($table)
-    {
 
-        $query = "SELECT COUNT(*) from $table";
-        return $this->execQueryAVG($query);
-
-    }
-
-    /**
-     * Busca un objeto por un $id dado.
-     * @param  int $id El id del objeto a buscar.
-     * @param  String $table Nombre de la tabla en el que se buscará el objeto.
-     * @param  String $id_col Nombre de la columna que contiene el id del objeto.
-     * @param  string $class Nombre de la clase en la cual se retornará el objeto.
-     * @return mixed     una instancia de $class si se encuentra el objeto, caso contrario retorna false.
-     */
-  /*  public function execFetchObject($id, $table, $id_col, $class = 'stdClass')
-    {
-        try {
-            //$queryRead = 'SELECT * FROM ' . $table . ' WHERE ' . $id_col . '=:e_id';
-
-            $stmt = $this->con->prepare($queryRead);
-            $stmt->execute(array(':e_id' => intval($id)));
-            $result = $stmt->fetchObject($class);
-            return $result;
-        } catch (PDOException $e) {
-            echo $e->getMessage();
-            return false;
-        }
-    }*/
 
     public function execQuery($query)
     {

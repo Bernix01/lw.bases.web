@@ -32,11 +32,7 @@ class CursoColector
     {
         $query = "call addCurso(\"".$curso->getNombre()."\",".$curso->getCosto().")";
         $result = $this->worker->execQuery($query);
-
-        if ($result !== null) {
-            return $curso; //falta agregarle el id al curso
-        }
-        return null;
+        return $result;
     }
 
     public function updateCurso($id, $nombre, $costo)
