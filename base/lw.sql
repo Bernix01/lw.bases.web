@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 06, 2017 at 10:55 PM
+-- Generation Time: Feb 08, 2017 at 10:31 AM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -28,16 +28,104 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addCertificado` (IN `content` VARCH
 INSERT INTO certificado(contenido,id_estudiante) VALUES (content,id_estud);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addCurso` (IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5,2))  BEGIN
+INSERT INTO curso VALUES (DEFAULT,nomb,cost);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addEmprendimiento` (IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(35), IN `descrip` TEXT)  BEGIN
+INSERT INTO emprendimiento(id_estudiante,nombre,descripcion) VALUES (id_est,nomb,descrip);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addEtiqueta` (IN `nombre` VARCHAR(46))  BEGIN
+INSERT INTO Certificado(nombre) VALUES (nombre);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addFactura` (IN `nombs` VARCHAR(46), IN `aps` VARCHAR(46), IN `tot` DECIMAL(5,2), IN `direcc` VARCHAR(64), IN `fech` DATE, IN `rc` VARCHAR(13), IN `cupo` INT(11), IN `id_est` VARCHAR(13), IN `numero_fact` INT(9))  BEGIN
+INSERT INTO factura(nombres,apellidos,total,direccion,fecha,ruc,cupos,id_estudiante,numero_factura) VALUES (nombs,aps,tot,direcc,fecha,rc,cupo,id_est,numero_fact);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addInfoCurso` (IN `id` INT(32), IN `descrip` TEXT, IN `cupo_mi` INT(11), IN `cupo_ma` INT(11), IN `cupos_d` INT(11), IN `fecha_i` DATE, IN `fecha_f` DATE)  BEGIN
+INSERT INTO info_curso(id_curso,descripcion,cupo_min,cupo_max,cupos_disponibles,fecha_inicio,fecha_fin) VALUES (id,descrip,cupo_mi,cupo_ma,cupos_d,fecha_i,fecha_f);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteCertificado` (IN `id` INT)  BEGIN
 DELETE FROM certificado WHERE id_certificado=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteCurso` (IN `id` INT)  BEGIN
+DELETE FROM curso WHERE id_curso=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteDetalleFactura` (IN `id` INT)  BEGIN
+DELETE FROM detalle_factura WHERE id_factura=id; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteEmprendimiento` (IN `id` INT)  BEGIN
+DELETE FROM emprendimiento WHERE id_emprendimiento = id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteEtiqueta` (IN `id` INT)  BEGIN
+DELETE FROM etiqueta WHERE id_etiqueta=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteFactura` (IN `id` INT(32))  BEGIN
+DELETE FROM factura WHERE id_factura=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteInfoCurso` (IN `id` INT(32))  BEGIN
+DELETE FROM info_curso WHERE id_curso=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCursos` ()  BEGIN
+SELECT * from curso;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllDetalles` ()  BEGIN
+SELECT * from detalle_factura;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEmprendimientos` ()  BEGIN
+SELECT * from emprendimiento;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllEtiquetas` ()  BEGIN
+SELECT * from etiqueta;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllFacturas` ()  BEGIN
+SELECT * from factura;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadoById` (IN `id_cert` INT)  BEGIN
 SELECT * FROM certificado WHERE id_certificado=id_cert;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadosByStudentId` (IN `id` INT)  BEGIN
+SELECT * FROM certificado WHERE id_estudiante=id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursoAndInfoById` (IN `idc` INT)  BEGIN
 SELECT * FROM curso,info_curso WHERE curso.id_curso=info_curso.id_curso and curso.id_curso=idc;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByUsuarioId` (IN `id` VARCHAR(13))  BEGIN
+Select curso.id_curso,curso.nombre,curso.costo,info_curso.descripcion,info_curso.cupos_disponibles,info_curso.cupo_min,info_curso.cupos_max,info_curso.fecha_inicio,info_curso.fecha_fin FROM usuario,curso,curso_profesor,info_curso WHERE usuario.id_usuario=curso_profesor.id_profesor and curso_profesor.id_curso=curso.id_curso and info_curso.id_curso=curso.id_curso and usuario.id_usuario=id GROUP BY curso.id_curso;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetallesByFacturaId` (IN `id` INT)  BEGIN
+SELECT * FROM detalle_factura WHERE id_factura=id; 
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmprendimientoById` (IN `id` INT)  BEGIN
+SELECT * FROM emprendimiento WHERE id_emprendimiento= id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmprendimientosByStudentId` (IN `id` INT)  BEGIN
+SELECT * FROM emprendimiento WHERE id_estudiante=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEtiquetaById` (IN `id` INT)  BEGIN
+SELECT * FROM etiqueta WHERE id_etiqueta=id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `id` VARCHAR(13))  BEGIN
@@ -54,6 +142,30 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateCertificado` (IN `id` INT, IN `id_estud` VARCHAR(13), IN `content` VARCHAR(100))  BEGIN
 UPDATE certificado SET id_estudiante=id_estud, contenido=content WHERE id_certificado=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateCurso` (IN `id` INT, IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5,2))  BEGIN
+UPDATE curso SET nombre=nomb, costo=cost WHERE id_curso=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateDetalleFactura` (IN `id_f` INT, IN `id_c` INT)  BEGIN
+UPDATE detalle_factura SET  id_curso=id_c WHERE id_factura=id_f;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEmprendimiento` (IN `id` INT, IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(35), IN `descrip` TEXT)  BEGIN
+UPDATE emprendimiento SET nombre=nomb, descripcion=descrip, id_estudiante=id_es WHERE id_emprendimiento=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEtiqueta` (IN `id` INT, IN `nomb` VARCHAR(46))  BEGIN
+UPDATE etiqueta SET nombre=nomb WHERE id_etiqueta= id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateFactura` (IN `id` INT(32), IN `nombs` VARCHAR(46), IN `aps` VARCHAR(46), IN `tot` DECIMAL(5,2), IN `direcc` VARCHAR(64), IN `fech` DATE, IN `rc` VARCHAR(13), IN `cupo` INT(11), IN `id_est` VARCHAR(13))  BEGIN
+UPDATE factura SET nombres=nombs, apellidos=aps, total=tot, direccion=direcc, fecha=fech,ruc=rc,cupos=cupo,id_estudiante=id_est WHERE id_factura=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateInfoCurso` (IN `id` INT(32), IN `descrip` TEXT, IN `cupo_mi` INT(11), IN `cupo_ma` INT(11), IN `cupos_d` INT(11), IN `fecha_i` DATE, IN `fecha_f` DATE)  BEGIN
+UPDATE info_curso SET descripcion=descrip, cupo_min=cupo_mi, cupo_max=cupo_ma, cupos_disponibles=cupos_d, fecha_inicio=fecha_i, fecha_fin=fecha_f WHERE id_curso=id;
 END$$
 
 DELIMITER ;
@@ -214,8 +326,7 @@ CREATE TABLE `curso_profesor` (
 
 CREATE TABLE `detalle_factura` (
   `id_factura` int(32) NOT NULL,
-  `id_curso` int(32) NOT NULL,
-  `numero_cupos` int(11) NOT NULL
+  `id_curso` int(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 -- --------------------------------------------------------
@@ -315,15 +426,16 @@ CREATE TABLE `factura` (
   `apellidos` varchar(46) COLLATE latin1_spanish_ci NOT NULL,
   `numero_factura` int(9) NOT NULL,
   `ruc` varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `cupos` int(11) NOT NULL DEFAULT '0'
+  `cupos` int(11) NOT NULL DEFAULT '0',
+  `direccion` varchar(64) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Dumping data for table `factura`
 --
 
-INSERT INTO `factura` (`id_factura`, `id_estudiante`, `fecha`, `total`, `nombres`, `apellidos`, `numero_factura`, `ruc`, `cupos`) VALUES
-(1, '1604070162099', '2017-01-17', '60.00', 'Cecilia', 'Solís Avendaño', 1200099, '0936760895001', 0);
+INSERT INTO `factura` (`id_factura`, `id_estudiante`, `fecha`, `total`, `nombres`, `apellidos`, `numero_factura`, `ruc`, `cupos`, `direccion`) VALUES
+(1, '1604070162099', '2017-01-17', '60.00', 'Cecilia', 'Solís Avendaño', 1200099, '0936760895001', 0, '');
 
 -- --------------------------------------------------------
 
