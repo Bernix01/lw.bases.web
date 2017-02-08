@@ -10,13 +10,15 @@ class usuarioColector
         $this->worker = new Colector();
     }
 
-    public function getAll(){
-        return $this->worker->read("usuario",Usuario::class);
+    public function getAll()
+    {
+        $query="call getAllUsuarios";
+        return $this->worker->execQueryArray($query,Usuario::class);
     }
 
     public function getUserByCredentials($nickname, $contrasenia)
     {
-        $query = "SELECT * FROM usuario WHERE nickname='" . $nickname . "'AND contrasenia='" . $contrasenia . "'";
+        $query = "call getUserByCredentials(\"$nickname\",\"$contrasenia\")";
         $result = $this->worker->execQueryReturning($query,Usuario::class);
         //if ($result !== NULL) {
             //$data = mysqli_fetch_assoc($result); //count(array)(?)
@@ -34,14 +36,14 @@ class usuarioColector
 
     public function deleteUsuario($id_usuario)
     {
-        $query = 'call borrar_usuario(?)';
+        $query = "call deleteUsuario(\"$id_usuario)";
         $result = $this->worker->execQuery($query);
         return $result;
     }
 
-    public function updateUsuario($id, $nickname, $contrasenia, $email, $rol)
+    public function updateUsuario($id, $nickname, $contrasenia,$rol,$email)
     {
-        $query = "UPDATE usuario SET nickname=\"$nickname\", contrasenia=\"$contrasenia\", rol=$rol, email=\"$email\" WHERE id_usuario=\"$id\"";
+        $query = "call updateUsuario(\"$id\",\"$nickname\",\"$contrasenia\",$rol,\"$email\")";
         echo $query;
         $result = $this->worker->execQuery($query);
         return $result;
@@ -49,14 +51,14 @@ class usuarioColector
 
     public function addUsuario($id, $nickname, $contrasenia, $email, $rol)
     {
-        $query = "INSERT into usuario(id_usuario,nickname, contrasenia, email, rol) values(\"$id\",\"$nickname\", \"$contrasenia\", \"$email\", $rol)";
+        $query = "call addUsuario(\"$id\",\"$nickname\",\"$contrasenia\",$rol,\"$email\")";
         $result = $this->worker->execQuery($query);
-        echo $query;
-        if ($result ) {
+        /*if ($result ) {
             $usuario = $this->getUserById($id);
             return $usuario->get_nickname() == $nickname ? $usuario : null;
         }
-        return null;
+        return null;*/
+        return $result;
     }
 
     public function getUserById($id)

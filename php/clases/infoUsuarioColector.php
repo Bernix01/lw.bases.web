@@ -9,7 +9,7 @@ class InfoUsuarioColector{
     }
 
     public function getInfoUsuarioById($id_usuario){
-		$query= "SELECT * FROM info_usuario WHERE id_usuario=\"".$id_usuario."\" limit 1";
+		$query= "call getInfoUsuarioById($id_usuario)";
 		$result=$this->worker->execQueryReturning($query,Info_usuario::class);
         return $result;
     }
@@ -21,28 +21,21 @@ class InfoUsuarioColector{
         $numero_cursos=0;
       }
 		$info=new Info_usuario($id_usuario,$nombres,$apellidos,$numero_cursos,$tag_line);
-		$query="INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES (\"$id_usuario\",\"$nombres\",\"$apellidos\",$numero_cursos,\"$tag_line\")";
-		echo $query;
+		$query="call addInfoUsuario(\"$id\",\"$nombres\",\"$apellidos\",\"$tag_line\",$numero_cursos)";
 		$result=$this->worker->execQuery($query);
 		return $result;
     }
 
-    public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$tag_line=null)
+    public function updateInfoUsuario($id_usuario,$nombres,$apellidos,$tag_line=null,$numero_cursos)
     {
-      $query="UPDATE info_usuario SET nombres=\"$nombres\", apellidos=\"$apellidos\", tag_line=". ($tag_line ? "\"$tag_line\"":"null")." WHERE id_usuario=\"$id_usuario\"";
-      echo $query;
+      $query="call updateInfoUsuario(\"$id\",\"$nombres\",\"$apellidos\",\"$tag_line\",$numero_cursos)";
       $result=$this->worker->execQuery($query);
       return $result;
     }
     public function deleteInfoUsuario($id){
-      $query="DELETE FROM info_usuario WHERE id_usuario=$id";
+      $query="call deleteInfoUsuario($id)";
       $result=$this->worker->query($query);
-      if($result!==null){
-        return true;
-      }
-      else{
-        return false;
-      }
+      return $result;
     }
   }
 ?>
