@@ -13,6 +13,7 @@ $password=$_POST['password'];
 $username = stripslashes($username);
 $password = stripslashes($password);
 
+
 //$username = mysqli_real_escape_string($username);
 //$password = mysqli_real_escape_string($password);
 

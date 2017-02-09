@@ -30,7 +30,11 @@ class CertificadoColector{
   public function getCertificadosByStudentId($id){
     $query="call getCertificadosByStudentId(\"$id\")";
     $result=$this->worker->execQueryArray($query,Certificado::class);
-    return $result;
+    $lista_certis=array();
+    foreach($result as $certi){
+      array_push($lista_certis,$certi);
+    }
+    return $lista_certis;
 
   }
   public function deleteCertificado($id){

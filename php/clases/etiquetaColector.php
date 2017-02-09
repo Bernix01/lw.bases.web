@@ -36,8 +36,14 @@ class EtiquetaColector{
   public function updateEtiqueta($id,$nombre)
   {
     $query="call updateEtiqueta($id,\"$nombre\")";
-    $result=$this->worker->execQuery($query);
-    return $result
+    $result=$this->worker->execQuery1($query);
+    return $result;
+  }
+  public function contar(){
+
+    $query="call contarEtiquetas1";
+    $result=$this->worker->execQueryReturning1($query,"COUNT(etiqueta.id_etiqueta)");
+    return $result;
   }
 
 }

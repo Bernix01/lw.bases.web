@@ -10,7 +10,7 @@ class Colector
     {
         $this->con = Database::connect();
         date_default_timezone_set("America/Guayaquil");
-        
+
     }
 
 
@@ -63,7 +63,26 @@ class Colector
             $stmt->execute();
             return $stmt->fetchObject($class);
         } catch (PDOException $e) {
+
             echo $e->getMessage();
+
+            return false;
+        }
+    }
+    public function execQueryReturning1($query, $col)
+    {
+        try {
+            $stmt = $this->con->prepare($query);
+            $stmt->execute();
+            $re=$stmt->fetch(PDO::FETCH_ASSOC);
+            return ($re[$col]);
+
+            //echo $stmt;
+
+        } catch (PDOException $e) {
+
+            echo $e->getMessage();
+
             return false;
         }
     }

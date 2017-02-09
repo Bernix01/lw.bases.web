@@ -12,16 +12,20 @@ if (!isset($_SESSION))
 require_once("php/clases/usuarioColector.php");
 require_once("php/clases/infoUsuarioColector.php");
 require_once("php/clases/cursoColector.php");
+require_once("php/clases/certificadoColector.php");
 
 $colectorUsuario = new usuarioColector();
 $colectorInfoUsuario = new InfoUsuarioColector();
 $cursoColector = new CursoColector();
+$certificado_colector= new CertificadoColector();
 
 $usuario = $colectorUsuario->getUserById($_SESSION["id"]);
 $infousuario = $colectorInfoUsuario->getInfoUsuarioById($_SESSION["id"]);
-$curso = $cursoColector->getCursosFromUsuario($usuario->get_id_usuario());
-
+$curso = $cursoColector->getCursosByUsuarioId($usuario->get_id_usuario());
+$certificados=$certificado_colector->getCertificadosByStudentId($usuario->get_id_usuario());
+$num_certificados=count($certificados);
 ?>
+
 <style>
     @import url(https://fonts.googleapis.com/css?family=Raleway:400,200,300,800);
     @import url(http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css);
@@ -105,8 +109,9 @@ $curso = $cursoColector->getCursosFromUsuario($usuario->get_id_usuario());
         text-align: right;
         padding: 8px 30px 13px;
         font-size: 0.8em;
-        opacity: 0.8;
-        font-style: italic;
+        opacity: 1;
+        color: #ffffff;
+
     }
 
     figure.snip0042:after {
@@ -160,17 +165,18 @@ $curso = $cursoColector->getCursosFromUsuario($usuario->get_id_usuario());
 <figure class="snip0042 blue">
     <figcaption>
         <h2><?php echo $usuario->get_nickname(); ?> <span><?php echo $usuario->get_email(); ?></span></h2>
-        <p>If you couldn't find any weirdness, maybe we'll just have to make some!</p>
+        <p><?php echo $infousuario->get_tag_line();?></p>
         <div class="icons">
-            <a href="#"><i class="ion-ios-home"></i></a>
-            <a href="#"><i class="ion-ios-email"></i></a>
+            <i class="ion-ios-home"><?php echo "Cursos: ".$infousuario->get_numero_cursos(); ?></i>
+            <a href="certificadosPorUsuario.php"><i class="ion-ios-email"><?php echo "Certificados: ".$num_certificados; ?></i></a>
             <a href="#"><i class="ion-ios-telephone"></i></a>
+
         </div>
     </figcaption>
     <!-- <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample6.jpg" alt="sample6"/> -->
     <div class="container">
         <div class="row">
-            <?php var_dump($curso) ?>
+
             <?php foreach ($curso as $row) {
                 echo "<div class=\"col-sm-2 col-md-4 col-lg-4\"><div class=\"curso\">
 					<h3>" . $row->nombre . "</h3>
@@ -187,6 +193,6 @@ $curso = $cursoColector->getCursosFromUsuario($usuario->get_id_usuario());
             ?>
         </div>
     </div>
-    <div class="position">Human Resources</div>
-</figure>
+    <a href="index.php"><div class="position">Volver al menú principal</div></a>
 
+</figure>

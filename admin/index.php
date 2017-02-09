@@ -1,54 +1,35 @@
 <?php
-include_once("../php/clases/colector.php");
-include_once("../php/clases/usuario.php");
-include_once("../php/clases/etiqueta.php");
-include_once("../php/clases/curso.php");
+
+include_once("../php/clases/usuarioColector.php");
+include_once("../php/clases/etiquetaColector.php");
+include_once("../php/clases/cursoColector.php");
 
 session_start();
 if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 2) {
     header("location: /login.html");
     die();
 }
-$colector = new Colector();
+$usuario_colector = new usuarioColector();
+$curso_colector= new CursoColector();
+$etiqueta_colector= new EtiquetaColector();
 //if connection is not successful you will see text error
-if ($colector === null) {
-    die('Could not connect to database');
-}
-
-$usuarios = $colector->read("usuario",Usuario::class);
-if (!$usuarios) {
-    die('Invalid query:');
-}
-
-$etiquetas = $colector->read("etiqueta",Etiqueta::class);
-if (!$etiquetas) {
-    die("Invalid query: ");
-}
-
-$curso = $colector->read("curso",Curso::class);
-if (!$curso) {
-    die('Invalid query:');
-}
-
-$dbnum = $colector->contar("usuario");
-if (!$dbnum) {
-    die('Invalid query:');
-}
-$usuarios_cantidad = $dbnum;
 
 
-$dbnum = $colector->contar("curso");
-if (!$dbnum) {
-    die('Invalid query:');
-}
+$usuarios = $usuario_colector->getAll();
 
-$cursos_cantidad = $dbnum;
+$etiquetas = $etiqueta_colector->getAll();
 
-$dbnum = $colector->contar("etiqueta");
-if (!$dbnum) {
-    die("Invalid query");
-}
-$etiquetas_cantidad = $dbnum;
+$curso = $curso_colector->getAll();
+
+$etiquetas_cantidad = $etiqueta_colector->contar();
+$usuarios_cantidad = $usuario_colector->contar();
+$cursos_cantidad = $curso_colector->contar();
+/*echo $etiquetas_cantidad;
+echo $usuarios_cantidad ;
+echo $cursos_cantidad;
+die();*/
+
+
 
 
 
@@ -115,7 +96,7 @@ $etiquetas_cantidad = $dbnum;
 
                         <div class="info-box-content">
                             <span class="info-box-text">Cursos</span>
-                            <span class="info-box-number"><?php echo $cursos_cantidad["COUNT(*)"]; ?></span>
+                            <span class="info-box-number"><?php echo $cursos_cantidad; ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -128,7 +109,7 @@ $etiquetas_cantidad = $dbnum;
 
                         <div class="info-box-content">
                             <span class="info-box-text">Usuarios</span>
-                            <span class="info-box-number"><?php echo $usuarios_cantidad["COUNT(*)"]; ?></span>
+                            <span class="info-box-number"><?php echo $usuarios_cantidad; ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>
@@ -141,7 +122,7 @@ $etiquetas_cantidad = $dbnum;
 
                         <div class="info-box-content">
                             <span class="info-box-text">Etiquetas</span>
-                            <span class="info-box-number"><?php echo $etiquetas_cantidad["COUNT(*)"]; ?></span>
+                            <span class="info-box-number"><?php echo $etiquetas_cantidad; ?></span>
                         </div>
                         <!-- /.info-box-content -->
                     </div>

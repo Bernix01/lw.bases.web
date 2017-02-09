@@ -15,7 +15,11 @@ class usuarioColector
         $query="call getAllUsuarios";
         return $this->worker->execQueryArray($query,Usuario::class);
     }
-
+    public function contar(){
+      $query="call contarUsuarios";
+      $result=$this->worker->execQueryReturning1($query,"COUNT(usuario.id_usuario)");
+      return $result;
+    }
     public function getUserByCredentials($nickname, $contrasenia)
     {
         $query = "call getUserByCredentials(\"$nickname\",\"$contrasenia\")";

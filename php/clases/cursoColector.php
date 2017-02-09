@@ -16,6 +16,11 @@ class CursoColector
       $query="call getAllCursos";
       return $this->worker->execQueryArray($query,Curso::class);
     }
+    public function contar(){
+      $query="call contarCursos";
+      $result=$this->worker->execQueryReturning1($query,"COUNT(curso.id_curso)");
+      return $result;
+    }
 
     public function getCursoById($id_curso){
       $query= "call getCursoById($id_curso)";

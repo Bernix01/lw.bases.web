@@ -29,12 +29,9 @@ include_once("../php/clases/certificadoColector.php");
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
   <script src="jquery-3.1.1.min.js"></script>
-  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-  <script type="text/javascript" src="tableExport.js"></script>
-  <script type="text/javascript" src="jquery.base64.js"></script>
-  <script type="text/javascript" src="jspdf/libs/sprintf.js"></script>
-  <script type="text/javascript" src="jspdf/jspdf.js"></script>
-  <script type="text/javascript" src="jspdf/libs/base64.js"></script>
+  <script src=”//mrrio.github.io/jsPDF/dist/jspdf.debug.js”></script>
+
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -98,7 +95,8 @@ include_once("../php/clases/certificadoColector.php");
             <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
         </div>
     </div>
-    <table class="table" id="certificados" >
+    <a href="javascript:demoFromHTML()" class="button">Run Code</a>
+    <table class="table" id="testcase" >
 
         <thead>
             <tr class="filters">
@@ -109,7 +107,7 @@ include_once("../php/clases/certificadoColector.php");
         </thead>
         <tbody>
           <?php
-          
+
            foreach ($result as $cert){
 
              echo "<tr>
@@ -130,7 +128,7 @@ include_once("../php/clases/certificadoColector.php");
   </div>
 
   </div>
-  <a href="#" onclick ="$('#certificados').tableExport({type:'pdf',escape:'false'});">PDF</a>
+
   </div>
 
   </div>
@@ -353,10 +351,7 @@ include_once("../php/clases/certificadoColector.php");
 
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
-<script src="libs/jspdf.debug.js"></script>
-
-<script src="libs/faker.min.js"></script>
-<script src="libs/jspdf.plugin.autotable.js"></script>
+<
 
 <script src="examples-legacy.js"></script>
 <script type="text/javascript">
@@ -421,7 +416,26 @@ function myFunction() {
       alert("Certificado ingresado con éxito");
     }
 }
+function demoFromHTML() {
+var doc = new jsPDF('p', 'in', 'letter');
+var source = $('#testcase').first();
+var specialElementHandlers = {
+'#bypassme': function(element, renderer) {
+return true;
+}
+};
 
+doc.fromHTML(
+source, // HTML string or DOM elem ref.
+0.5, // x coord
+0.5, // y coord
+{
+'width': 7.5, // max width of content on PDF
+'elementHandlers': specialElementHandlers
+});
+
+doc.output('dataurl');
+}
 
 </script>
 </body>
