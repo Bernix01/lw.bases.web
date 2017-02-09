@@ -4,12 +4,8 @@ include_once("../php/clases/usuarioColector.php");
   if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
-  $col= new Colector();
-  $result= $col->execQueryArray("Select * from usuario LEFT JOIN info_usuario USING (id_usuario) ");
   $colector= new usuarioColector();
-  //$result = $colector->getAll();
-  if(!$result)
-      die("couldn't keep up!");
+  $result=$colector->getAllUsuariosAndInfos();
 ?>
 <!DOCTYPE html>
 <html>

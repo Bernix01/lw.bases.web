@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Feb 08, 2017 at 10:31 AM
+-- Generation Time: Feb 09, 2017 at 01:35 AM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -48,6 +48,43 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addInfoCurso` (IN `id` INT(32), IN 
 INSERT INTO info_curso(id_curso,descripcion,cupo_min,cupo_max,cupos_disponibles,fecha_inicio,fecha_fin) VALUES (id,descrip,cupo_mi,cupo_ma,cupos_d,fecha_i,fecha_f);
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addInfoUsuario` (IN `id` VARCHAR(13), IN `nombs` VARCHAR(46), IN `aps` VARCHAR(46), IN `tag` VARCHAR(255), IN `num_cursos` INT(11))  BEGIN
+INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES (id,nombs,aps,num_cursos,tag);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoDeposito` (IN `id_f` INT(32), IN `forma` INT(1), IN `n_dep` INT(16))  BEGIN
+INSERT INTO Pago(id_factura,forma_pago,n_deposito) VALUES (id_f,forma,n_dep);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoTarjeta` (IN `id` INT(11), IN `id_f` INT(32), IN `forma` INT(1), IN `n_tarjeta` INT(16))  BEGIN
+INSERT INTO pago(id_factura,forma_pago,n_tarjeta) VALUES (id_f,forma,tarjeta);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUsuario` (IN `id` VARCHAR(13), IN `nick` VARCHAR(16), IN `pass` VARCHAR(15), IN `correo` VARCHAR(64), IN `ro` INT(1), OUT `ultimo_id` VARCHAR(13))  BEGIN
+INSERT into usuario(id_usuario,nickname, contrasenia, email, rol) values(id,nick, pass, correo, ro);
+SET  ultimo_id= LAST_INSERT_ID();
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `buscarCurso` (IN `cadena` VARCHAR(64))  BEGIN
+SELECT * from curso,info_curso where info_curso.id_curso=curso.id_curso AND curso.nombre LIKE cadena ;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contarCursos` ()  BEGIN
+SELECT COUNT(curso.id_curso) from curso;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contarEtiquetas` (OUT `numero` INT)  BEGIN
+SELECT count(id_etiqueta) INTO numero FROM etiqueta;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contarEtiquetas1` ()  BEGIN
+SELECT COUNT(etiqueta.id_etiqueta) from etiqueta;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `contarUsuarios` ()  BEGIN
+SELECT COUNT(usuario.id_usuario) from usuario;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteCertificado` (IN `id` INT)  BEGIN
 DELETE FROM certificado WHERE id_certificado=id;
 END$$
@@ -76,6 +113,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteInfoCurso` (IN `id` INT(32)) 
 DELETE FROM info_curso WHERE id_curso=id;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteInfoUsuario` (IN `id` VARCHAR(13))  BEGIN
+DELETE FROM info_usuario WHERE id_usuario=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deletePago` (IN `id` INT(11))  BEGIN
+DELETE FROM pago WHERE id_pago=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `deleteUsuario` (IN `id` VARCHAR(13))  BEGIN
+DELETE FROM usuario WHERE id_usuario=id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllCursos` ()  BEGIN
 SELECT * from curso;
 END$$
@@ -96,6 +145,18 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllFacturas` ()  BEGIN
 SELECT * from factura;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllPagos` ()  BEGIN
+SELECT * from pago;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllUsuarios` ()  BEGIN
+SELECT * from usuario;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getAllUsuariosAndInfos` ()  BEGIN
+Select * from usuario LEFT JOIN info_usuario USING (id_usuario);
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadoById` (IN `id_cert` INT)  BEGIN
 SELECT * FROM certificado WHERE id_certificado=id_cert;
 END$$
@@ -109,7 +170,7 @@ SELECT * FROM curso,info_curso WHERE curso.id_curso=info_curso.id_curso and curs
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByUsuarioId` (IN `id` VARCHAR(13))  BEGIN
-Select curso.id_curso,curso.nombre,curso.costo,info_curso.descripcion,info_curso.cupos_disponibles,info_curso.cupo_min,info_curso.cupos_max,info_curso.fecha_inicio,info_curso.fecha_fin FROM usuario,curso,curso_profesor,info_curso WHERE usuario.id_usuario=curso_profesor.id_profesor and curso_profesor.id_curso=curso.id_curso and info_curso.id_curso=curso.id_curso and usuario.id_usuario=id GROUP BY curso.id_curso;
+Select curso.id_curso,curso.nombre,curso.costo,info_curso.descripcion,info_curso.cupos_disponibles,info_curso.cupo_min,info_curso.cupo_max,info_curso.fecha_inicio,info_curso.fecha_fin FROM usuario,curso,curso_profesor,info_curso WHERE usuario.id_usuario=curso_profesor.id_profesor and curso_profesor.id_curso=curso.id_curso and info_curso.id_curso=curso.id_curso and usuario.id_usuario=id GROUP BY curso.id_curso;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetallesByFacturaId` (IN `id` INT)  BEGIN
@@ -126,6 +187,18 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEtiquetaById` (IN `id` INT)  BEGIN
 SELECT * FROM etiqueta WHERE id_etiqueta=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getInfoUsuarioById` (IN `id` VARCHAR(13))  BEGIN
+SELECT * FROM info_usuario WHERE id_usuario=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getPagoById` (IN `id` INT(11))  BEGIN
+SELECT * from pago where id_pago=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByCredentials` (IN `nick` VARCHAR(16), IN `pas` VARCHAR(15))  BEGIN
+SELECT * FROM usuario WHERE nickname=nick AND contrasenia=pas;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `id` VARCHAR(13))  BEGIN
@@ -166,6 +239,14 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `updateInfoCurso` (IN `id` INT(32), IN `descrip` TEXT, IN `cupo_mi` INT(11), IN `cupo_ma` INT(11), IN `cupos_d` INT(11), IN `fecha_i` DATE, IN `fecha_f` DATE)  BEGIN
 UPDATE info_curso SET descripcion=descrip, cupo_min=cupo_mi, cupo_max=cupo_ma, cupos_disponibles=cupos_d, fecha_inicio=fecha_i, fecha_fin=fecha_f WHERE id_curso=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateInfoUsuario` (IN `id` VARCHAR(13), IN `nombs` VARCHAR(46), IN `aps` VARCHAR(46), IN `tag` VARCHAR(255), IN `num_cursos` INT(11))  BEGIN
+UPDATE info_usuario SET nombres=nombs, apellidos=aps, tag_line=tag , numero_cursos=num_cursos WHERE id_usuario=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateUsuario` (IN `id` VARCHAR(13), IN `nick` VARCHAR(16), IN `pass` VARCHAR(15), IN `ro` INT(1), IN `correo` VARCHAR(15))  BEGIN
+UPDATE usuario SET nickname=nick, contrasenia=pass, rol=ro, email=correo WHERE id_usuario=id;
 END$$
 
 DELIMITER ;
@@ -507,6 +588,7 @@ INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos
 ('1604031238999', 'dui', 'peres', 4, NULL),
 ('1604070162099', 'digna', 'solisa', 0, NULL),
 ('1608112083799', 'juanito', 'perez', 2, NULL),
+('1609041989699', 'lola', 'guzman', 0, 'probando'),
 ('1618032056299', 'Lisa', 'Fiallos', 4, NULL);
 
 -- --------------------------------------------------------
@@ -543,6 +625,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`id_usuario`, `nickname`, `contrasenia`, `email`, `last_login`, `rol`) VALUES
+('0925650996', 'bellengc', '1234a', 'belen@espol.ec', '0000-00-00 00:00:00', 1),
+('0925650997', 'bellengc1', '1234a', 'belen1@espol.ec', '0000-00-00 00:00:00', 1),
+('0925650998', 'bel2', '123', 'bel2@gmial.com', '0000-00-00 00:00:00', 1),
 ('1604031238999', 'dui.', 'POO48HMU6HJ', 'adfsad@asdfasdf.com', '2017-02-02 08:24:33', 0),
 ('1604070162099', 'dignissim.', 'JWM51QWJ1XN', 'tempor.est.ac@gravidasagittisDuis.com', '2016-02-07 23:40:47', 1),
 ('1604110664599', 'natoque', 'PIH93DMX1ER', 'nulla@Intincidunt.net', '2016-10-25 20:33:21', 1),

@@ -122,8 +122,8 @@ session_start();
         		</style>
         	</head>
 <body>
-<div><a href="pago.html" class="btn btn-default" >Pago con Tarjeta</a></div>
-<div><a href="deposito.php?id_estudiante=" class="btn btn-default" >Pago en efectivo</a></div>
+<div><a href="pago.html?id_est="<?php echo $_SESSION["id"];?> class="btn btn-default" >Pago con Tarjeta</a></div>
+<div><a href='deposito.php?id_est='<?php echo $_SESSION["id"];?> class="btn btn-default" >Pago en efectivo</a></div>
 
 </body>
 </html>

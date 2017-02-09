@@ -21,6 +21,10 @@ class CursoColector
       $result=$this->worker->execQueryReturning1($query,"COUNT(curso.id_curso)");
       return $result;
     }
+    public function buscarCurso($cadena){
+      $query="call buscarCurso(\"$cadena\")";
+      return $this->worker->execQueryArray($query);
+    }
 
     public function getCursoById($id_curso){
       $query= "call getCursoById($id_curso)";

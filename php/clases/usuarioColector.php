@@ -9,7 +9,11 @@ class usuarioColector
     {
         $this->worker = new Colector();
     }
+    public function getAllUsuariosAndInfos(){
+      $query="call getAllUsuariosAndInfos";
+      return $this->worker->execQueryArray($query);
 
+    }
     public function getAll()
     {
         $query="call getAllUsuarios";

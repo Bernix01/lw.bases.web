@@ -1,8 +1,8 @@
 <?php
-include_once('php/clases/colector.php');
-include_once('php/clases/curso.php');
+
+include_once('php/clases/cursoColector.php');
 session_start();
-$colector= new Colector();
+$colector= new CursoColector();
 //mysqli_set_charset($link,"utf8");
 //mysqli_select_db($link, "lw");
 //if connection is not successful you will see text error
@@ -12,11 +12,9 @@ $colector= new Colector();
 $busqueda=$_POST['busqueda'];
 $busqueda=stripslashes($busqueda);
 $busqueda="%$busqueda%";
-$query="SELECT curso.nombre as nombre, curso.id_curso as idcurso, info_curso.descripcion as descripcion,curso.costo as costo, info_curso.cupo_max as cupo_max, info_curso.cupos_disponibles as disponibles from curso, info_curso where curso.id_curso= info_curso.id_curso and curso.nombre like '$busqueda')";
-$curso=$colector->execQueryArray($query);
-if(!$curso){
-    die('Invalid query:');
-}
+$curso=$colector->buscarCurso($busqueda);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="">
@@ -48,11 +46,11 @@ if(!$curso){
 					<h3>".$row->nombre."</h3>
 					<span class=\"pull-right\">
 					<span class=\"label label-info\">$".$row->costo."</span>
-					<span class=\"label label-success\"><i class=\"fa fa-person\"></i> ".$row->disponibles."/".$row->cupo_max."</span></span>
+					<span class=\"label label-success\"><i class=\"fa fa-person\"></i> ".$row->cupos_disponibles."/".$row->cupo_max."</span></span>
 					<br>
 					<hr>
 					<p>".$row->descripcion."</p>
-					<a href=\"..\carrito.php?add=".$row->idcurso."\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
+					<a href=\"..\carrito.php?add=".$row->id_curso."\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
 
 				</div></div>";
       }

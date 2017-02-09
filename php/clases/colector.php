@@ -69,6 +69,20 @@ class Colector
             return false;
         }
     }
+    public function execTransaction($queries){
+      try{
+        $this->con->beginTransaction();
+        foreach($queries as $query){
+          $stmt = $this->con->prepare($query);
+          $stmt->execute();
+        }
+        $this->con->commit();
+      }catch (PDOException $e){
+
+        $this->con->rollback();
+        echo $e->getMessage();
+      }
+    }
     public function execQueryReturning1($query, $col)
     {
         try {
