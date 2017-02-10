@@ -15,18 +15,9 @@ include_once ('emprendimiento.php');
       return $this->worker->execQueryArray($query,Emprendimiento::class);
     }
     public function getEmprendimientoById($id){
-      $query= "call getEmprendimientoById($id)";
-      $result=$this->worker->query($query);
-      /*if($result!==NULL){
-        $data=mysqli_fetch_assoc(); //count(array)(?)
-        $emprendimiento = new emprendimientoUsuario();
-        $emprendimiento->set_id_estudiante($data['id_estudiante']);
-        $emprendimiento->set_nombre($data['nombre']);
-        $emprendimiento->set_descripcion($data['descripcion']);
-        $emprendimiento->set_id_emprendimiento($data['id_emprendimiento']); //seleccionar ultimo id insertado
-        return $emprendimiento;
-      }
-      return NULL;*/
+      $query= "call getEmprendimientoById(\"$id\")";
+      $result=$this->worker->execQueryReturning($query,Emprendimiento::class);
+
       return $result;
     }
 

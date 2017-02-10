@@ -1,12 +1,12 @@
 <?php
 session_start();
-include_once("../php/clases/certificadoColector.php");
+include_once("../php/clases/emprendimientoColector.php");
   if(!isset($_SESSION["rol"])){
     header("location: /");
   }
 
-  $colector= new CertificadoColector();
-  $result = $colector->getCertificadosByStudentId($_SESSION["id"]);
+  $colector= new EmprendimientoColector();
+  $result = $colector->getEmprendimientosByStudentId($_SESSION["id"]);
 
 ?>
 <!DOCTYPE html>
