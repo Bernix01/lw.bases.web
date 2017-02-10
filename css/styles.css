@@ -18,34 +18,34 @@ Side note: I know that this style of nesting in SASS doesn't result in the most 
 */
 /* Global settings */
 /* Global "table" column settings */
-.product-image {
+/*.product-image {
   float: left;
   width: 20%;
-}
+}*/
 
 .product-details {
   float: left;
-  width: 37%;
+  width: 45%;
 }
 
 .product-price {
   float: left;
-  width: 12%;
+  width: 19%;
 }
 
-.product-quantity {
+/*.product-quantity {
   float: left;
-  width: 10%;
-}
+  width: 12%;
+}*/
 
 .product-removal {
   float: left;
-  width: 9%;
+  width: 16%;
 }
 
 .product-line-price {
   float: left;
-  width: 12%;
+  width: 20%;
   text-align: right;
 }
 
@@ -178,6 +178,7 @@ label {
     margin: 0;
     padding-top: 20px;
     border-top: 1px solid #eee;
+
   }
 
   .column-labels {

@@ -47,15 +47,7 @@ class Database
         }
         return self::$connection;
     }
-    public static function beginTransaction(){
-      self::$connection->beginTransaction();
-    }
-    public static function commit(){
-      self::$connection->commit();
-    }
-    public function rollback(){
-      self::$connection->rollback();
-    }
+  
     public static function disconnect()
     {
         self::$connection = null;

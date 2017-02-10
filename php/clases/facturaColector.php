@@ -44,6 +44,9 @@ class FacturaColector
         $query="call getAllFacturas";
         return $this->worker->execQueryArray($query,Factura::class);
     }
+    public function comprarCursos($carro){
+      $queries=array("call ");
+    }
 
 }
 

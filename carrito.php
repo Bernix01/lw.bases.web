@@ -5,15 +5,11 @@ if(!isset($_SESSION["carro"])){
   $_SESSION["carro"] = array();
 }
 $carro = $_SESSION["carro"];
+
 if(isset($_GET)){
   if(isset($_GET["add"])){
+    $carro[$_GET["add"]] = 1;
 
-     if(isset($carro[$_GET["add"]])){
-       $carro[$_GET["add"]]++;
-
-     }else{
-       $carro[$_GET["add"]] = 1;
-     }
   }
   if(isset($_GET["rem"])){
     if(isset($carro[$_GET["rem"]])){
@@ -22,7 +18,7 @@ if(isset($_GET)){
   }
 }
 if(sizeof($carro)==0){
-  header("location: paginas/");
+  header("location: /");
   die();
 }
 $curso_colector= new CursoColector();
@@ -37,6 +33,12 @@ foreach ($list as $id) {
 
 }
 $_SESSION["carro"]=$carro;
+/*foreach ($_SESSION["carro"] as $key => $value) {
+  echo $key." ". $value;
+}*/
+//key is the id of the course; and value is the quantity
+
+
  ?>
 <!DOCTYPE html>
 <html lang="">
@@ -62,13 +64,11 @@ $_SESSION["carro"]=$carro;
     	<div class="container">
       <h1>Shopping Cart</h1>
 
-<div class="shopping-cart">
+<div class="shopping-cart" >
 
   <div class="column-labels">
-    <label class="product-image">Image</label>
     <label class="product-details">Product</label>
     <label class="product-price">Price</label>
-    <label class="product-quantity">Quantity</label>
     <label class="product-removal">Remove</label>
     <label class="product-line-price">Total</label>
   </div>
@@ -78,23 +78,17 @@ $_SESSION["carro"]=$carro;
   foreach($cursos as $row) {
     $total+=$row->costo*$carro[$row->id_curso];
   echo "<div class=\"product\">
-    <div class=\"product-image\">
-      <img src=\"\">
-    </div>
     <div class=\"product-details\">
       <div class=\"product-title\">".$row->nombre."</div>
       <p class=\"product-description\">".$row->descripcion."</p>
     </div>
     <div class=\"product-price\">".$row->costo."</div>
-    <div class=\"product-quantity\">
-      <input type=\"number\" value=\"".$carro[$row->id_curso]."\" min=\"1\">
-    </div>
     <div class=\"product-removal\">
       <a href=\"carrito.php?rem=".$row->id_curso."\" class=\"remove-product\">
         Remove
       </a>
     </div>
-    <div class=\"product-line-price\">".($row->costo*$carro[$row->id_curso])."</div>
+    <div class=\"product-line-price\">".$row->costo."</div>
   </div>
 ";
 }?>
@@ -115,6 +109,11 @@ $_SESSION["carro"]=$carro;
 		</div>
 		<!-- jQuery -->
 		<script src="../js/jquery.js"></script>
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.13.0/jquery.validate.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/adjax/jquery.validate/1.13.0/additional-methods.min.js"></script>
     <script type="text/javascript"> function validar(){
 
     }</script>
