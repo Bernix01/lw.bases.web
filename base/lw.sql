@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.5.4.1deb2ubuntu2
--- http://www.phpmyadmin.net
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 09, 2017 at 01:35 AM
--- Server version: 10.1.19-MariaDB-1~xenial
--- PHP Version: 7.0.8-0ubuntu0.16.04.3
+-- Generation Time: Feb 11, 2017 at 12:30 
+-- Server version: 10.1.21-MariaDB
+-- PHP Version: 7.1.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -161,7 +161,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadoById` (IN `id_cert` I
 SELECT * FROM certificado WHERE id_certificado=id_cert;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadosByStudentId` (IN `id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCertificadosByStudentId` (IN `id` VARCHAR(13))  BEGIN
 SELECT * FROM certificado WHERE id_estudiante=id;
 END$$
 
@@ -260,17 +260,18 @@ DELIMITER ;
 CREATE TABLE `certificado` (
   `id_certificado` int(32) NOT NULL,
   `id_estudiante` varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `contenido` varchar(100) COLLATE latin1_spanish_ci NOT NULL
+  `contenido` varchar(100) COLLATE latin1_spanish_ci NOT NULL,
+  `titulo` varchar(64) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Dumping data for table `certificado`
 --
 
-INSERT INTO `certificado` (`id_certificado`, `id_estudiante`, `contenido`) VALUES
-(1, '1604070162099', 'Certificado #111'),
-(5, '1604031238999', 'asdfa'),
-(14, '1604031238999', 'afsdgadfsgdsf');
+INSERT INTO `certificado` (`id_certificado`, `id_estudiante`, `contenido`, `titulo`) VALUES
+(1, '1604070162099', 'bla bla bla bla', 'Experto en bla bla bla'),
+(5, '1604031238999', 'asdfa', 'Certificado #1'),
+(14, '1604031238999', 'afsdgadfsgdsf', 'Experto en química');
 
 -- --------------------------------------------------------
 
@@ -440,6 +441,7 @@ INSERT INTO `emprendimiento` (`id_emprendimiento`, `id_estudiante`, `nombre`, `d
 
 --
 -- Stand-in structure for view `estudiantesMax`
+-- (See below for the actual view)
 --
 CREATE TABLE `estudiantesMax` (
 `id_usuario` varchar(13)
