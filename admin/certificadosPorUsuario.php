@@ -76,7 +76,8 @@ include_once("../php/clases/certificadoColector.php");
     </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
-      <li><a href="../perfil.php">Perfil</a></li>
+      <!--<li><a href="../perfil.php">Perfil</a></li> -->
+      <li><a href="../subirCertificados.php">Perfil</a></li>
       <li class="active">Tus certificados</li>
     </ol>
   </section>
