@@ -77,10 +77,12 @@ class Colector
           $stmt->execute();
         }
         $this->con->commit();
+        return true;
       }catch (PDOException $e){
 
         $this->con->rollback();
         echo $e->getMessage();
+        return false;
       }
     }
     public function execQueryReturning1($query, $col)

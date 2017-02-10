@@ -102,9 +102,10 @@ $_SESSION["carro"]=$carro;
       <div class="totals-value" id="cart-total"><?php echo $total; ?></div>
     </div>
   </div>
-
-      <a href="../html/pago-opciones.html" class="checkout" onclick="validar()">Checkout</a>
-
+      <a href="deposito.php"  class="checkout" onclick="validar()">Pago con depósito</a>
+</div>
+<div>
+  <a href="pago.php" class="checkout" onclick="validar()">Pagar con tarjeta</a>
 </div>
 		</div>
 		<!-- jQuery -->

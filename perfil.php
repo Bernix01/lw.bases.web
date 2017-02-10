@@ -168,7 +168,7 @@ $num_certificados=count($certificados);
         <p><?php echo $infousuario->get_tag_line();?></p>
         <div class="icons">
             <i class="ion-ios-home"><?php echo "Cursos: ".$infousuario->get_numero_cursos(); ?></i>
-            <a href="certificadosPorUsuario.php"><i class="ion-ios-email"><?php echo "Certificados: ".$num_certificados; ?></i></a>
+            <a href="admin/certificadosPorUsuario.php"><i class="ion-ios-email"><?php echo "Certificados: ".$num_certificados; ?></i></a>
             <a href="#"><i class="ion-ios-telephone"></i></a>
 
         </div>

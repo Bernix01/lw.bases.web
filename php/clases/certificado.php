@@ -3,9 +3,10 @@
 		private $id_certificado;
 		private $contenido;
 		private $id_estudiante;
+		private $titulo;
 
 
-		public function __construct($id_certificado=null,$contenido=null,$id_estudiante=null){
+		public function __construct($id_certificado=null,$contenido=null,$id_estudiante=null,$titulo=null){
 			if($id_certificado!==null){
 				$this->id_certificado=$id_certificado;
 			}
@@ -15,7 +16,16 @@
 			if($id_estudiante!==null){
 				$this->id_estudiante=$id_estudiante;
 			}
+			if($titulo!==null){
+				$this->titulo=$titulo;
+			}
 
+		}
+		public function get_titulo(){
+			return $this->titulo;
+		}
+		public function set_titulo($titulo){
+			$this->titulo=$titulo;
 		}
 
 		public function get_id_certificado(){

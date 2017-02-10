@@ -45,7 +45,10 @@ class FacturaColector
         return $this->worker->execQueryArray($query,Factura::class);
     }
     public function comprarCursos($carro){
-      $queries=array("call ");
+      $fecha=$date = date('Y-m-d');
+      $cupos=sizeof($carro);
+      $queries=array("call addFactura","call ");
+      return $this->worker->execTransaction($queries);
     }
 
 }
