@@ -74,6 +74,15 @@ class CursoColector
       }
       return $cursos;
     }
+    public function getEstudiantesByCurso($id_curso){
+      $query="call getEstudiantesByCurso($id_curso)";
+      $result=$this->worker->execQueryArray($query);
+      $estudiantes=array();
+      foreach ($result as $est) {
+        array_push($estudiantes,$est);
+      }
+      return $estudiantes;
+    }
 }
 
 ?>

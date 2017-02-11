@@ -9,9 +9,9 @@ class InfoUsuarioColector{
     }
 
     public function getInfoUsuarioById($id_usuario){
-		$query= "call getInfoUsuarioById($id_usuario)";
+		$query= "call getInfoUsuarioById(\"$id_usuario\")";
 		$result=$this->worker->execQueryReturning($query,Info_usuario::class);
-        return $result;
+    return $result;
     }
 
 

@@ -71,7 +71,7 @@ class usuarioColector
 
     public function getUserById($id)
     {
-        $query = "call getUserById($id)";
+        $query = "call getUserById(\"$id\")";
         $result = $this->worker->execQueryReturning($query, Usuario::class);
         return $result;
     }

@@ -5,7 +5,7 @@ class Curso
     private $id_curso;
     private $nombre;
     private $costo;
-    private $info_curso;
+
 
     public function __construct($id = null, $nombre = null, $costo = null)
     {
@@ -51,19 +51,6 @@ class Curso
         $this->costo = $costo;
     }
 
-    public function loadInfoCurso(InfocursoColector $col)
-    {
-        $this->info_curso = $col->getInfocursoById($this->id_curso);
-        return($this->info_curso);
-    }
-
-    /**
-     * @return null
-     */
-    public function getInfoCurso()
-    {
-        return $this->info_curso ? $this->info_curso:new Info_curso();
-    }
+    
 
 }
-

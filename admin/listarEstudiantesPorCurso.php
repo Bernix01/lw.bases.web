@@ -1,12 +1,13 @@
 <?php
 session_start();
-include_once("../php/clases/certificadoColector.php");
-  if(!isset($_SESSION["rol"])){
+include_once("../php/clases/cursoColector.php");
+  if(!isset($_SESSION["rol"])|| !isset($_GET["idc"])){
     header("location: /");
   }
 
-  $colector= new CertificadoColector();
-  $result = $colector->getCertificadosByStudentId($_SESSION["id"]);
+  $colector= new CursoColector();
+  $result = $colector->getEstudiantesByCurso($_GET["idc"]);
+  $curso=$colector->getCursoById($_GET["idc"]);
 
 ?>
 <!DOCTYPE html>
@@ -78,29 +79,28 @@ include_once("../php/clases/certificadoColector.php");
       <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
       <!--<li><a href="../perfil.php">Perfil</a></li> -->
       <li><a href="../perfil.php">Perfil</a></li>
-      <li class="active">Tus certificados</li>
+      <li><a href="cursosPorUsuario.php"><?php echo $curso->getNombre(); ?></a></li>
+      <li class="active">Estudiantes</li>
     </ol>
   </section>
 <table class="table" id="testcase" >
   <tr>
     <th>#</th>
-    <th>Titulo</th>
+    <th>Estudiante</th>
+    <th>E-mail</th>
     <th></th>
   </tr>
     <tbody>
       <?php
       $contador=1;
 
-       foreach ($result as $cert){
+       foreach ($result as $est){
 
-         echo "<tr>
-            <td>" . $contador . "</td>";
-                                echo "
-              <td>" . $cert->get_titulo() . "</td>";
-
-
-                  echo "<td><a href='../php/paginas/mostrarCertificado.php?path=".$cert->get_contenido()."'>Ver</a></td>";
-                  $contador++;
+         echo "<tr><td>" . $contador . "</td>";
+          echo "<td>" . $est->nombres." ".$est->apellidos . "</td>";
+          echo "<td>" . $est->email. "</td>";
+          echo "<td><a href='../subirCertificados.php?ide=".$est->id_usuario."'>Agregar certificado</a></td>";
+          $contador++;
         }
     ?>
 

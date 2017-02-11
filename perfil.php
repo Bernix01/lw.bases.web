@@ -23,7 +23,16 @@ $emprendimiento_colector= new EmprendimientoColector();
 
 $usuario = $colectorUsuario->getUserById($_SESSION["id"]);
 $infousuario = $colectorInfoUsuario->getInfoUsuarioById($_SESSION["id"]);
-$curso = $cursoColector->getCursosByStudentId($usuario->get_id_usuario());
+if(!$infousuario){
+  $infousuario= new Info_usuario();
+}
+if($_SESSION["rol"]==0){
+  $curso = $cursoColector->getCursosByStudentId($usuario->get_id_usuario());
+}
+else{
+  $curso=$cursoColector->getCursosByProfId($usuario->get_id_usuario());
+}
+
 $certificados=$certificado_colector->getCertificadosByStudentId($usuario->get_id_usuario());
 $emprendimientos=$emprendimiento_colector->getEmprendimientosByStudentId($_SESSION["id"]);
 $num_certificados=count($certificados);
@@ -172,7 +181,7 @@ $num_emprendimientos=count($emprendimientos);
         <h2><?php echo $usuario->get_nickname(); ?> <span><?php echo $usuario->get_email(); ?></span></h2>
         <p><?php echo $infousuario->get_tag_line();?></p>
         <div class="icons">
-            <a href="admin/cursosPorUsuario.php"<i class="ion-ios-home"><?php echo "Cursos: ".$infousuario->get_numero_cursos(); ?></i></a>
+            <a href="admin/cursosPorUsuario.php"><i class="ion-ios-home"><?php echo "Cursos: ".count($curso); ?></i></a>
             <a href="admin/certificadosPorUsuario.php"><i class="ion-ios-email"><?php echo "Certificados: ".$num_certificados; ?></i></a>
             <a href="admin/emprendimientosPorUsuario.php"><i class="ion-ios-telephone"><?php echo "Emprendimientos: ".$num_emprendimientos;?></i></a>
 
