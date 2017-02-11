@@ -6,7 +6,7 @@ include_once("../php/clases/certificadoColector.php");
   }
 
   $colector= new CertificadoColector();
-  $result = $colector->getCertificadosByStudentId($_SESSION["id"]);
+  $result = $colector->getCertificadosByStudentId("1604031238999");
 
 ?>
 <!DOCTYPE html>
@@ -77,7 +77,7 @@ include_once("../php/clases/certificadoColector.php");
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
       <!--<li><a href="../perfil.php">Perfil</a></li> -->
-      <li><a href="../subirCertificados.php">Perfil</a></li>
+      <li><a href="../perfil.php">Perfil</a></li>
       <li class="active">Tus certificados</li>
     </ol>
   </section>
@@ -128,63 +128,7 @@ function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
 
-$(document).ready(function(){
-    $('.filterable .btn-filter').click(function(){
-        var $panel = $(this).parents('.filterable'),
-        $filters = $panel.find('.filters input'),
-        $tbody = $panel.find('.table tbody');
-        if ($filters.prop('disabled') == true) {
-            $filters.prop('disabled', false);
-            $filters.first().focus();
-        } else {
-            $filters.val('').prop('disabled', true);
-            $tbody.find('.no-result').remove();
-            $tbody.find('tr').show();
-        }
-    });
 
-    $('.filterable .filters input').keyup(function(e){
-        /* Ignore tab key */
-        var code = e.keyCode || e.which;
-        if (code == '9') return;
-        /* Useful DOM data and selectors */
-        var $input = $(this),
-        inputContent = $input.val().toLowerCase(),
-        $panel = $input.parents('.filterable'),
-        column = $panel.find('.filters th').index($input.parents('th')),
-        $table = $panel.find('.table'),
-        $rows = $table.find('tbody tr');
-        /* Dirtiest filter function ever ;) */
-        var $filteredRows = $rows.filter(function(){
-            var value = $(this).find('td').eq(column).text().toLowerCase();
-            return value.indexOf(inputContent) === -1;
-        });
-        /* Clean previous no-result if exist */
-        $table.find('tbody .no-result').remove();
-        /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
-        $rows.show();
-        $filteredRows.hide();
-        /* Prepend no-result row if all rows are filtered */
-        if ($filteredRows.length === $rows.length) {
-            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
-        }
-    });
-});
-
-$('.message a').click(function(){
-   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-}
-function myFunction() {
-    var x= getURLParameter("su");
-    if(x=="0")
-      alert("No existe un usuario con el id ingresado");
-    else if(x=="2") {
-      alert("No se pudo ingresar el certificado :(");
-    }
-    else{
-      alert("Certificado ingresado con éxito");
-    }
-}
 function demoFromHTML() {
 var doc = new jsPDF('p', 'in', 'letter');
 var source = $('#testcase').first();

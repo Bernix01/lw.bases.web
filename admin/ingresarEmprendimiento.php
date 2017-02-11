@@ -13,11 +13,11 @@
   }
 
   if (isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['id_estudiante'])) {
-      $result=$emp_colector->addEmprendimiento($_POST['nombre'],$_POST['descripcion'],$_POST['id_estudiante']);
-      if($result!==null){
+      $result=$emp_colector->addEmprendimiento($_POST['id_estudiante'],$_POST['nombre'],$_POST['descripcion']);
+      if(!$result){
         ?>
         <script type="text/javascript">
-         alert("Emprendimiento agregado con éxito");
+         alert("No se pudo ingresar el emprendimiento");
         </script>
         <?php
         header('Location: listarEmprendimientos.php');
@@ -25,7 +25,7 @@
       }
       else{?>
         <script type="text/javascript">
-         alert("No se pudo ingresar el emprendimiento");
+         alert("Emprendimiento agregado con éxito");
         </script>
         <?php
         header('Location: '.$_SERVER['PHP_SELF']);
@@ -101,7 +101,7 @@
                                   <div class="box-body">
                                       <div class="form-group">
                                           <label for="nombre">Nombre</label>
-                                          <input type="text" required="required" class="form-control" name="nombre" id="nombre"
+                                          <input type="text" required="required" minlength="2" maxlength="46" class="form-control" name="nombre" id="nombre"
                                                  placeholder="Ingresar nombre">
                                       </div>
                                       <div class="form-group">
@@ -111,7 +111,7 @@
                                       </div>
                                       <div class="form-group">
                                           <label for="id_estudiante">id_estudiante</label>
-                                          <input type="text" class="form-control" required="required" name="id_estudiante" id="id_estudiante" placeholder="id_estudiante">
+                                          <input type="text" class="form-control" required="required" minlength="13" maxlength="13" name="id_estudiante" id="id_estudiante" placeholder="id_estudiante">
                                       </div>
 
 

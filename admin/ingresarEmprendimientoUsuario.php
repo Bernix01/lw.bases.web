@@ -1,13 +1,36 @@
 <?php
-session_start();
+ini_set("display_errors", 1);
 include_once("../php/clases/emprendimientoColector.php");
-  if(!isset($_SESSION["rol"])){
-    header("location: /");
-  }
+session_start();
+if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] == 2) {
+    header("location: ../");
+    exit();
+}
+$emp_colector=new EmprendimientoColector();
+//if connection is not successful you will see text error
+if ($emp_colector == null) {
+    die('Could not connect: ');
+}
 
-  $colector= new EmprendimientoColector();
-  $result = $colector->getEmprendimientosByStudentId($_SESSION["id"]);
+if (isset($_POST['nombre']) && isset($_POST['descripcion'])) {
+    $result=$emp_colector->addEmprendimiento($_SESSION['id'],$_POST['nombre'],$_POST['descripcion']);
+    if(!$result){
+      ?>
+      <script type="text/javascript">
+       alert("No se pudo ingresar el emprendimiento");
+      </script>
 
+      <?php
+    }
+    else{?>
+      <script type="text/javascript">
+       alert("Emprendimiento agregado con éxito");
+      </script>
+      <?php
+    }
+    header('Location: emprendimientosPorUsuario.php');
+}
+else {
 ?>
 <!DOCTYPE html>
 <html>
@@ -69,44 +92,47 @@ include_once("../php/clases/emprendimientoColector.php");
 <body class="hold-transition skin-blue sidebar-mini">
   <div class="wrapper">
 <div class="content-wrapper">
-  <section class="content-header">
-    <h1>
-      Tus emprendimientos
 
-    </h1>
-    <ol class="breadcrumb">
-      <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
-      <!--<li><a href="../perfil.php">Perfil</a></li> -->
-      <li><a href="../perfil.php">Perfil</a></li>
-      <li class="active">Tus emprendimientos</li>
-    </ol>
+  <section class="content">
+
+      <div class="row">
+          <!-- left column -->
+          <div class="col-md-6">
+              <!-- general form elements -->
+              <div class="box box-primary">
+                  <div class="box-header with-border">
+                      <h3 class="box-title">Ingresar Emprendimiento</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <!-- form start -->
+                  <form role="form" method="post" name="create-emprendimiento">
+                      <div class="box-body">
+                          <div class="form-group">
+                              <label for="nombre">Nombre</label>
+                              <input type="text" required="required" minlength="2" maxlength="46"class="form-control" name="nombre" id="nombre"
+                                     placeholder="Ingresar nombre">
+                          </div>
+                          <div class="form-group">
+                              <label for="descripcion">Descripcion</label>
+                              <input type="text" name="descripcion" required="required" class="form-control" id="descripcion"
+                                     placeholder="Ingresar descripcion">
+                          </div>
+
+                      </div>
+                      <!-- /.box-body -->
+
+                      <div class="box-footer">
+                          <button type="submit" class="btn btn-primary">Crear nuevo emprendimiento</button>
+                      </div>
+                  </form>
+              </div>
+              <!-- /.box -->
+
+
+          </div>
+      </div>
   </section>
-<table class="table" id="testcase" >
-  <tr>
-    <th>#</th>
-    <th>Nombre</th>
-    <th>Descripcion</th>
-  </tr>
-    <tbody>
-      <?php
-      $contador=1;
-
-       foreach ($result as $cert){
-
-         echo "<tr>
-            <td>" . $contador . "</td>";
-                                echo "
-              <td>" . $cert->get_nombre() . "</td>";
-
-
-                  echo "<td>".$cert->get_descripcion()."</td>";
-                  $contador++;
-        }
-    ?>
-
-    </tbody>
-</table>
-<a href="ingresarEmprendimientoUsuario.php"><strong>Agregar emprendimiento</strong></a>
+<a href="emprendimientosPorUsuario.php"><strong>Volver</strong></a>
 </div>
 </div>
 <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
@@ -135,27 +161,9 @@ $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 }
 
-function demoFromHTML() {
-var doc = new jsPDF('p', 'in', 'letter');
-var source = $('#testcase').first();
-var specialElementHandlers = {
-'#bypassme': function(element, renderer) {
-return true;
-}
-};
-
-doc.fromHTML(
-source, // HTML string or DOM elem ref.
-0.5, // x coord
-0.5, // y coord
-{
-'width': 7.5, // max width of content on PDF
-'elementHandlers': specialElementHandlers
-});
-
-doc.output('dataurl');
-}
-
 </script>
 </body>
 </html>
+<?php
+}
+?>

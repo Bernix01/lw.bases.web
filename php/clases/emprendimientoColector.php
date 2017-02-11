@@ -24,7 +24,11 @@ include_once ('emprendimiento.php');
     public function getEmprendimientosByStudentId($id){
       $query="call getEmprendimientosByStudentId( \"$id\")";
       $result=$this->worker->execQueryArray($query,Emprendimiento::class);
-      return $result;
+      $lista_emps=array();
+      foreach($result as $emp){
+        array_push($lista_emps,$emp);
+      }
+      return $lista_emps;
     }
 
     public function addEmprendimiento($id_estudiante,$nombre,$descripcion)
@@ -32,7 +36,7 @@ include_once ('emprendimiento.php');
       $emp=new Emprendimiento(null,$id_estudiante,$nombre,$descripcion);
       $query="call addEmprendimiento(\"$id_estudiante\",\"$nombre\",\"$descripcion\")";
       //SELECT LAST_INSERT_ID();";
-      $result=$this->work->execQuery($query);
+      $result=$this->worker->execQuery($query);
       return $result;
     }
 
