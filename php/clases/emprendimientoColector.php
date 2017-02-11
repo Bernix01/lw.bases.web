@@ -24,7 +24,11 @@ include_once ('emprendimiento.php');
     public function getEmprendimientosByStudentId($id){
       $query="call getEmprendimientosByStudentId( \"$id\")";
       $result=$this->worker->execQueryArray($query,Emprendimiento::class);
-      return $result;
+      $lista_emps=array();
+      foreach($result as $emp){
+        array_push($lista_certis,$emp);
+      }
+      return $lista_emps;
     }
 
     public function addEmprendimiento($id_estudiante,$nombre,$descripcion)

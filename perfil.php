@@ -24,6 +24,7 @@ $infousuario = $colectorInfoUsuario->getInfoUsuarioById($_SESSION["id"]);
 $curso = $cursoColector->getCursosByUsuarioId($usuario->get_id_usuario());
 $certificados=$certificado_colector->getCertificadosByStudentId($usuario->get_id_usuario());
 $num_certificados=count($certificados);
+$num_emprendimientos=count($emprendimientos);
 ?>
 
 <style>
@@ -169,7 +170,7 @@ $num_certificados=count($certificados);
         <div class="icons">
             <i class="ion-ios-home"><?php echo "Cursos: ".$infousuario->get_numero_cursos(); ?></i>
             <a href="admin/certificadosPorUsuario.php"><i class="ion-ios-email"><?php echo "Certificados: ".$num_certificados; ?></i></a>
-            <a href="#"><i class="ion-ios-telephone"></i></a>
+            <a href="admin/emprendimientosPorUsuario.php"><i class="ion-ios-telephone"><?php echo "Emprendimientos: ".$num_emprendimientos;?></i></a>
 
         </div>
     </figcaption>

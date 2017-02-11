@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.6.5.2
--- https://www.phpmyadmin.net/
+-- version 4.5.4.1deb2ubuntu2
+-- http://www.phpmyadmin.net
 --
--- Host: localhost
--- Generation Time: Feb 11, 2017 at 12:30 
--- Server version: 10.1.21-MariaDB
--- PHP Version: 7.1.1
+-- Host: 127.0.0.1
+-- Generation Time: Feb 11, 2017 at 09:56 AM
+-- Server version: 10.1.19-MariaDB-1~xenial
+-- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -32,7 +32,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addCurso` (IN `nomb` VARCHAR(64), I
 INSERT INTO curso VALUES (DEFAULT,nomb,cost);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addEmprendimiento` (IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(35), IN `descrip` TEXT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addEmprendimiento` (IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(46), IN `descrip` TEXT)  BEGIN
 INSERT INTO emprendimiento(id_estudiante,nombre,descripcion) VALUES (id_est,nomb,descrip);
 END$$
 
@@ -181,7 +181,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmprendimientoById` (IN `id` INT
 SELECT * FROM emprendimiento WHERE id_emprendimiento= id;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmprendimientosByStudentId` (IN `id` INT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmprendimientosByStudentId` (IN `id` VARCHAR(13))  BEGIN
 SELECT * FROM emprendimiento WHERE id_estudiante=id;
 END$$
 
@@ -225,7 +225,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `updateDetalleFactura` (IN `id_f` IN
 UPDATE detalle_factura SET  id_curso=id_c WHERE id_factura=id_f;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEmprendimiento` (IN `id` INT, IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(35), IN `descrip` TEXT)  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `updateEmprendimiento` (IN `id` INT, IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(46), IN `descrip` TEXT)  BEGIN
 UPDATE emprendimiento SET nombre=nomb, descripcion=descrip, id_estudiante=id_es WHERE id_emprendimiento=id;
 END$$
 
@@ -269,9 +269,11 @@ CREATE TABLE `certificado` (
 --
 
 INSERT INTO `certificado` (`id_certificado`, `id_estudiante`, `contenido`, `titulo`) VALUES
-(1, '1604070162099', 'bla bla bla bla', 'Experto en bla bla bla'),
-(5, '1604031238999', 'asdfa', 'Certificado #1'),
-(14, '1604031238999', 'afsdgadfsgdsf', 'Experto en química');
+(1, '1604070162099', 'sdf', 'Certificado #111'),
+(5, '1604031238999', 'un certificado más', 'certificado de poo'),
+(14, '1604031238999', 'afsdgadfsgdsf', 'Certificado de quimica'),
+(15, '1609041989699', 'certificado_modelo', 'experto en interfaces!'),
+(16, '1609041989699', 'certificado-prueba', 'certificado1');
 
 -- --------------------------------------------------------
 
@@ -420,7 +422,7 @@ CREATE TABLE `detalle_factura` (
 CREATE TABLE `emprendimiento` (
   `id_emprendimiento` int(32) NOT NULL,
   `id_estudiante` varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `nombre` varchar(35) COLLATE latin1_spanish_ci NOT NULL,
+  `nombre` varchar(46) COLLATE latin1_spanish_ci NOT NULL,
   `descripcion` text COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
@@ -435,13 +437,14 @@ INSERT INTO `emprendimiento` (`id_emprendimiento`, `id_estudiante`, `nombre`, `d
 (4, '1618032056299', 'Quality Control Specialist', 'a libero nam dui proin leo odio porttitor id consequat in consequat ut nulla sed'),
 (5, '1621073069299', 'Programmer III', 'libero ut massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo'),
 (6, '1633081459799', 'Financial Analyst', 'id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci'),
-(7, '1634010992199', 'VP Product Management', 'in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam');
+(7, '1634010992199', 'VP Product Management', 'in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam'),
+(8, '1604031238999', 'emprendimiento de dui', 'emprendimiento de prueba para dui'),
+(9, '1604031238999', 'emprendimiento de dui 2', 'Otro emprendimiento de prueba');
 
 -- --------------------------------------------------------
 
 --
 -- Stand-in structure for view `estudiantesMax`
--- (See below for the actual view)
 --
 CREATE TABLE `estudiantesMax` (
 `id_usuario` varchar(13)
@@ -844,7 +847,7 @@ ALTER TABLE `usuario`
 -- AUTO_INCREMENT for table `certificado`
 --
 ALTER TABLE `certificado`
-  MODIFY `id_certificado` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id_certificado` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 --
 -- AUTO_INCREMENT for table `curso`
 --
@@ -854,7 +857,7 @@ ALTER TABLE `curso`
 -- AUTO_INCREMENT for table `emprendimiento`
 --
 ALTER TABLE `emprendimiento`
-  MODIFY `id_emprendimiento` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_emprendimiento` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `etiqueta`
 --

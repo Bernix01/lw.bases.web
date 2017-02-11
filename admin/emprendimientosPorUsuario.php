@@ -71,21 +71,21 @@ include_once("../php/clases/emprendimientoColector.php");
 <div class="content-wrapper">
   <section class="content-header">
     <h1>
-      Tus certificados
-      <small>¡felicidades!</small>
+      Tus emprendimientos
+
     </h1>
     <ol class="breadcrumb">
       <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
       <!--<li><a href="../perfil.php">Perfil</a></li> -->
-      <li><a href="../subirCertificados.php">Perfil</a></li>
+      <li><a href="../perfil.php">Perfil</a></li>
       <li class="active">Tus certificados</li>
     </ol>
   </section>
 <table class="table" id="testcase" >
   <tr>
     <th>#</th>
-    <th>Titulo</th>
-    <th></th>
+    <th>Nombre</th>
+    <th>Descripcion</th>
   </tr>
     <tbody>
       <?php
@@ -96,10 +96,10 @@ include_once("../php/clases/emprendimientoColector.php");
          echo "<tr>
             <td>" . $contador . "</td>";
                                 echo "
-              <td>" . $cert->get_titulo() . "</td>";
+              <td>" . $cert->get_nombre() . "</td>";
 
 
-                  echo "<td><a href='../php/paginas/mostrarCertificado.php?path=".$cert->get_contenido()."'>Ver</a></td>";
+                  echo "<td>".$cert->get_descripcion()."</td>";
                   $contador++;
         }
     ?>
@@ -174,17 +174,7 @@ $(document).ready(function(){
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 }
-function myFunction() {
-    var x= getURLParameter("su");
-    if(x=="0")
-      alert("No existe un usuario con el id ingresado");
-    else if(x=="2") {
-      alert("No se pudo ingresar el certificado :(");
-    }
-    else{
-      alert("Certificado ingresado con éxito");
-    }
-}
+
 function demoFromHTML() {
 var doc = new jsPDF('p', 'in', 'letter');
 var source = $('#testcase').first();
