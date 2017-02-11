@@ -78,7 +78,11 @@ include_once("../php/clases/emprendimientoColector.php");
       <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
       <!--<li><a href="../perfil.php">Perfil</a></li> -->
       <li><a href="../perfil.php">Perfil</a></li>
+
       <li class="active">Tus emprendimientos</li>
+
+      <li class="active">Tus emprendimientos</li>
+
     </ol>
   </section>
 <table class="table" id="testcase" >
