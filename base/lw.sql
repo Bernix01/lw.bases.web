@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2017 at 09:56 AM
+-- Generation Time: Feb 11, 2017 at 12:48 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -169,8 +169,12 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursoAndInfoById` (IN `idc` INT)
 SELECT * FROM curso,info_curso WHERE curso.id_curso=info_curso.id_curso and curso.id_curso=idc;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByUsuarioId` (IN `id` VARCHAR(13))  BEGIN
-Select curso.id_curso,curso.nombre,curso.costo,info_curso.descripcion,info_curso.cupos_disponibles,info_curso.cupo_min,info_curso.cupo_max,info_curso.fecha_inicio,info_curso.fecha_fin FROM usuario,curso,curso_profesor,info_curso WHERE usuario.id_usuario=curso_profesor.id_profesor and curso_profesor.id_curso=curso.id_curso and info_curso.id_curso=curso.id_curso and usuario.id_usuario=id GROUP BY curso.id_curso;
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByProfId` (IN `id` VARCHAR(13))  BEGIN
+Select curso.* , info_curso.* FROM curso, info_curso, curso_profesor WHERE curso.id_curso=info_curso.id_curso AND curso.id_curso=curso_profesor.id_curso AND curso_profesor.id_profesor=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByStudentId` (IN `id` VARCHAR(13))  BEGIN
+SELECT curso.* , info_curso.* FROM curso,info_curso,curso_estudiante WHERE curso.id_curso=info_curso.id_curso AND curso_estudiante.id_curso=curso.id_curso AND curso_estudiante.id_estudiante=id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetallesByFacturaId` (IN `id` INT)  BEGIN
@@ -401,6 +405,14 @@ CREATE TABLE `curso_profesor` (
   `id_curso` int(32) NOT NULL,
   `id_profesor` varchar(13) COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `curso_profesor`
+--
+
+INSERT INTO `curso_profesor` (`id_curso`, `id_profesor`) VALUES
+(1, '0925650996'),
+(2, '0925650996');
 
 -- --------------------------------------------------------
 

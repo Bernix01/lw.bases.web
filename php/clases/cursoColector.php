@@ -56,11 +56,23 @@ class CursoColector
         $result = $this->worker->execQuery($query);
         return $result;
     }
-    public function getCursosByUsuarioId($id_usuario){
-      $query="call getCursosByUsuarioId(\"$id_usuario\")";
+    public function getCursosByStudentId($id_estudiante){
+      $query="call getCursosByStudentId(\"$id_estudiante\")";
       $result=$this->worker->execQueryArray($query);
-      return $result;
-
+      $cursos=array();
+      foreach ($result as $curso) {
+        array_push($cursos,$curso);
+      }
+      return $cursos;
+    }
+    public function getCursosByProfId($id){
+      $query="call getCursosByProfId(\"$id\")";
+      $result=$this->worker->execQueryArray($query);
+      $cursos=array();
+      foreach ($result as $curso) {
+        array_push($cursos,$curso);
+      }
+      return $cursos;
     }
 }
 

@@ -23,11 +23,12 @@ $emprendimiento_colector= new EmprendimientoColector();
 
 $usuario = $colectorUsuario->getUserById($_SESSION["id"]);
 $infousuario = $colectorInfoUsuario->getInfoUsuarioById($_SESSION["id"]);
-$curso = $cursoColector->getCursosByUsuarioId($usuario->get_id_usuario());
+$curso = $cursoColector->getCursosByStudentId($usuario->get_id_usuario());
 $certificados=$certificado_colector->getCertificadosByStudentId($usuario->get_id_usuario());
 $emprendimientos=$emprendimiento_colector->getEmprendimientosByStudentId($_SESSION["id"]);
 $num_certificados=count($certificados);
 $num_emprendimientos=count($emprendimientos);
+
 ?>
 
 <style>
@@ -171,32 +172,14 @@ $num_emprendimientos=count($emprendimientos);
         <h2><?php echo $usuario->get_nickname(); ?> <span><?php echo $usuario->get_email(); ?></span></h2>
         <p><?php echo $infousuario->get_tag_line();?></p>
         <div class="icons">
-            <i class="ion-ios-home"><?php echo "Cursos: ".$infousuario->get_numero_cursos(); ?></i>
+            <a href="admin/cursosPorUsuario.php"<i class="ion-ios-home"><?php echo "Cursos: ".$infousuario->get_numero_cursos(); ?></i></a>
             <a href="admin/certificadosPorUsuario.php"><i class="ion-ios-email"><?php echo "Certificados: ".$num_certificados; ?></i></a>
             <a href="admin/emprendimientosPorUsuario.php"><i class="ion-ios-telephone"><?php echo "Emprendimientos: ".$num_emprendimientos;?></i></a>
 
         </div>
     </figcaption>
     <!-- <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/331810/sample6.jpg" alt="sample6"/> -->
-    <div class="container">
-        <div class="row">
 
-            <?php foreach ($curso as $row) {
-                echo "<div class=\"col-sm-2 col-md-4 col-lg-4\"><div class=\"curso\">
-					<h3>" . $row->nombre . "</h3>
-					<span class=\"pull-right\">
-					<span class=\"label label-info\">$" . $row->costo . "</span>
-					<span class=\"label label-success\"><i class=\"fa fa-person\"></i> " . $row->cupos_disponibles . "/" . $row->cupo_max . "</span></span>
-					<br>
-					<hr>
-					<p>" . $row->descripcion . "</p>
-					<a href=\"carrito.php?add=" . $row->id_curso . "\" type=\"button\" class=\"btn btn-success btn-sm\">Comprar</a>
-
-				</div></div>";
-            }
-            ?>
-        </div>
-    </div>
     <a href="index.php"><div class="position">Volver al menú principal</div></a>
 
 </figure>
