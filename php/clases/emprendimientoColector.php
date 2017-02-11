@@ -27,7 +27,6 @@ include_once ('emprendimiento.php');
       $lista_emps=array();
       foreach($result as $emp){
         array_push($lista_emps,$emp);
-        array_push($lista_emps,$emp);
 
       }
       return $lista_emps;

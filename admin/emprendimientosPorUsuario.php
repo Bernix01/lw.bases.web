@@ -7,7 +7,6 @@ include_once("../php/clases/emprendimientoColector.php");
 
   $colector= new EmprendimientoColector();
   $result = $colector->getEmprendimientosByStudentId($_SESSION["id"]);
-
 ?>
 <!DOCTYPE html>
 <html>
@@ -81,7 +80,6 @@ include_once("../php/clases/emprendimientoColector.php");
 
       <li class="active">Tus emprendimientos</li>
 
-      <li class="active">Tus emprendimientos</li>
 
     </ol>
   </section>
