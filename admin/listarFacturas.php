@@ -108,7 +108,7 @@ include_once("../php/clases/facturaColector.php");
         </div>
     </div>
 
-    <table class="table" id="testcase" >
+      <table class="table table-responsive" id="testcase">
 
         <thead>
             <tr class="filters">
@@ -121,7 +121,6 @@ include_once("../php/clases/facturaColector.php");
                 <th><input type="text" class="form-control" placeholder="Total" disabled></th>
                 <th><input type="text" class="form-control" placeholder="Fecha" disabled></th>
                 <th><input type="text" class="form-control" placeholder="No.factura" disabled></th>
-
             </tr>
         </thead>
         <tbody>
@@ -146,8 +145,7 @@ include_once("../php/clases/facturaColector.php");
                               <td style =\"word-break:break-all;\">" . $emp->get_total() . "</td>";
                               echo "
                               <td style =\"word-break:break-all;\">" . $emp->get_fecha() . "</td>";
-                              echo "<tr>
-                                <td style =\"word-break:break-all;\">" . $emp->get_numero_factura() . "</td>";
+                        echo "                                <td style =\"word-break:break-all;\">" . $emp->get_numero_factura() . "</td>";
                               echo "<td style =\"word-break:break-all;\"><a href='editarFactura.php?id_factura=".$emp->get_id_factura()."'>Editar</a></td>";
                               echo "<td style =\"word-break:break-all;\"><a href='eliminarFactura.php?id_factura=".$emp->get_id_factura()."'>Eliminar </a></td> </tr>";
 
@@ -231,6 +229,8 @@ $(document).ready(function(){
         column = $panel.find('.filters th').index($input.parents('th')),
         $table = $panel.find('.table'),
         $rows = $table.find('tbody tr');
+        if (inputContent = '')
+            $rows.show();
         /* Dirtiest filter function ever ;) */
         var $filteredRows = $rows.filter(function(){
             var value = $(this).find('td').eq(column).text().toLowerCase();
@@ -239,7 +239,7 @@ $(document).ready(function(){
         /* Clean previous no-result if exist */
         $table.find('tbody .no-result').remove();
         /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
-        $rows.show();
+        //$rows.show();
         $filteredRows.hide();
         /* Prepend no-result row if all rows are filtered */
         if ($filteredRows.length === $rows.length) {
