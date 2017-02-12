@@ -63,6 +63,10 @@ $info_curso_colector = new InfocursoColector();
   </style>
   <script type="text/javascript" src="jspdf.min.js"></script>
   <script type="text/javascript" src="html2canvas.js"></script>
+  <script type="text/javascript" src="http://momentjs.com/downloads/moment.min.js"></script>
+  <script src="../js/jquery.js"></script>
+  <script src="../js/moment.min.js"></script>
+  <script src="../js/combodate.js"></script>
   <script type="text/javascript">
   function generatePDF(){
     var divHeight = $('#testcase').height();
@@ -79,6 +83,17 @@ $info_curso_colector = new InfocursoColector();
         doc.save("reporte.pdf");
       }
     });
+  }
+  function checkDateRange(form){
+    var fecha_i=moment(form.fecha_inicio.value,"YYYY-MM-DD");
+    var fecha_f= moment(form.fecha_fin.value,"YYYY-MM-DD");
+
+    if(moment.(fecha_f).isBefore(fecha_i))
+          {
+          alert("La fecha de inicio no debe de ser mayor a la fecha final");
+           return false;
+          }
+       return true;
   }
   </script>
 </head>
@@ -107,14 +122,14 @@ $info_curso_colector = new InfocursoColector();
   <div class="row">
   <div class="panel panel-primary filterable" >
 
-    <form method="post" name="rango-busqueda" action="buscarFacturasRango.php">
+    <form method="post" name="rango-busqueda" action="buscarFacturasRango.php" onsubmit="return checkDateRange(this)">
     <div class="form-group">
     <label for="fecha_inicio">Fecha inicio</label>
-    <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" name="fecha_inicio" value="09-01-2016">
+    <input type="text" id="fecha_inicio" data-format="DD-MM-YYYY" data-template="D MMM YYYY" name="fecha_inicio" value="09-01-2016">
     </div>
     <div class="form-group">
     <label for="fecha_inicio">Fecha fin</label>
-    <input type="text" id="date" data-format="DD-MM-YYYY" data-template="D MMM YYYY" name="fecha_fin" value="09-01-2016">
+    <input type="text" id="fecha_fin" data-format="DD-MM-YYYY" data-template="D MMM YYYY" name="fecha_fin" value="09-01-2016">
   </div>
     <div class="box-footer">
         <button type="submit" class="btn btn-primary">Buscar facturas</button>
@@ -152,11 +167,12 @@ $info_curso_colector = new InfocursoColector();
 <script src="plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
+
+<!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
 <script src="../js/jquery.js"></script>
 <script src="../js/moment.min.js"></script>
 <script src="../js/combodate.js"></script>
-<!-- AdminLTE for demo purposes -->
-<script src="dist/js/demo.js"></script>
 <script type="text/javascript">
 
 $(function(){
