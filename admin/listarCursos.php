@@ -220,6 +220,9 @@ $(document).ready(function(){
         column = $panel.find('.filters th').index($input.parents('th')),
         $table = $panel.find('.table'),
         $rows = $table.find('tbody tr');
+        if (inputContent == '') {
+            $rows.show();
+        }
         /* Dirtiest filter function ever ;) */
         var $filteredRows = $rows.filter(function(){
             var value = $(this).find('td').eq(column).text().toLowerCase();
@@ -228,7 +231,7 @@ $(document).ready(function(){
         /* Clean previous no-result if exist */
         $table.find('tbody .no-result').remove();
         /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
-        $rows.show();
+        //$rows.show();
         $filteredRows.hide();
         /* Prepend no-result row if all rows are filtered */
         if ($filteredRows.length === $rows.length) {
