@@ -12,5 +12,7 @@ if(isset($_POST["fecha_inicio"]) && isset($_POST["fecha_fin"])){
   $fecha_fin = strtotime($_POST["fecha_fin"]);
   $fecha_fin = date('Y-m-d',$fecha_fin);
   $facturas=$factura_colector->getFacturasByRange($fecha_inicio,$fecha_fin);
+  
+
 }
 ?>

@@ -1,13 +1,9 @@
 <?php
 session_start();
-include_once("../php/clases/cursoColector.php");
-include_once("../php/clases/infoCursoColector.php");
+
   if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
-  $colector= new CursoColector();
-  $cursos = $colector->getAll();
-$info_curso_colector = new InfocursoColector();
 ?>
 <!DOCTYPE html>
 <html>
@@ -68,22 +64,6 @@ $info_curso_colector = new InfocursoColector();
   <script src="../js/moment.min.js"></script>
   <script src="../js/combodate.js"></script>
   <script type="text/javascript">
-  function generatePDF(){
-    var divHeight = $('#testcase').height();
-    var divWidth = $('#testcase').width();
-    var ratio = divHeight / divWidth;
-    html2canvas(document.getElementById("testcase"),{
-      onrendered: function(canvas){
-        var img=canvas.toDataURL("image/png",1.0);
-        var doc= new jsPDF();
-        var width = doc.internal.pageSize.width;
-        var height = doc.internal.pageSize.height;
-        height = ratio * width;
-        doc.addImage(img,"JPEG",0, 0, width, height);
-        doc.save("reporte.pdf");
-      }
-    });
-  }
   function checkDateRange(form){
     var fecha_i=moment(form.fecha_inicio.value,"YYYY-MM-DD");
     var fecha_f= moment(form.fecha_fin.value,"YYYY-MM-DD");
