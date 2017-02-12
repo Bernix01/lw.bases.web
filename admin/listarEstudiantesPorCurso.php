@@ -76,11 +76,20 @@ include_once("../php/clases/cursoColector.php");
       <small>¡felicidades!</small>
     </h1>
     <ol class="breadcrumb">
-      <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
+
       <!--<li><a href="../perfil.php">Perfil</a></li> -->
+      <?php
+        if($_SESSION["rol"]==2){?>
+          <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+          <li><a href="cursosPorUsuario.php"><?php echo $curso->getNombre(); ?></a></li>
+          <li class="active">Estudiantes</li>
+        <?php }else{
+      ?>
+      <li><a href="../"><i class="fa fa-dashboard"></i> Home</a></li>
       <li><a href="../perfil.php">Perfil</a></li>
       <li><a href="cursosPorUsuario.php"><?php echo $curso->getNombre(); ?></a></li>
       <li class="active">Estudiantes</li>
+      <?php } ?>
     </ol>
   </section>
 <table class="table" id="testcase" >

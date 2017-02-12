@@ -83,6 +83,16 @@ class CursoColector
       }
       return $estudiantes;
     }
+    public function addEstudianteAcurso($id_estudiante,$id_curso){
+      $query="call addEstudianteAcurso(\"$id_estudiante\",$id_curso)";
+      $result=$this->worker->execQuery($query);
+      return $result;
+    }
+    public function getCursosEstudiantes($ide,$idc){
+      $query="call getCursosEstudiantes(\"$ide\",$idc)";
+      $result=$this->worker->execQueryReturning($query);
+      return $result->num_cursos;
+    }
 }
 
 ?>

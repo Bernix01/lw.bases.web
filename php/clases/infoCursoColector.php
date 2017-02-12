@@ -8,9 +8,10 @@ class InfocursoColector{
         $this->worker= new Colector();
     }
 
-    public function getInfocursoById($id){
-
-        return $this->worker->getById($id,"info_curso","id_curso",Info_curso::class);
+    public function getInfoCursoById($id){
+      $query="call getInfoCursoById($id)";
+      $result=$this->worker->execQueryReturning($query,Info_curso::class);
+      return $result;
     }
 
 

@@ -35,6 +35,32 @@ $info_curso_colector = new InfocursoColector();
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <style>
+  .filterable {
+    margin-top: 15px;
+}
+.filterable .panel-heading .pull-right {
+    margin-top: -20px;
+}
+.filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+}
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+  </style>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">
@@ -56,46 +82,39 @@ $info_curso_colector = new InfocursoColector();
       </ol>
     </section>
 
-    <!-- Main content -->
-    <section class="content">
+    <div class="container-fluid" >
 
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
+  <div class="row">
+  <div class="panel panel-primary filterable" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Filtrar</h3>
+        <div class="pull-right">
+            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+        </div>
+    </div>
 
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+    <table class="table" id="testcase" >
 
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- mensaje para cuando se agregue un curso -->
-            <div id="msg">
-      			</div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tr>
-                  <th>ID</th>
-                  <th>Curso</th>
-                  <th>Costo</th>
-                  <th>Cupos</th>
-                </tr>
-                <tr>
+        <thead>
+            <tr class="filters">
+                <th><input type="text" class="form-control" placeholder="id del curso" disabled></th>
+                <th><input type="text" class="form-control" placeholder="nombre" disabled></th>
+                <th><input type="text" class="form-control" placeholder="costo" disabled></th>
+                <th><input type="text" class="form-control" placeholder="cupo máximo" disabled></th>
+                <th><input type="text" class="form-control" placeholder="cupos disponibles" disabled></th>
+            </tr>
+        </thead>
+        <tbody>
                   <?php
 
                   foreach ($cursos as $curso){
+                    $info=$info_curso_colector->getInfoCursoById($curso->get_id_curso());
+                    if (!$info){ $info= new Info_curso();}
                       echo "<tr><td>" . $curso->get_id_curso() . "</td>";
                                             echo "<td>" . $curso->getNombre() . "</td>";
                                             echo "<td>" . $curso->getCosto() . "</td>";
-                                            echo "<td>" . $curso->getInfoCurso()->get_cupo_max(). "</td>";
+                                            echo "<td>" . $info->get_cupo_max(). "</td>";
+                                            echo "<td>" . $info->get_cupos_disponibles(). "</td>";
                       echo "<td><a href='editarCurso.php?ius=".$curso->get_id_curso()."'>Editar</a></td>";
                       echo "<td><a href='eliminarCurso.php?ius=".$curso->get_id_curso()."'>Eliminar</a></td> </tr>";
 
@@ -103,35 +122,13 @@ $info_curso_colector = new InfocursoColector();
                   }
                 ?>
 
-                  <!--<td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr> -->
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+
+              </tbody>
+          </table>
+        </div>
+
+        </div>
+
         </div>
       </div>
     </section>
@@ -176,9 +173,82 @@ if(su==0) {
     }
 
 }
+$(document).ready(function(){
+    $('.filterable .btn-filter').click(function(){
+        var $panel = $(this).parents('.filterable'),
+        $filters = $panel.find('.filters input'),
+        $tbody = $panel.find('.table tbody');
+        if ($filters.prop('disabled') == true) {
+            $filters.prop('disabled', false);
+            $filters.first().focus();
+        } else {
+            $filters.val('').prop('disabled', true);
+            $tbody.find('.no-result').remove();
+            $tbody.find('tr').show();
+        }
+    });
+
+    $('.filterable .filters input').keyup(function(e){
+        /* Ignore tab key */
+        var code = e.keyCode || e.which;
+        if (code == '9') return;
+        /* Useful DOM data and selectors */
+        var $input = $(this),
+        inputContent = $input.val().toLowerCase(),
+        $panel = $input.parents('.filterable'),
+        column = $panel.find('.filters th').index($input.parents('th')),
+        $table = $panel.find('.table'),
+        $rows = $table.find('tbody tr');
+        /* Dirtiest filter function ever ;) */
+        var $filteredRows = $rows.filter(function(){
+            var value = $(this).find('td').eq(column).text().toLowerCase();
+            return value.indexOf(inputContent) === -1;
+        });
+        /* Clean previous no-result if exist */
+        $table.find('tbody .no-result').remove();
+        /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+        $rows.show();
+        $filteredRows.hide();
+        /* Prepend no-result row if all rows are filtered */
+        if ($filteredRows.length === $rows.length) {
+            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
+        }
+    });
+});
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
+function myFunction() {
+    var x= getURLParameter("su");
+    if(x=="0")
+      alert("No existe un usuario con el id ingresado");
+    else if(x=="2") {
+      alert("No se pudo ingresar el certificado :(");
+    }
+    else{
+      alert("Certificado ingresado con éxito");
+    }
+}
+function demoFromHTML() {
+var doc = new jsPDF('p', 'in', 'letter');
+var source = $('#testcase').first();
+var specialElementHandlers = {
+'#bypassme': function(element, renderer) {
+return true;
+}
+};
+
+doc.fromHTML(
+source, // HTML string or DOM elem ref.
+0.5, // x coord
+0.5, // y coord
+{
+'width': 7.5, // max width of content on PDF
+'elementHandlers': specialElementHandlers
+});
+
+doc.output('dataurl');
+}
 </script>
 </body>
 </html>

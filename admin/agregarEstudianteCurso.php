@@ -1,37 +1,48 @@
 <?php
   ini_set("display_errors", 1);
-  include_once("../php/clases/emprendimientoColector.php");
+  include_once("../php/clases/cursoColector.php");
   session_start();
-  if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
+  if (!(isset($_SESSION["rol"])) || $_SESSION["rol"] != 2 ) {
       header("location: /");
       exit();
   }
-  $emp_colector=new EmprendimientoColector();
+  $curso_colector=new CursoColector();
+  $curso=$curso_colector->getCursoById($_GET["idc"]);
   //if connection is not successful you will see text error
-  if ($emp_colector == null) {
+  if ($curso_colector == null) {
       die('Could not connect: ');
   }
 
-  if (isset($_POST['nombre']) && isset($_POST['descripcion']) && isset($_POST['id_estudiante'])) {
-      $result=$emp_colector->addEmprendimiento($_POST['id_estudiante'],$_POST['nombre'],$_POST['descripcion']);
+  if (isset($_POST['id_estudiante']) && isset($_POST["idc"])) {
+      $num_cursos=$curso_colector->getCursosEstudiantes($_POST['id_estudiante'],$_POST["idc"]);
+      if($num_cursos==0){
+      $result=$curso_colector->addEstudianteAcurso($_POST["id_estudiante"],$_POST["idc"]);
       if(!$result){
         ?>
         <script type="text/javascript">
-         alert("No se pudo ingresar el emprendimiento");
+         alert("No se pudo agregar el estudiante al curso");
         </script>
         <?php
-        header('Location: listarEmprendimientos.php');
+        header('Location: listarCursos.php');
         exit();
       }
       else{?>
         <script type="text/javascript">
-         alert("Emprendimiento agregado con éxito");
+         alert("Estudiante agregado con éxito");
         </script>
         <?php
-        header('Location: listarEmprendimientos.php');
+          header('Location: listarCursos.php');
       }
+    }
+    else{?>
+      <script type="text/javascript">
+       alert("El estudiante ya se encuentra en el curso");
+      </script>
+      <?php
+      header('Location: listarCursos.php');
+    }
   }
-  else {
+  elseif(isset($_GET["idc"])) {
       ?>
 
       <!DOCTYPE html>
@@ -93,34 +104,22 @@
                           <!-- general form elements -->
                           <div class="box box-primary">
                               <div class="box-header with-border">
-                                  <h3 class="box-title">Ingresar Emprendimiento</h3>
+                                  <h3 class="box-title">Agregar estudiante al curso de <?php echo $curso->getNombre(); ?></h3>
                               </div>
                               <!-- /.box-header -->
                               <!-- form start -->
                               <form role="form" method="post" name="create-emprendimiento">
                                   <div class="box-body">
-                                      <div class="form-group">
-                                          <label for="nombre">Nombre</label>
-                                          <input type="text" required="required" minlength="2" maxlength="46" class="form-control" name="nombre" id="nombre"
-                                                 placeholder="Ingresar nombre">
-                                      </div>
-                                      <div class="form-group">
-                                          <label for="descripcion">Descripcion</label>
-                                          <input type="text" name="descripcion" required="required" class="form-control" id="descripcion"
-                                                 placeholder="Ingresar descripcion">
-                                      </div>
+
                                       <div class="form-group">
                                           <label for="id_estudiante">id_estudiante</label>
                                           <input type="text" class="form-control" required="required" minlength="10" maxlength="13" name="id_estudiante" id="id_estudiante" placeholder="id_estudiante">
                                       </div>
-
-
-
                                   </div>
                                   <!-- /.box-body -->
-
+                                  <input type="hidden" name="idc" value=<?php echo $curso->get_id_curso();?>>
                                   <div class="box-footer">
-                                      <button type="submit" class="btn btn-primary">Crear nuevo emprendimiento</button>
+                                      <button type="submit" class="btn btn-primary">Agregar estudiante</button>
                                   </div>
                               </form>
                           </div>
@@ -158,18 +157,11 @@
         <script src="dist/js/app.min.js"></script>
         <!-- AdminLTE for demo purposes -->
         <script src="dist/js/demo.js"></script>
-      <script type="text/javascript">$('.message a').click(function(){
-         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
-      });</script>
-      <script>document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')</script>
-
-      		<!-- Bootstrap JavaScript -->
-      		<script src="js/bootstrap.min.js"></script>
-      		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-       		<script src="Hello World"></script>
-      </script>
       </body>
       </html>
       <?php
+  }
+  else{
+    header("location: /");
   }
 ?>

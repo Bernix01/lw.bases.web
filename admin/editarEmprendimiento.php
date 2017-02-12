@@ -1,23 +1,23 @@
 <?php
 session_start();
   include_once("../php/clases/emprendimientoColector.php");
- if(isset($_SESSION["rol"]) && $_SESSION["rol"]===2 && isset(_$GET["id_emprendimiento"])){
+ if(isset($_SESSION["rol"]) && $_SESSION["rol"]==2 && isset($_GET["id_emprendimiento"])){
 
    $colector_emp= new EmprendimientoColector();
-   $emprendimiento= $colector_emp->getEmprendimientoById(_$GET["id_emprendimiento"]);
+   $emprendimiento= $colector_emp->getEmprendimientoById($_GET["id_emprendimiento"]);
    if(isset($_POST["id_estudiante"]) && isset($_POST["nombre"])&& isset($_POST["descripcion"])){
-     $result= $colector_emp->updateEmprendimiento(_$POST["id_emprendimiento"],$_POST["id_estudiante"],$_POST["nombre"],$_POST["descripcion"]);
+     $result= $colector_emp->updateEmprendimiento($_POST["id_emprendimiento"],$_POST["id_estudiante"],$_POST["nombre"],$_POST["descripcion"]);
      if($result!==null){
        ?>
        <script type="text/javascript">
         alert("Emprendimiento editado con éxito");
        </script>
        <?php
-       header('Location: '.$_SERVER['PHP_SELF']);
+       header('Location: listarEmprendimientos.php');
        exit();
      }
 	 else{
-		 
+
 	 }
  }
  else{ ?>
@@ -65,7 +65,7 @@ session_start();
                     <small>Version 2.0</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
                     <li class="active">Dashboard</li>
                 </ol>
             </section>

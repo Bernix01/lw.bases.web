@@ -320,7 +320,8 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/admin/ingresarCurso.php"><i class="fa fa-circle-o"></i> Crear cursos</a></li>
-                    <li><a href="/admin/listarCursos.php"><i class="fa fa-circle-o"></i> Reporte de cursos</a></li>
+                    <li><a href="/admin/listarCursos.php"><i class="fa fa-circle-o"></i> Listado de cursos</a></li>
+                    <li><a href="/admin/cursosPorUsuario.php"><i class="fa fa-circle-o"></i> Estudiantes por curso</a></li>
                 </ul>
             </li>
             <li class="treeview">

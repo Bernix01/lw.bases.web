@@ -95,7 +95,6 @@ include_once("../php/clases/certificadoColector.php");
             <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
         </div>
     </div>
-    <a href="javascript:demoFromHTML()" class="button">Run Code</a>
     <table class="table" id="testcase" >
 
         <thead>
