@@ -9,7 +9,7 @@ class InfocursoColector{
     }
 
     public function getInfoCursoById($id){
-      $query="call getInfoCursoById(\"$id\")";
+      $query="call getInfoCursoById($id)";
       $result=$this->worker->execQueryReturning($query,Info_curso::class);
       return $result;
     }
