@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2017 at 11:51 PM
+-- Generation Time: Feb 12, 2017 at 04:05 AM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -34,6 +34,11 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addEmprendimiento` (IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(46), IN `descrip` TEXT)  BEGIN
 INSERT INTO emprendimiento(id_estudiante,nombre,descripcion) VALUES (id_est,nomb,descrip);
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addEstudianteAcurso` (IN `ide` VARCHAR(13), IN `idc` INT)  BEGIN
+INSERT INTO curso_estudiante(id_estudiante,id_curso,habilitado) VALUES (ide,idc,1);
+UPDATE info_usuario SET numero_cursos=numero_cursos+1 WHERE id_usuario=ide;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addEtiqueta` (IN `nombre` VARCHAR(46))  BEGIN
@@ -181,6 +186,10 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByStudentId` (IN `id` VARC
 SELECT curso.* , info_curso.* FROM curso,info_curso,curso_estudiante WHERE curso.id_curso=info_curso.id_curso AND curso_estudiante.id_curso=curso.id_curso AND curso_estudiante.id_estudiante=id AND curso_estudiante.habilitado=1;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosEstudiantes` (IN `ide` VARCHAR(13), IN `idc` INT)  BEGIN
+SELECT COUNT(id_estudiante) as num_cursos from curso_estudiante WHERE id_estudiante=ide AND id_curso=idc;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetallesByFacturaId` (IN `id` INT)  BEGIN
 SELECT * FROM detalle_factura WHERE id_factura=id; 
 END$$
@@ -199,6 +208,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEtiquetaById` (IN `id` INT)  BEGIN
 SELECT * FROM etiqueta WHERE id_etiqueta=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getInfoCursoById` (IN `id` INT)  BEGIN
+SELECT * from info_curso WHERE info_curso.id_curso=id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getInfoUsuarioById` (IN `id` VARCHAR(13))  BEGIN
@@ -317,13 +330,13 @@ INSERT INTO `curso` (`id_curso`, `nombre`, `costo`) VALUES
 (3, 'matemáticas discretas ', '14.59'),
 (4, ' matemáticas superiores ', '27.42'),
 (5, 'matemáticas discretas ', '99.57'),
-(6, ' pogramación orientada a aspectos ', '11.48'),
+(6, ' programación orientada a aspectos ', '11.48'),
 (7, ' machine-learning ', '79.33'),
 (8, ' android avanzado', '53.45'),
 (9, ' adobe illustrator básico ', '53.05'),
 (10, ' machine-learning ', '1.32'),
 (11, ' machine-learning ', '57.12'),
-(12, ' pogramación orientada a aspectos ', '80.84'),
+(12, ' programación orientada a aspectos ', '80.84'),
 (13, ' machine-learning ', '86.04'),
 (14, 'matemáticas discretas ', '21.74'),
 (15, ' programación orientada a objetos ', '13.46'),
@@ -333,12 +346,12 @@ INSERT INTO `curso` (`id_curso`, `nombre`, `costo`) VALUES
 (19, ' programación orientada a objetos ', '49.68'),
 (20, ' adobe illustrator básico ', '24.30'),
 (21, ' android avanzado', '11.13'),
-(22, ' pogramación orientada a aspectos ', '70.61'),
+(22, ' programación orientada a aspectos ', '70.61'),
 (23, ' curso de android ', '33.95'),
 (24, ' programación orientada a objetos ', '8.25'),
 (25, ' matemáticas superiores ', '38.11'),
 (26, ' machine-learning ', '57.89'),
-(27, ' pogramación orientada a aspectos ', '44.55'),
+(27, ' programación orientada a aspectos ', '44.55'),
 (28, 'matemáticas discretas ', '1.71'),
 (29, 'matemáticas discretas ', '17.20'),
 (30, 'matemáticas discretas ', '17.09'),
@@ -371,7 +384,12 @@ INSERT INTO `curso_estudiante` (`id_estudiante`, `id_curso`, `habilitado`) VALUE
 ('1618032056299', 9, 1),
 ('1618032056299', 12, 1),
 ('1618032056299', 11, 1),
-('1604031238999', 10, 0);
+('1604031238999', 10, 0),
+('0925650996', 9, 1),
+('0925650996', 2, 1),
+('0925650996', 2, 1),
+('0925650996', 1, 1),
+('0925650996', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -467,7 +485,8 @@ INSERT INTO `emprendimiento` (`id_emprendimiento`, `id_estudiante`, `nombre`, `d
 (6, '1633081459799', 'Financial Analyst', 'id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan tellus nisi eu orci'),
 (7, '1634010992199', 'VP Product Management', 'in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam'),
 (8, '1604031238999', 'emprendimiento de dui', 'emprendimiento de prueba para dui'),
-(9, '1604031238999', 'emprendimiento de dui 2', 'Otro emprendimiento de prueba');
+(9, '1604031238999', 'emprendimiento de dui 2', 'Otro emprendimiento de prueba'),
+(10, '0925650996', 'dgdf', 'dfgfd');
 
 -- --------------------------------------------------------
 
@@ -618,7 +637,7 @@ CREATE TABLE `info_usuario` (
 --
 
 INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos`, `tag_line`) VALUES
-('0925650996', 'maria', 'cabezas', 0, 'blalala'),
+('0925650996', 'maria', 'cabezas', 5, 'blalala'),
 ('0925650997', 'lola', 'lolita', 0, 'deas'),
 ('1604031238999', 'dui', 'peres', 4, NULL),
 ('1604070162099', 'digna', 'solisa', 0, NULL),
@@ -892,7 +911,7 @@ ALTER TABLE `curso`
 -- AUTO_INCREMENT for table `emprendimiento`
 --
 ALTER TABLE `emprendimiento`
-  MODIFY `id_emprendimiento` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id_emprendimiento` int(32) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `etiqueta`
 --

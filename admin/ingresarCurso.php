@@ -98,8 +98,8 @@ if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripci
                     <small>Agregar</small>
                 </h1>
                 <ol class="breadcrumb">
-                    <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                    <li><a href="#">Curso</a></li>
+                    <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+                    <li><a href="listarCursos.php">Cursos</a></li>
                     <li class="active">Crear nuevo curso</li>
                 </ol>
             </section>

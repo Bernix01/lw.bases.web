@@ -29,12 +29,52 @@ include_once("../php/clases/facturaColector.php");
        folder instead of downloading all of them to reduce the load. -->
   <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
-  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-  <!--[if lt IE 9]>
-  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-  <![endif]-->
+  <style>
+  .filterable {
+    margin-top: 15px;
+  }
+  .filterable .panel-heading .pull-right {
+    margin-top: -20px;
+  }
+  .filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+  }
+  .filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+  }
+  .filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+  }
+  .filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+  }
+
+  </style>
+  <script type="text/javascript" src="jspdf.min.js"></script>
+  <script type="text/javascript" src="html2canvas.js"></script>
+  <script type="text/javascript">
+  unction generatePDF(){
+    var divHeight = $('#testcase').height();
+    var divWidth = $('#testcase').width();
+    var ratio = divHeight / divWidth;
+    html2canvas(document.getElementById("testcase"),{
+      onrendered: function(canvas){
+        var img=canvas.toDataURL("image/png",1.0);
+        var doc= new jsPDF();
+        var width = doc.internal.pageSize.width;
+        var height = doc.internal.pageSize.height;
+        height = ratio * width;
+        doc.addImage(img,"JPEG",0, 0, width, height);
+        doc.save("reporte.pdf");
+      }
+    });
+  }
+  </script>
 </head>
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
@@ -57,102 +97,72 @@ include_once("../php/clases/facturaColector.php");
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <div class="col-md-12" >
 
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
+  <div class="row">
+  <div class="panel panel-primary filterable" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Filtrar</h3>
+        <div class="pull-right">
+            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+        </div>
+    </div>
 
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" id="BuscarPorNombreBox" name="table_search" class="form-control pull-right" onkeyup="filtrarPorNombre();" placeholder="Buscar por nombre...">
+    <table class="table" id="testcase" >
 
-                  <div class="input-group-btn">
-                    <button type="submit" onclick="filtrarPorNombre()"class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- mensaje para cuando se agregue un usuario -->
-            <div id="msg">
-      			</div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover" name="tablaFacturas">
-                <tr>
-                  <th>id_factura</th>
-                  <th>id_estudiante</th>
-                  <th>ruc</th>
-                  <th>nombres</th>
-                  <th>apellidos</th>
-                  <th>cupos</th>
-                  <th>total</th>
-                  <th>fecha</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                <tr>
+        <thead>
+            <tr class="filters">
+                <th><input type="text" class="form-control" placeholder="id" disabled></th>
+                <th><input type="text" class="form-control" placeholder="id del estudiante" disabled></th>
+                <th><input type="text" class="form-control" placeholder="RUC" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Nombres" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Apellidos" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Cupos" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Total" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Fecha" disabled></th>
+                <th><input type="text" class="form-control" placeholder="No.factura" disabled></th>
+
+            </tr>
+        </thead>
+        <tbody>
                   <?php
 
                     foreach ($result as $emp){
 
                       echo "<tr>
-                        <td>" . $emp->get_id_factura() . "</td>";
+                        <td style =\"word-break:break-all;\">" . $emp->get_id_factura() . "</td>";
+
                                             echo "
-                          <td>" . $emp->get_id_estudiante() . "</td>";
+                          <td style =\"word-break:break-all;\">" . $emp->get_id_estudiante() . "</td>";
                           echo "
                           <td>" . $emp->get_ruc() . "</td>";
                                             echo "
-                            <td>" . $emp->get_nombres(). "</td>";
+                            <td style =\"word-break:break-all;\">" . $emp->get_nombres(). "</td>";
                                             echo "
-                              <td>" . $emp->get_apellidos() . "</td>";
+                              <td style =\"word-break:break-all;\">" . $emp->get_apellidos() . "</td>";
                               echo "
-                              <td>" . $emp->get_cupos() . "</td>";
+                              <td style =\"word-break:break-all;\">" . $emp->get_cupos() . "</td>";
                               echo "
-                              <td>" . $emp->get_total() . "</td>";
+                              <td style =\"word-break:break-all;\">" . $emp->get_total() . "</td>";
                               echo "
-                              <td>" . $emp->get_fecha() . "</td>";
-                              echo "<td><a href='editarFactura.php?id_factura=".$emp->get_id_factura()."'>Editar</a></td>";
-                              echo "<td><a href='eliminarFactura.php?id_factura=".$emp->get_id_factura()."'>Eliminar </a></td> </tr>";
+                              <td style =\"word-break:break-all;\">" . $emp->get_fecha() . "</td>";
+                              echo "<tr>
+                                <td style =\"word-break:break-all;\">" . $emp->get_numero_factura() . "</td>";
+                              echo "<td style =\"word-break:break-all;\"><a href='editarFactura.php?id_factura=".$emp->get_id_factura()."'>Editar</a></td>";
+                              echo "<td style =\"word-break:break-all;\"><a href='eliminarFactura.php?id_factura=".$emp->get_id_factura()."'>Eliminar </a></td> </tr>";
 
                     }
                 ?>
+              </tbody>
+          </table>
+          <a href="javascript:generatePDF()">Descargar PDF</a>
+        </div>
 
-                  <!--<td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr> -->
-              </table>
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+        </div>
+
         </div>
       </div>
-    </section>
+
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -165,198 +175,7 @@ include_once("../php/clases/facturaColector.php");
   </footer>
 
   <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-user bg-yellow"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                <p>New phone +1(800)555-1234</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                <p>nora@example.com</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                <p>Execution time 5 seconds</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Update Resume
-                <span class="label label-success pull-right">95%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Back End Framework
-                <span class="label label-primary pull-right">68%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -373,44 +192,76 @@ include_once("../php/clases/facturaColector.php");
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script type="text/javascript">
-function filtrarPorNombre() {
-  var input, filter, table, tr, td, i;
-  input = document.getElementById("buscarPorNombreBox");d
-  filter = input.value.toUpperCase();
-  table = document.getElementById("tablaFacturas");
-  tr = table.getElementsByTagName("tr");
-  for (i = 0; i < tr.length; i++) {
-    td = tr[i].getElementsByTagName("td")[3];
-    td2= tr[i].getElementsByTagName("td")[4];
-    if (td || td2) {
-      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
-        tr[i].display = "";
-      }
-      else if (td.innerHTML.toUpperCase().indexOf(filter)>-1) {
-        tr[i].display="";
-      }
-      else {
-        tr[i].display = "none";
-      }
-    }
-  }
-}
 function getURLParameter(name) {
   return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
 }
 var su=getURLParameter("su");
 var sinfo=getURLParameter("sinfo");
-if(su==0){
-  document.getElementById('msg').innerHTML = "No se pudo ingresar el usuario";
-  else{
+if(su==0) {
+    document.getElementById('msg').innerHTML = "No se pudo ingresar el curso";
+}else{
     if(sinfo==0){
-      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del usuario";
+      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del curso";
     }
-  }
+
 }
+$(document).ready(function(){
+    $('.filterable .btn-filter').click(function(){
+        var $panel = $(this).parents('.filterable'),
+        $filters = $panel.find('.filters input'),
+        $tbody = $panel.find('.table tbody');
+        if ($filters.prop('disabled') == true) {
+            $filters.prop('disabled', false);
+            $filters.first().focus();
+        } else {
+            $filters.val('').prop('disabled', true);
+            $tbody.find('.no-result').remove();
+            $tbody.find('tr').show();
+        }
+    });
+
+    $('.filterable .filters input').keyup(function(e){
+        /* Ignore tab key */
+        var code = e.keyCode || e.which;
+        if (code == '9') return;
+        /* Useful DOM data and selectors */
+        var $input = $(this),
+        inputContent = $input.val().toLowerCase(),
+        $panel = $input.parents('.filterable'),
+        column = $panel.find('.filters th').index($input.parents('th')),
+        $table = $panel.find('.table'),
+        $rows = $table.find('tbody tr');
+        /* Dirtiest filter function ever ;) */
+        var $filteredRows = $rows.filter(function(){
+            var value = $(this).find('td').eq(column).text().toLowerCase();
+            return value.indexOf(inputContent) === -1;
+        });
+        /* Clean previous no-result if exist */
+        $table.find('tbody .no-result').remove();
+        /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+        $rows.show();
+        $filteredRows.hide();
+        /* Prepend no-result row if all rows are filtered */
+        if ($filteredRows.length === $rows.length) {
+            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
+        }
+    });
+});
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
+function myFunction() {
+    var x= getURLParameter("su");
+    if(x=="0")
+      alert("No existe un usuario con el id ingresado");
+    else if(x=="2") {
+      alert("No se pudo ingresar el certificado :(");
+    }
+    else{
+      alert("Certificado ingresado con éxito");
+    }
+}
+
 </script>
 </body>
 </html>

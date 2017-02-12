@@ -7,8 +7,8 @@
 		private $total;
 		private $direccion;
 		private $fecha;
-		//private $ruc; //será el mismo ruc del estudiante
-		//private $cupos; //ya no habrán cupos
+		private $ruc; //será el mismo ruc del estudiante
+		private $cupos;
 		private $id_estudiante;
 
 
@@ -73,6 +73,7 @@
 		}
 		public function set_direccion($direccion){
 			$this->direccion=$direccion;
+		}
 		public function get_fecha(){
 			return $this->fecha;
 		}
@@ -97,6 +98,12 @@
 		}
 		public function set_numero_factura($num){
 			$this->numero_factura=$num;
+		}
+		public function get_cupos(){
+			return $this->cupos;
+		}
+		public function set_cupos($num){
+			$this->cupos=$num;
 		}
 
 
