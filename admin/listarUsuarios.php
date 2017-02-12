@@ -81,7 +81,6 @@ include_once("../php/clases/usuarioColector.php");
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                  <th>ID</th>
                   <th>Nickname</th>
                   <th>Nombre</th>
                   <th>Apellidos</th>
@@ -97,18 +96,19 @@ include_once("../php/clases/usuarioColector.php");
                     foreach($result as $usuario){
 
                       $spanclass="";
-                      if($usuario->rol===0){
+                        if ($usuario->rol == 0) {
+                            $usuario->rol = "Estudiante";
                         $spanclass="label label-success";
                       }
-                      if($usuario->rol===1){
+                        if ($usuario->rol == 1) {
                         $spanclass="label label-warning";
+                            $usuario->rol = "Profesor";
                       }
-                      if($usuario->rol===2){
+                        if ($usuario->rol == 2) {
                         $spanclass="label label-primary";
+                            $usuario->rol = "Administrador";
                       }
-                      echo "<tr>
-                        <td>" . $usuario->id_usuario . "</td>";
-                                            echo "
+                        echo "<tr>
                           <td>" . $usuario->nickname . "</td>";
                           echo "
                           <td>" . $usuario->nombres . "</td>";
