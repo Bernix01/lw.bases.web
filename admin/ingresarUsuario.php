@@ -11,28 +11,36 @@ if (!(isset($_SESSION["rol"])) && $_SESSION["rol"] != 2) {
     die();
 }
 
+if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST['contrasenia']) && isset($_POST['cedula']) && isset($_POST['rol'])) {
+    $resultado1 = $usuario_colector->addUsuario($_POST["cedula"],$_POST["nickname"],$_POST["contrasenia"],$_POST["email"],$_POST["rol"]);
+    if ($resultado1!= NULL) {
+      $user=$usuario_colector->getUserByPosition($resultado1->id);
+       if(isset($_POST["tag_line"])){
 
-if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contrasenia']) && isset($_POST['cedula']) && isset($_POST['rol'])) {
-    $usuario = new Usuario($_POST['cedula'], $_POST['nickname'], $_POST['contrasenia'], $_POST['email'], null, $_POST['rol']);
-    $resultado1 = $usuario_colector->addUsuario($usuario->get_id_usuario(),$usuario->get_nickname(), $usuario->get_contrasenia(), $usuario->get_email(), $usuario->get_rol());     //inserto el usuario
-    if (isset($_POST["nombres"]) && isset($_POST["apellidos"]) && isset($_POST["tag_line"]) && $resultado1 != null) {
-        //obtener el último id en la tabla de usuario, y agregarlo al campo id_usuario de info_usuario
-        $info_usuario = new Info_usuario($resultado1->get_id_usuario(), $_POST["nombres"], $_POST["apellidos"],0, $_POST["tag_line"]);
-        var_dump($info_usuario);
-        $resultado2 = $info_usuariocolector->addInfoUsuario($resultado1->get_id_usuario(), $info_usuario->get_nombres(), $info_usuario->get_apellidos(), 0, $info_usuario->get_tag_line());      //inserto la información de ese usuario
-        if ($resultado2) {
-            header("location: listarUsuarios.php?su=1&sinfo=1");
-        } else {
-            header("location: listarUsuarios.php?su=1&sinfo=0");
-            echo "null2";
-        }
-    }
-    if ($resultado1 !== null) {
-        header("location: listarUsuarios.php?su=1&sinfo=0");
-        echo " nonull1";
-    }
+        $resultado2 = $info_usuariocolector->addInfoUsuario($user->get_id_usuario(),$_POST["nombres"],$_POST["apellidos"],0,$_POST["tag_line"]);
+      }else{
+        $resultado2 = $info_usuariocolector->addInfoUsuario($user->get_id_usuario(),$_POST["nombres"],$_POST["apellidos"],0,null);
+      }
+      if ($resultado2) {?>
 
-    header("location: listarUsuarios.php?su=0&sinfo=0");
+        <script type="text/javascript">
+         alert("Usuario creado exitósamente");
+        </script>
+          <?php
+          header("location=listarUsuarios.php?su=1&sinfo=1");
+      } else { ?>
+        <script type="text/javascript">
+         alert("No se pudo crear el usuario");
+        </script>
+          <?php
+          header("location=listarUsuarios.php?su=1&sinfo=0");
+      }
+    }?>
+    <script type="text/javascript">
+     alert("No se pudo crear su cuenta");
+    </script> <?php
+    header("location=listarUsuarios.php?su=0&sinfo=0");
+
 } else {
     ?>
     <!DOCTYPE html>
@@ -102,37 +110,33 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                 <div class="box-body">
                                     <div class="form-group">
                                         <label for="cedula">Cédula</label>
-                                        <input type="text" class="form-control" name="cedula" id="cedula"
-                                               placeholder="Ingresar cédula">
+                                        <input type="text" class="form-control" required="required" minlength="10" maxlength="13"
+                                        name="cedula" id="cedula" placeholder="Ingresar cédula">
                                     </div>
                                     <div class="form-group">
                                         <label for="nombres">Nombres</label>
-                                        <input type="text" class="form-control" name="nombres" id="nombres"
+                                        <input type="text" class="form-control" required="required" minlength="2" maxlength="46" name="nombres" id="nombres"
                                                placeholder="Ingresar nombres">
                                     </div>
                                     <div class="form-group">
                                         <label for="apellidos">Apellidos</label>
-                                        <input type="text" name="apellidos" class="form-control" id="apellidos"
+                                        <input type="text" name="apellidos" required="required" minlength="2" maxlength="46" class="form-control" id="apellidos"
                                                placeholder="Ingresar apellidos">
                                     </div>
                                     <div class="form-group">
                                         <label for="nickname">Nickname</label>
-                                        <input type="text" class="form-control" name="nickname" id="nickname"
+                                        <input type="text" class="form-control" required="required" minlength="4" maxlength="16" name="nickname" id="nickname"
                                                placeholder="Nickname">
                                     </div>
                                     <div class="form-group">
                                         <label for="email">E-mail</label>
-                                        <input type="email" name="email" class="form-control" id="email"
+                                        <input type="email" name="email" required="required" class="form-control" id="email"
                                                placeholder="email">
                                     </div>
-                                    <div class="form-group">
-                                        <label for="email">Tagline</label>
-                                        <textarea maxlength="255" name="tagline" class="form-control" id="tagline"
-                                                  placeholder="Una breve descripción."></textarea>
-                                    </div>
+
                                     <div class="form-group">
                                         <label for="contrasenia">Contraseña</label>
-                                        <input type="password" name="contrasenia" class="form-control" id="contrasenia"
+                                        <input type="password" name="contrasenia" minlength="5" maxlength="15" required="required"class="form-control" id="contrasenia"
                                                placeholder="Contraseña">
                                     </div>
                                     <div class="form-group">
@@ -147,7 +151,7 @@ if (isset($_POST['nickname']) && isset($_POST['email']) && isset($_POST['contras
                                       <label class="control-label" for="tag_line">
                                         Perfil académico
                                       </label>
-                                      <textarea class="form-control" id="tag_line" cols="40" maxlength="255" id="tag_line" name="tag_line"  rows="10"></textarea>
+                                      <textarea class="form-control" id="tag_line" cols="40" maxlength="255" name="tag_line"  rows="10"></textarea>
                                     </div>
                                 </div>
                                 <!-- /.box-body -->

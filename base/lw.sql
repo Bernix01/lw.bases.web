@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 11, 2017 at 12:48 PM
+-- Generation Time: Feb 11, 2017 at 11:51 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -60,9 +60,9 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoTarjeta` (IN `id` INT(11), I
 INSERT INTO pago(id_factura,forma_pago,n_tarjeta) VALUES (id_f,forma,tarjeta);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addUsuario` (IN `id` VARCHAR(13), IN `nick` VARCHAR(16), IN `pass` VARCHAR(15), IN `correo` VARCHAR(64), IN `ro` INT(1), OUT `ultimo_id` VARCHAR(13))  BEGIN
-INSERT into usuario(id_usuario,nickname, contrasenia, email, rol) values(id,nick, pass, correo, ro);
-SET  ultimo_id= LAST_INSERT_ID();
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addUsuario` (IN `id` VARCHAR(13), IN `nick` VARCHAR(16), IN `pass` VARCHAR(15), IN `correo` VARCHAR(64), IN `ro` INT(1))  BEGIN
+INSERT into usuario(id_usuario,nickname, contrasenia, email, rol,last_login) values(id,nick, pass, correo, ro,NOW());
+
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `buscarCurso` (IN `cadena` VARCHAR(64))  BEGIN
@@ -169,12 +169,16 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursoAndInfoById` (IN `idc` INT)
 SELECT * FROM curso,info_curso WHERE curso.id_curso=info_curso.id_curso and curso.id_curso=idc;
 END$$
 
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursoById` (IN `id` INT)  BEGIN
+SELECT * from curso WHERE curso.id_curso=id;
+END$$
+
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByProfId` (IN `id` VARCHAR(13))  BEGIN
 Select curso.* , info_curso.* FROM curso, info_curso, curso_profesor WHERE curso.id_curso=info_curso.id_curso AND curso.id_curso=curso_profesor.id_curso AND curso_profesor.id_profesor=id;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getCursosByStudentId` (IN `id` VARCHAR(13))  BEGIN
-SELECT curso.* , info_curso.* FROM curso,info_curso,curso_estudiante WHERE curso.id_curso=info_curso.id_curso AND curso_estudiante.id_curso=curso.id_curso AND curso_estudiante.id_estudiante=id;
+SELECT curso.* , info_curso.* FROM curso,info_curso,curso_estudiante WHERE curso.id_curso=info_curso.id_curso AND curso_estudiante.id_curso=curso.id_curso AND curso_estudiante.id_estudiante=id AND curso_estudiante.habilitado=1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getDetallesByFacturaId` (IN `id` INT)  BEGIN
@@ -187,6 +191,10 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEmprendimientosByStudentId` (IN `id` VARCHAR(13))  BEGIN
 SELECT * FROM emprendimiento WHERE id_estudiante=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getEstudiantesByCurso` (IN `id` INT)  BEGIN
+SELECT usuario.* , info_usuario.* FROM usuario,info_usuario,curso_estudiante WHERE usuario.id_usuario=info_usuario.id_usuario AND usuario.id_usuario=curso_estudiante.id_estudiante AND curso_estudiante.id_curso=id AND curso_estudiante.habilitado=1;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEtiquetaById` (IN `id` INT)  BEGIN
@@ -207,6 +215,14 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserById` (IN `id` VARCHAR(13))  BEGIN
 SELECT * FROM usuario WHERE id_usuario=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserByPosition` (IN `pos` INT)  BEGIN
+SELECT * FROM usuario WHERE usuario.posicion=pos;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getUserLastId` ()  BEGIN
+SELECT MAX(posicion) as id from usuario;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `listarCertificados` ()  BEGIN
@@ -348,14 +364,14 @@ CREATE TABLE `curso_estudiante` (
 INSERT INTO `curso_estudiante` (`id_estudiante`, `id_curso`, `habilitado`) VALUES
 ('1604031238999', 1, 1),
 ('1604031238999', 2, 1),
-('1604031238999', 10, 1),
 ('1604031238999', 16, 1),
 ('1608112083799', 5, 1),
 ('1608112083799', 6, 1),
 ('1618032056299', 2, 1),
 ('1618032056299', 9, 1),
 ('1618032056299', 12, 1),
-('1618032056299', 11, 1);
+('1618032056299', 11, 1),
+('1604031238999', 10, 0);
 
 -- --------------------------------------------------------
 
@@ -602,11 +618,14 @@ CREATE TABLE `info_usuario` (
 --
 
 INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos`, `tag_line`) VALUES
+('0925650996', 'maria', 'cabezas', 0, 'blalala'),
+('0925650997', 'lola', 'lolita', 0, 'deas'),
 ('1604031238999', 'dui', 'peres', 4, NULL),
 ('1604070162099', 'digna', 'solisa', 0, NULL),
 ('1608112083799', 'juanito', 'perez', 2, NULL),
 ('1609041989699', 'lola', 'guzman', 0, 'probando'),
-('1618032056299', 'Lisa', 'Fiallos', 4, NULL);
+('1618032056299', 'Lisa', 'Fiallos', 4, NULL),
+('9999999999999', 'asdf', 'asdfa', 0, '');
 
 -- --------------------------------------------------------
 
@@ -634,102 +653,105 @@ CREATE TABLE `usuario` (
   `contrasenia` varchar(15) COLLATE latin1_spanish_ci NOT NULL,
   `email` varchar(64) COLLATE latin1_spanish_ci NOT NULL,
   `last_login` datetime NOT NULL,
-  `rol` int(1) NOT NULL DEFAULT '0'
+  `rol` int(1) NOT NULL DEFAULT '0',
+  `posicion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
 
 --
 -- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`id_usuario`, `nickname`, `contrasenia`, `email`, `last_login`, `rol`) VALUES
-('0925650996', 'bellengc', '1234a', 'belen@espol.ec', '0000-00-00 00:00:00', 1),
-('0925650997', 'bellengc1', '1234a', 'belen1@espol.ec', '0000-00-00 00:00:00', 1),
-('0925650998', 'bel2', '123', 'bel2@gmial.com', '0000-00-00 00:00:00', 1),
-('1604031238999', 'dui.', 'POO48HMU6HJ', 'adfsad@asdfasdf.com', '2017-02-02 08:24:33', 0),
-('1604070162099', 'dignissim.', 'JWM51QWJ1XN', 'tempor.est.ac@gravidasagittisDuis.com', '2016-02-07 23:40:47', 1),
-('1604110664599', 'natoque', 'PIH93DMX1ER', 'nulla@Intincidunt.net', '2016-10-25 20:33:21', 1),
-('1608112083799', 'ligula', 'ZEI36NOP1NI', 'In.mi@id.edu', '2016-07-25 13:08:36', 0),
-('1609041989699', 'pulvinar', 'FYW12AVK4PK', 'eget.magna@Quisqueporttitor.com', '2017-02-19 10:39:43', 2),
-('1610042569699', 'Etiam', 'FOE41CTV8VJ', 'nibh@gravida.org', '2017-11-05 20:02:52', 2),
-('1613041522999', 'luctus,', 'UBR28DSE4RY', 'gravida.nunc@luctus.net', '2017-08-27 01:41:25', 1),
-('1613041564599', 'ut,', 'GWR91NQB8NN', 'Integer.sem@aliquamarcu.com', '2017-06-01 23:49:38', 2),
-('1615102627199', 'tortor', 'BVE85CJV4OP', 'quam.a.felis@dolorDonecfringilla.com', '2017-06-14 06:20:58', 2),
-('1616082157799', 'rutrum', 'QOT40OSO5TP', 'bibendum.Donec.felis@augue.ca', '2016-12-19 01:25:57', 1),
-('1616121508899', 'elit', 'RZJ41AGA4HV', 'ullamcorper.viverra@odiosagittissemper.co.uk', '2017-02-08 08:15:51', 1),
-('1618032056299', 'eu', 'BFQ08RDR6TQ', 'consequat.lectus.sit@metus.net', '2016-11-22 01:52:35', 0),
-('1621073069299', 'volutpat', 'KEG57KFY1AA', 'odio.Aliquam@Pellentesque.co.uk', '2017-09-21 03:35:13', 0),
-('1621101268199', 'Suspendisse', 'UCV17ODG5AL', 'tincidunt.neque@ornareIn.com', '2017-12-06 19:41:59', 1),
-('1621102267299', 'non', 'FRV78KIN9RX', 'a@diamnunc.ca', '2016-06-20 04:59:31', 1),
-('1623040414999', 'aliquet', 'KUH26YRJ3RI', 'augue.porttitor.interdum@nascetur.co.uk', '2017-02-04 06:57:22', 1),
-('1623050739999', 'a,', 'KZP53CVB7FM', 'tincidunt.dui@purussapiengravida.co.uk', '2016-03-24 12:36:43', 1),
-('1625072347699', 'metus.', 'VEY57DAE2LN', 'eget.magna@condimentum.ca', '2016-06-05 02:29:24', 1),
-('1626120651399', 'Curabitur', 'PRR63IEA9CQ', 'ligula.Nullam@senectus.ca', '2017-10-05 07:38:54', 1),
-('1629070436199', 'pede,', 'TMY68AOU8CC', 'Duis.sit.amet@sedturpis.ca', '2017-10-09 13:12:21', 2),
-('1631092842999', 'tincidunt', 'RSF93EQN1SC', 'Morbi.neque.tellus@Vestibulum.com', '2016-06-16 00:20:45', 1),
-('1633081459799', 'tellus', 'QGB45DET7KH', 'Nunc@turpis.org', '2016-03-21 02:31:31', 0),
-('1633102113299', 'massa.', 'EFH43NJL6IZ', 'pretium.neque@euismodindolor.org', '2016-05-08 08:14:33', 1),
-('1634010992199', 'erat', 'OJA65WXQ4QR', 'adipiscing@dolorsitamet.edu', '2016-02-19 23:23:56', 0),
-('1634011227999', 'egestas', 'KTF84NXD8JU', 'vel.nisl@tempus.co.uk', '2016-07-23 02:12:34', 0),
-('1635122296399', 'enim.', 'HLK46VDX4KI', 'tincidunt.nunc@gravida.edu', '2016-09-26 21:08:51', 1),
-('1637010584699', 'purus', 'CXR51XBE4YS', 'Nam@Namporttitor.org', '2017-04-25 07:26:50', 2),
-('1637031448399', 'auctor.', 'PLG63UBN3HU', 'ligula@elit.co.uk', '2016-02-29 16:18:48', 1),
-('1640050276999', 'mus.', 'XYB09WGM1RQ', 'egestas@ligula.edu', '2017-03-23 23:51:17', 0),
-('1641032720899', 'enim', 'OOE19RYL3FA', 'Integer.urna@Uttinciduntvehicula.net', '2017-09-27 04:56:11', 0),
-('1643101211599', 'odio', 'EPP17HZM5HS', 'nunc.id.enim@velfaucibus.org', '2016-08-02 07:14:55', 2),
-('1643112436199', 'Curae;', 'VPL07RUM9KE', 'amet.ante.Vivamus@Fuscedolor.edu', '2016-03-17 13:03:44', 2),
-('1644022921999', 'vestibulum', 'IXD70IMH3NM', 'metus.Aliquam.erat@Nullatinciduntneque.com', '2016-06-02 17:12:02', 0),
-('1645020743799', 'luctus', 'EKS75OMU1TH', 'Pellentesque@Nuncac.com', '2016-10-12 18:19:06', 2),
-('1646061742399', 'id,', 'VSE25AJL2OS', 'risus.a.ultricies@eleifend.com', '2017-11-26 21:41:09', 1),
-('1646082720899', 'mollis', 'ZGG09XMT5RT', 'parturient.montes.nascetur@Integerurna.net', '2015-12-15 19:30:11', 2),
-('1646101325299', 'id', 'NQU90VVN9FJ', 'eros@massanon.ca', '2017-12-02 21:34:32', 2),
-('1648021874099', 'Nunc', 'KUX72TOY9JQ', 'Vivamus@semPellentesqueut.net', '2017-11-02 20:17:59', 0),
-('1649050633399', 'purus.', 'YMP73YAD2WN', 'massa@arcuVestibulum.co.uk', '2017-05-30 05:23:16', 1),
-('1649092286999', 'dictum', 'JNP29VKU8FI', 'fames.ac@etmalesuada.ca', '2016-07-23 06:45:00', 1),
-('1650022254699', 'et,', 'RQN42ZDB6EZ', 'in.sodales@Donectemporest.co.uk', '2016-07-25 21:46:28', 0),
-('1650040594899', 'imperdiet', 'CBJ84YTI3NU', 'molestie.arcu.Sed@velsapien.ca', '2017-03-19 08:51:19', 2),
-('1650050413199', 'Nulla', 'YHT16EDO6DR', 'purus@sedturpisnec.net', '2016-12-11 15:49:34', 2),
-('1652041310299', 'tempor', 'KRA54UUZ8QL', 'Nam@Donecconsectetuermauris.org', '2017-07-22 13:43:23', 0),
-('1654042439399', 'gravida', 'ZUV88TKP7EN', 'dolor.dapibus@vulputatelacusCras.org', '2016-07-24 21:51:39', 0),
-('1655052321299', 'Proin', 'CWD32FLH7DG', 'laoreet@sedpedeCum.ca', '2016-12-28 22:53:08', 1),
-('1656032579699', 'in,', 'FCI71JJQ3YS', 'pharetra.Quisque.ac@non.edu', '2017-02-10 10:20:54', 0),
-('1656050321299', 'nibh.', 'LKO26IVI6FV', 'magna.a.neque@quis.edu', '2016-05-29 09:13:52', 0),
-('1657100758799', 'quis', 'TPQ19BUV8YE', 'leo@odioPhasellusat.net', '2016-04-06 03:24:49', 0),
-('1657110642899', 'Sed', 'UHA18RSN7IB', 'ipsum.nunc.id@Proin.co.uk', '2016-01-10 22:58:57', 0),
-('1658011174499', 'consectetuer', 'DTF33ENY0GF', 'Suspendisse@sedsapien.org', '2016-05-27 23:26:14', 1),
-('1660082656999', 'quam', 'KAD27BYT0QV', 'sem.magna.nec@incursus.co.uk', '2016-04-17 18:44:09', 1),
-('1660092206799', 'viverra.', 'FDB32ZCR9YY', 'a@scelerisquenequeNullam.edu', '2017-09-09 11:19:44', 1),
-('1661101617099', 'sem', 'DUK75AZB0RA', 'erat.neque.non@malesuadavel.com', '2017-09-05 09:06:29', 0),
-('1663070732099', 'lobortis.', 'KYO36EAL0GJ', 'arcu.iaculis@Quisquenonummy.net', '2016-10-04 22:38:26', 2),
-('1663082634599', 'ipsum', 'IRW25PGJ0BK', 'est@cursusa.edu', '2015-12-17 18:54:04', 0),
-('1664021210399', 'sit', 'KXJ32TJL2IK', 'neque.sed.dictum@magna.com', '2017-11-09 21:33:59', 2),
-('1665030621499', 'mi', 'RAJ86MML6NK', 'aliquam@maurisrhoncusid.org', '2016-06-23 23:14:11', 2),
-('1665080338099', 'dis', 'PYG58CQL8TN', 'mauris.a.nunc@Nam.co.uk', '2016-07-07 03:11:55', 2),
-('1669111684899', 'blandit.', 'JNL48WPT4HO', 'ridiculus@urnaUttincidunt.ca', '2017-03-22 16:13:15', 0),
-('1670032806899', 'neque', 'RAN16BOX6AA', 'Sed@ridiculusmus.ca', '2016-09-11 21:39:26', 1),
-('1670071161599', 'ornare,', 'GJK19ASG4ZM', 'tortor@miacmattis.ca', '2017-10-03 14:13:25', 1),
-('1671050525499', 'ultrices', 'HWL08BLU3AC', 'mi.tempor@pedeultrices.ca', '2017-11-11 11:26:20', 0),
-('1673022402099', 'tempus', 'KOK25VYB9TD', 'congue.a@Maurisutquam.co.uk', '2017-09-16 20:33:00', 1),
-('1675051738199', 'dui', 'IYZ75UUG1YV', 'Donec.est.mauris@cursusluctusipsum.com', '2017-08-18 15:12:09', 2),
-('1675052580099', 'libero', 'MAU77LOD2YX', 'Pellentesque@Praesenteunulla.com', '2017-06-02 10:44:25', 0),
-('1676090172399', 'vitae,', 'BDK73FCE0JQ', 'dictum@dictumeu.org', '2016-11-20 03:08:45', 2),
-('1676111567999', 'Mauris', 'RDX11TWH1EG', 'nec@ridiculus.com', '2017-11-10 03:31:20', 1),
-('1677040197899', 'augue', 'WTA47QOG0RV', 'sit@fringillapurus.edu', '2016-11-15 20:06:05', 1),
-('1677072988099', 'scelerisque', 'QAY24IGV5NW', 'erat.Sed.nunc@Donecnonjusto.org', '2016-06-18 21:04:38', 0),
-('1678060453599', 'nisi', 'OMO97ZPS9XC', 'ullamcorper.magna@cursusInteger.ca', '2016-06-22 08:36:32', 2),
-('1679110531099', 'elit.', 'ZTS86TDS4HH', 'Quisque.varius@Maecenas.ca', '2016-07-24 06:16:51', 2),
-('1681041538499', 'diam', 'XNW63GEF7SC', 'metus@Nullamut.ca', '2016-08-18 23:13:26', 1),
-('1683090218099', 'aptent', 'SON54MWT1AB', 'augue.id@aauctornon.org', '2017-04-17 01:52:05', 1),
-('1684092186399', 'et', 'VYG58SOI2WC', 'ac.tellus.Suspendisse@ametdapibusid.net', '2016-01-26 04:24:08', 2),
-('1684101691999', 'Cras', 'NIF54XQK9IU', 'Praesent.eu.nulla@lectuspede.ca', '2017-02-23 00:25:47', 2),
-('1689082939999', 'leo.', 'FDT66PBI2II', 'consequat.nec@molestiesodalesMauris.edu', '2016-05-20 08:36:24', 2),
-('1689120506399', 'pharetra.', 'YLY44AMJ8IJ', 'eu@sodalespurus.net', '2016-01-12 05:28:42', 2),
-('1691083014099', 'lacus.', 'LRV05LWJ5XH', 'lacus.Ut.nec@Aenean.co.uk', '2017-03-02 15:38:37', 1),
-('1692041313699', 'amet', 'NWT75CYX3UA', 'lobortis.augue@orcisemeget.org', '2016-05-18 15:55:14', 2),
-('1693032619999', 'Fusce', 'XXJ71RNX4BB', 'enim.Suspendisse@quis.ca', '2017-05-27 20:33:07', 1),
-('1693072126399', 'dolor.', 'OLD38ZBW3IX', 'magna@tempor.com', '2016-03-24 08:06:17', 1),
-('1693101394899', 'ante.', 'ACV34COA6ON', 'Suspendisse.sagittis.Nullam@lacuspedesagittis.net', '2016-06-19 00:54:13', 0),
-('1697100903399', 'nec', 'QOL79DFE1VF', 'in.faucibus.orci@nulla.com', '2017-08-30 18:14:53', 1),
-('1699030343099', 'orci,', 'UPW76XLX6YJ', 'lorem.lorem.luctus@nec.ca', '2017-05-28 03:52:54', 2);
+INSERT INTO `usuario` (`id_usuario`, `nickname`, `contrasenia`, `email`, `last_login`, `rol`, `posicion`) VALUES
+('0925650996', 'bellengc', '1234a', 'belen@espol.ec', '0000-00-00 00:00:00', 1, 1),
+('0925650997', 'bellengc1', '1234a', 'belen1@espol.ec', '0000-00-00 00:00:00', 1, 2),
+('0925650998', 'bel2', '123', 'bel2@gmial.com', '0000-00-00 00:00:00', 1, 3),
+('0925760885001', 'prueba1', 'prueba1', 'prueba1@gmail.com', '2017-02-11 05:36:31', 0, 89),
+('1604031238999', 'dui.', 'POO48HMU6HJ', 'adfsad@asdfasdf.com', '2017-02-02 08:24:33', 0, 4),
+('1604070162099', 'dignissim.', 'JWM51QWJ1XN', 'tempor.est.ac@gravidasagittisDuis.com', '2016-02-07 23:40:47', 1, 5),
+('1604110664599', 'natoque', 'PIH93DMX1ER', 'nulla@Intincidunt.net', '2016-10-25 20:33:21', 1, 6),
+('1608112083799', 'ligula', 'ZEI36NOP1NI', 'In.mi@id.edu', '2016-07-25 13:08:36', 0, 7),
+('1609041989699', 'pulvinar', 'FYW12AVK4PK', 'eget.magna@Quisqueporttitor.com', '2017-02-19 10:39:43', 2, 8),
+('1610042569699', 'Etiam', 'FOE41CTV8VJ', 'nibh@gravida.org', '2017-11-05 20:02:52', 2, 9),
+('1613041522999', 'luctus,', 'UBR28DSE4RY', 'gravida.nunc@luctus.net', '2017-08-27 01:41:25', 1, 10),
+('1613041564599', 'ut,', 'GWR91NQB8NN', 'Integer.sem@aliquamarcu.com', '2017-06-01 23:49:38', 2, 11),
+('1615102627199', 'tortor', 'BVE85CJV4OP', 'quam.a.felis@dolorDonecfringilla.com', '2017-06-14 06:20:58', 2, 12),
+('1616082157799', 'rutrum', 'QOT40OSO5TP', 'bibendum.Donec.felis@augue.ca', '2016-12-19 01:25:57', 1, 13),
+('1616121508899', 'elit', 'RZJ41AGA4HV', 'ullamcorper.viverra@odiosagittissemper.co.uk', '2017-02-08 08:15:51', 1, 14),
+('1618032056299', 'eu', 'BFQ08RDR6TQ', 'consequat.lectus.sit@metus.net', '2016-11-22 01:52:35', 0, 15),
+('1621073069299', 'volutpat', 'KEG57KFY1AA', 'odio.Aliquam@Pellentesque.co.uk', '2017-09-21 03:35:13', 0, 16),
+('1621101268199', 'Suspendisse', 'UCV17ODG5AL', 'tincidunt.neque@ornareIn.com', '2017-12-06 19:41:59', 1, 17),
+('1621102267299', 'non', 'FRV78KIN9RX', 'a@diamnunc.ca', '2016-06-20 04:59:31', 1, 18),
+('1623040414999', 'aliquet', 'KUH26YRJ3RI', 'augue.porttitor.interdum@nascetur.co.uk', '2017-02-04 06:57:22', 1, 19),
+('1623050739999', 'a,', 'KZP53CVB7FM', 'tincidunt.dui@purussapiengravida.co.uk', '2016-03-24 12:36:43', 1, 20),
+('1625072347699', 'metus.', 'VEY57DAE2LN', 'eget.magna@condimentum.ca', '2016-06-05 02:29:24', 1, 21),
+('1626120651399', 'Curabitur', 'PRR63IEA9CQ', 'ligula.Nullam@senectus.ca', '2017-10-05 07:38:54', 1, 22),
+('1629070436199', 'pede,', 'TMY68AOU8CC', 'Duis.sit.amet@sedturpis.ca', '2017-10-09 13:12:21', 2, 23),
+('1631092842999', 'tincidunt', 'RSF93EQN1SC', 'Morbi.neque.tellus@Vestibulum.com', '2016-06-16 00:20:45', 1, 24),
+('1633081459799', 'tellus', 'QGB45DET7KH', 'Nunc@turpis.org', '2016-03-21 02:31:31', 0, 25),
+('1633102113299', 'massa.', 'EFH43NJL6IZ', 'pretium.neque@euismodindolor.org', '2016-05-08 08:14:33', 1, 26),
+('1634010992199', 'erat', 'OJA65WXQ4QR', 'adipiscing@dolorsitamet.edu', '2016-02-19 23:23:56', 0, 27),
+('1634011227999', 'egestas', 'KTF84NXD8JU', 'vel.nisl@tempus.co.uk', '2016-07-23 02:12:34', 0, 28),
+('1635122296399', 'enim.', 'HLK46VDX4KI', 'tincidunt.nunc@gravida.edu', '2016-09-26 21:08:51', 1, 29),
+('1637010584699', 'purus', 'CXR51XBE4YS', 'Nam@Namporttitor.org', '2017-04-25 07:26:50', 2, 30),
+('1637031448399', 'auctor.', 'PLG63UBN3HU', 'ligula@elit.co.uk', '2016-02-29 16:18:48', 1, 31),
+('1640050276999', 'mus.', 'XYB09WGM1RQ', 'egestas@ligula.edu', '2017-03-23 23:51:17', 0, 32),
+('1641032720899', 'enim', 'OOE19RYL3FA', 'Integer.urna@Uttinciduntvehicula.net', '2017-09-27 04:56:11', 0, 33),
+('1643101211599', 'odio', 'EPP17HZM5HS', 'nunc.id.enim@velfaucibus.org', '2016-08-02 07:14:55', 2, 34),
+('1643112436199', 'Curae;', 'VPL07RUM9KE', 'amet.ante.Vivamus@Fuscedolor.edu', '2016-03-17 13:03:44', 2, 35),
+('1644022921999', 'vestibulum', 'IXD70IMH3NM', 'metus.Aliquam.erat@Nullatinciduntneque.com', '2016-06-02 17:12:02', 0, 36),
+('1645020743799', 'luctus', 'EKS75OMU1TH', 'Pellentesque@Nuncac.com', '2016-10-12 18:19:06', 2, 37),
+('1646061742399', 'id,', 'VSE25AJL2OS', 'risus.a.ultricies@eleifend.com', '2017-11-26 21:41:09', 1, 38),
+('1646082720899', 'mollis', 'ZGG09XMT5RT', 'parturient.montes.nascetur@Integerurna.net', '2015-12-15 19:30:11', 2, 39),
+('1646101325299', 'id', 'NQU90VVN9FJ', 'eros@massanon.ca', '2017-12-02 21:34:32', 2, 40),
+('1648021874099', 'Nunc', 'KUX72TOY9JQ', 'Vivamus@semPellentesqueut.net', '2017-11-02 20:17:59', 0, 41),
+('1649050633399', 'purus.', 'YMP73YAD2WN', 'massa@arcuVestibulum.co.uk', '2017-05-30 05:23:16', 1, 42),
+('1649092286999', 'dictum', 'JNP29VKU8FI', 'fames.ac@etmalesuada.ca', '2016-07-23 06:45:00', 1, 43),
+('1650022254699', 'et,', 'RQN42ZDB6EZ', 'in.sodales@Donectemporest.co.uk', '2016-07-25 21:46:28', 0, 44),
+('1650040594899', 'imperdiet', 'CBJ84YTI3NU', 'molestie.arcu.Sed@velsapien.ca', '2017-03-19 08:51:19', 2, 45),
+('1650050413199', 'Nulla', 'YHT16EDO6DR', 'purus@sedturpisnec.net', '2016-12-11 15:49:34', 2, 46),
+('1652041310299', 'tempor', 'KRA54UUZ8QL', 'Nam@Donecconsectetuermauris.org', '2017-07-22 13:43:23', 0, 47),
+('1654042439399', 'gravida', 'ZUV88TKP7EN', 'dolor.dapibus@vulputatelacusCras.org', '2016-07-24 21:51:39', 0, 48),
+('1655052321299', 'Proin', 'CWD32FLH7DG', 'laoreet@sedpedeCum.ca', '2016-12-28 22:53:08', 1, 49),
+('1656032579699', 'in,', 'FCI71JJQ3YS', 'pharetra.Quisque.ac@non.edu', '2017-02-10 10:20:54', 0, 50),
+('1656050321299', 'nibh.', 'LKO26IVI6FV', 'magna.a.neque@quis.edu', '2016-05-29 09:13:52', 0, 51),
+('1657100758799', 'quis', 'TPQ19BUV8YE', 'leo@odioPhasellusat.net', '2016-04-06 03:24:49', 0, 52),
+('1657110642899', 'Sed', 'UHA18RSN7IB', 'ipsum.nunc.id@Proin.co.uk', '2016-01-10 22:58:57', 0, 53),
+('1658011174499', 'consectetuer', 'DTF33ENY0GF', 'Suspendisse@sedsapien.org', '2016-05-27 23:26:14', 1, 54),
+('1660082656999', 'quam', 'KAD27BYT0QV', 'sem.magna.nec@incursus.co.uk', '2016-04-17 18:44:09', 1, 55),
+('1660092206799', 'viverra.', 'FDB32ZCR9YY', 'a@scelerisquenequeNullam.edu', '2017-09-09 11:19:44', 1, 56),
+('1661101617099', 'sem', 'DUK75AZB0RA', 'erat.neque.non@malesuadavel.com', '2017-09-05 09:06:29', 0, 57),
+('1663070732099', 'lobortis.', 'KYO36EAL0GJ', 'arcu.iaculis@Quisquenonummy.net', '2016-10-04 22:38:26', 2, 58),
+('1663082634599', 'ipsum', 'IRW25PGJ0BK', 'est@cursusa.edu', '2015-12-17 18:54:04', 0, 59),
+('1664021210399', 'sit', 'KXJ32TJL2IK', 'neque.sed.dictum@magna.com', '2017-11-09 21:33:59', 2, 60),
+('1665030621499', 'mi', 'RAJ86MML6NK', 'aliquam@maurisrhoncusid.org', '2016-06-23 23:14:11', 2, 61),
+('1665080338099', 'dis', 'PYG58CQL8TN', 'mauris.a.nunc@Nam.co.uk', '2016-07-07 03:11:55', 2, 62),
+('1669111684899', 'blandit.', 'JNL48WPT4HO', 'ridiculus@urnaUttincidunt.ca', '2017-03-22 16:13:15', 0, 63),
+('1670032806899', 'neque', 'RAN16BOX6AA', 'Sed@ridiculusmus.ca', '2016-09-11 21:39:26', 1, 64),
+('1670071161599', 'ornare,', 'GJK19ASG4ZM', 'tortor@miacmattis.ca', '2017-10-03 14:13:25', 1, 65),
+('1671050525499', 'ultrices', 'HWL08BLU3AC', 'mi.tempor@pedeultrices.ca', '2017-11-11 11:26:20', 0, 66),
+('1673022402099', 'tempus', 'KOK25VYB9TD', 'congue.a@Maurisutquam.co.uk', '2017-09-16 20:33:00', 1, 67),
+('1675051738199', 'dui', 'IYZ75UUG1YV', 'Donec.est.mauris@cursusluctusipsum.com', '2017-08-18 15:12:09', 2, 68),
+('1675052580099', 'libero', 'MAU77LOD2YX', 'Pellentesque@Praesenteunulla.com', '2017-06-02 10:44:25', 0, 69),
+('1676090172399', 'vitae,', 'BDK73FCE0JQ', 'dictum@dictumeu.org', '2016-11-20 03:08:45', 2, 70),
+('1676111567999', 'Mauris', 'RDX11TWH1EG', 'nec@ridiculus.com', '2017-11-10 03:31:20', 1, 71),
+('1677040197899', 'augue', 'WTA47QOG0RV', 'sit@fringillapurus.edu', '2016-11-15 20:06:05', 1, 72),
+('1677072988099', 'scelerisque', 'QAY24IGV5NW', 'erat.Sed.nunc@Donecnonjusto.org', '2016-06-18 21:04:38', 0, 73),
+('1678060453599', 'nisi', 'OMO97ZPS9XC', 'ullamcorper.magna@cursusInteger.ca', '2016-06-22 08:36:32', 2, 74),
+('1679110531099', 'elit.', 'ZTS86TDS4HH', 'Quisque.varius@Maecenas.ca', '2016-07-24 06:16:51', 2, 75),
+('1681041538499', 'diam', 'XNW63GEF7SC', 'metus@Nullamut.ca', '2016-08-18 23:13:26', 1, 76),
+('1683090218099', 'aptent', 'SON54MWT1AB', 'augue.id@aauctornon.org', '2017-04-17 01:52:05', 1, 77),
+('1684092186399', 'et', 'VYG58SOI2WC', 'ac.tellus.Suspendisse@ametdapibusid.net', '2016-01-26 04:24:08', 2, 78),
+('1684101691999', 'Cras', 'NIF54XQK9IU', 'Praesent.eu.nulla@lectuspede.ca', '2017-02-23 00:25:47', 2, 79),
+('1689082939999', 'leo.', 'FDT66PBI2II', 'consequat.nec@molestiesodalesMauris.edu', '2016-05-20 08:36:24', 2, 80),
+('1689120506399', 'pharetra.', 'YLY44AMJ8IJ', 'eu@sodalespurus.net', '2016-01-12 05:28:42', 2, 81),
+('1691083014099', 'lacus.', 'LRV05LWJ5XH', 'lacus.Ut.nec@Aenean.co.uk', '2017-03-02 15:38:37', 1, 82),
+('1692041313699', 'amet', 'NWT75CYX3UA', 'lobortis.augue@orcisemeget.org', '2016-05-18 15:55:14', 2, 83),
+('1693032619999', 'Fusce', 'XXJ71RNX4BB', 'enim.Suspendisse@quis.ca', '2017-05-27 20:33:07', 1, 84),
+('1693072126399', 'dolor.', 'OLD38ZBW3IX', 'magna@tempor.com', '2016-03-24 08:06:17', 1, 85),
+('1693101394899', 'ante.', 'ACV34COA6ON', 'Suspendisse.sagittis.Nullam@lacuspedesagittis.net', '2016-06-19 00:54:13', 0, 86),
+('1697100903399', 'nec', 'QOL79DFE1VF', 'in.faucibus.orci@nulla.com', '2017-08-30 18:14:53', 1, 87),
+('1699030343099', 'orci,', 'UPW76XLX6YJ', 'lorem.lorem.luctus@nec.ca', '2017-05-28 03:52:54', 2, 88),
+('9999999999999', 'asdfdsf', '12333', 'adsff@gmail.com', '2017-02-11 23:32:10', 0, 127);
 
 -- --------------------------------------------------------
 
@@ -849,6 +871,7 @@ ALTER TABLE `usuario`
   ADD PRIMARY KEY (`id_usuario`),
   ADD UNIQUE KEY `nickname` (`nickname`),
   ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `posicion` (`posicion`),
   ADD KEY `id_usuario` (`id_usuario`);
 
 --
@@ -890,6 +913,11 @@ ALTER TABLE `horario`
 --
 ALTER TABLE `pago`
   MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `posicion` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=128;
 --
 -- Constraints for dumped tables
 --

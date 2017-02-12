@@ -389,6 +389,9 @@ if(su==0) {
     if(sinfo==0){
       document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del usuario";
     }
+    else{
+      document.getElementById('msg').innerHTML = "Usuario ingresado exitósamente";
+    }
 
 }
 $('.message a').click(function(){

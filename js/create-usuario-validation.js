@@ -12,11 +12,13 @@ $(function() {
       nombres: {
         required:true,
         maxlength: 46,
+        minlength;2,
         lettersonly:true
       },
       apellidos:{
         required:true,
         lettersonly:true,
+        minlength:2,
         maxlength: 46
       },
       cedula: {required:true, minlength:10, maxlength:13, digits:true},

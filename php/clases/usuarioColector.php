@@ -59,14 +59,18 @@ class usuarioColector
 
     public function addUsuario($id, $nickname, $contrasenia, $email, $rol)
     {
-        $query = "call addUsuario(\"$id\",\"$nickname\",\"$contrasenia\",$rol,\"$email\")";
+        $query = "call addUsuario(\"$id\",\"$nickname\",\"$contrasenia\",\"$email\",$rol)";
         $result = $this->worker->execQuery($query);
-        /*if ($result ) {
-            $usuario = $this->getUserById($id);
-            return $usuario->get_nickname() == $nickname ? $usuario : null;
+        if($result){
+          $id=$this->worker->execQueryReturning("call getUserLastId()");
+          return $id;
         }
-        return null;*/
-        return $result;
+        return null;
+    }
+    public function getUserByPosition($posicion){
+      $query="call getUserByPosition($posicion)";
+      $result=$this->worker->execQueryReturning($query,Usuario::class);
+      return $result;
     }
 
     public function getUserById($id)
