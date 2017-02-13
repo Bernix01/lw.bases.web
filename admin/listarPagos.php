@@ -93,12 +93,13 @@ include_once("../php/clases/facturaColector.php");
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        PAGOS
+        Cursos
         <small>reporte</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li class="active">Pagos</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Tables</a></li>
+        <li class="active">Simple</li>
       </ol>
     </section>
 
@@ -118,55 +119,59 @@ include_once("../php/clases/facturaColector.php");
         <thead>
             <tr class="filters">
 
-                <th><input type="text" class="form-control" placeholder="Forma de pago" disabled></th>
+                <th><input type="text" class="form-control" placeholder="forma de pago" disabled></th>
                 <th><input type="text" class="form-control" placeholder="No. factura" disabled></th>
-                <th><input type="text" class="form-control" placeholder="No.depósito" disabled></th>
-                <th><input type="text" class="form-control" placeholder="No.Tarjeta" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Id estudiante" disabled></th>
+
+                <th><input type="text" class="form-control" placeholder="No. depósito" disabled></th>
+                <th><input type="text" class="form-control" placeholder="No.tarjeta" disabled></th>
             </tr>
         </thead>
         <tbody>
-                                    <?php
+          <?php
 
-                                    foreach ($pagos as $pago){
-                                      if($pago->get_forma_pago()==1){
-                                        $forma="depósito";
-                                      }
-                                      else{
-                                        $forma="tarjeta";
-                                      }
-                                      $factura=$factura_colector->getFacturaById($pago->get_id_factura());
-                                        echo "<td>" . $forma . "</td>";
-                                        echo "<td>" . $factura->get_numero_factura() . "</td>";
-                                        echo "<td>" . $pago->get_n_deposito(). "</td>";
-                                        echo "<td>" . $pago->get_n_tarjeta(). "</td>";
-                                        echo "<td><a href='eliminarPago.php?ius=".$pago->get_id_pago()."'>Eliminar</a></td> </tr>";
+          foreach ($pagos as $pago){
+            if($pago->get_forma_pago()==1){
+              $forma="depósito";
+            }
+            else{
+              $forma="tarjeta";
+            }
+            $factura=$factura_colector->getFacturaById($pago->get_id_factura());
+              echo "<td>" . $forma . "</td>";
+              echo "<td>" . $factura->get_numero_factura() . "</td>";
+              echo "<td>" . $factura->get_id_estudiante() . "</td>";
 
-
-                                    }
-                                    ?>
-                                  </tbody>
-                                  </table>
-                                  <a href="javascript:generatePDF()">Descargar PDF</a>
-                                  </div>
-
-                                  </div>
-
-                                  </div>
-                                  </div>
-                                  </section>
-                                  <!-- /.content -->
-                                  </div>
-                                  <!-- /.content-wrapper -->
-                                  <footer class="main-footer">
-                                  <div class="pull-right hidden-xs">
-                                  <b>Version</b> 2.3.7
-                                  </div>
-                                  <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-                                  reserved.
-                                  </footer>
+              echo "<td>" . $pago->get_n_deposito(). "</td>";
+              echo "<td>" . $pago->get_n_tarjeta(). "</td>";
+              echo "<td><a href='eliminarPago.php?ius=".$pago->get_id_pago()."'>Eliminar</a></td> </tr>";
 
 
-                                  </div>
+          }
+          ?>
+              </tbody>
+          </table>
+          <a href="javascript:generatePDF()">Descargar PDF</a>
+        </div>
+
+        </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+  <footer class="main-footer">
+    <div class="pull-right hidden-xs">
+      <b>Version</b> 2.3.7
+    </div>
+    <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+    reserved.
+  </footer>
+
+
+</div>
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
@@ -182,22 +187,98 @@ include_once("../php/clases/facturaColector.php");
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script type="text/javascript">
-    function getURLParameter(name) {
-        return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+function getURLParameter(name) {
+  return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.search) || [null, ''])[1].replace(/\+/g, '%20')) || null;
+}
+var su=getURLParameter("su");
+var sinfo=getURLParameter("sinfo");
+if(su==0) {
+    document.getElementById('msg').innerHTML = "No se pudo ingresar el curso";
+}else{
+    if(sinfo==0){
+      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del curso";
     }
-    var su=getURLParameter("su");
-    var sinfo=getURLParameter("sinfo");
-    if(su==0) {
-        document.getElementById('msg').innerHTML = "No se pudo ingresar el curso";
-    }else{
-        if(sinfo==0){
-            document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del curso";
-        }
 
-    }
-    $('.message a').click(function(){
-        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+}
+$(document).ready(function(){
+    $('.filterable .btn-filter').click(function(){
+        var $panel = $(this).parents('.filterable'),
+        $filters = $panel.find('.filters input'),
+        $tbody = $panel.find('.table tbody');
+        if ($filters.prop('disabled') == true) {
+            $filters.prop('disabled', false);
+            $filters.first().focus();
+        } else {
+            $filters.val('').prop('disabled', true);
+            $tbody.find('.no-result').remove();
+            $tbody.find('tr').show();
+        }
     });
+
+    $('.filterable .filters input').keyup(function(e){
+        /* Ignore tab key */
+        var code = e.keyCode || e.which;
+        if (code == '9') return;
+        /* Useful DOM data and selectors */
+        var $input = $(this),
+        inputContent = $input.val().toLowerCase(),
+        $panel = $input.parents('.filterable'),
+        column = $panel.find('.filters th').index($input.parents('th')),
+        $table = $panel.find('.table'),
+        $rows = $table.find('tbody tr');
+        if (inputContent == '') {
+            $rows.show();
+        }
+        /* Dirtiest filter function ever ;) */
+        var $filteredRows = $rows.filter(function(){
+            var value = $(this).find('td').eq(column).text().toLowerCase();
+            return value.indexOf(inputContent) === -1;
+        });
+        /* Clean previous no-result if exist */
+        $table.find('tbody .no-result').remove();
+        /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+        //$rows.show();
+        $filteredRows.hide();
+        /* Prepend no-result row if all rows are filtered */
+        if ($filteredRows.length === $rows.length) {
+            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
+        }
+    });
+});
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
+function myFunction() {
+    var x= getURLParameter("su");
+    if(x=="0")
+      alert("No existe un usuario con el id ingresado");
+    else if(x=="2") {
+      alert("No se pudo ingresar el certificado :(");
+    }
+    else{
+      alert("Certificado ingresado con éxito");
+    }
+}
+function demoFromHTML() {
+var doc = new jsPDF('p', 'in', 'letter');
+var source = $('#testcase').first();
+var specialElementHandlers = {
+'#bypassme': function(element, renderer) {
+return true;
+}
+};
+
+doc.fromHTML(
+source, // HTML string or DOM elem ref.
+0.5, // x coord
+0.5, // y coord
+{
+'width': 7.5, // max width of content on PDF
+'elementHandlers': specialElementHandlers
+});
+
+doc.output('dataurl');
+}
 </script>
 </body>
 </html>

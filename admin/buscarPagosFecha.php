@@ -1,31 +1,36 @@
 <?php
 session_start();
-
+include_once("../php/clases/pagoColector.php");
   if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
     header("location: /");
   }
+
 ?>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>LW</title>
+  <title>AdminLTE 2 | Simple Tables</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-  <!-- jvectormap -->
-  <link rel="stylesheet" href="/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
+       <link rel="stylesheet" href="/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+       <!-- Theme style -->
+       <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
+       <!-- AdminLTE Skins. Choose a skin from the css/skins
+            folder instead of downloading all of them to reduce the load. -->
+       <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
+       <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -33,7 +38,7 @@ session_start();
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-<style>
+  <style>
   .filterable {
     margin-top: 15px;
 }
@@ -89,7 +94,7 @@ session_start();
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Facturas
+        Pagos
         <small>reporte</small>
       </h1>
       <ol class="breadcrumb">
@@ -99,19 +104,13 @@ session_start();
       </ol>
     </section>
 
-    <section class="content">
+    <div class="container-fluid" >
 
-        <div class="row">
-            <!-- left column -->
-            <div class="col-md-6">
-                <!-- general form elements -->
-                <div class="box box-primary">
-                    <div class="box-header with-border">
-                        <h3 class="box-title">Ingresar Emprendimiento</h3>
-                    </div>
+  <div class="row">
+  <div class="panel panel-primary filterable" >
 
 
-    <form method="post" name="rango-busqueda" action="buscarFacturasRango.php" onsubmit="return checkDateRange(this)">
+    <form method="post" name="rango-busqueda" action="listarPagosFecha.php" onsubmit="return checkDateRange(this)">
     <div class="form-group">
     <label for="fecha_inicio">Fecha inicio</label>
     <input type="text" id="fecha_inicio" data-format="DD-MM-YYYY" data-template="D MMM YYYY" name="fecha_inicio" value="09-01-2016">
@@ -121,16 +120,17 @@ session_start();
     <input type="text" id="fecha_fin" data-format="DD-MM-YYYY" data-template="D MMM YYYY" name="fecha_fin" value="09-01-2016">
   </div>
     <div class="box-footer">
-        <button type="submit" class="btn btn-primary">Buscar facturas</button>
+        <button type="submit" class="btn btn-primary">Buscar pagos</button>
     </div>
   </form>
-</div>
-<!-- /.box -->
 
+        </div>
 
-</div>
-</div>
-</section>
+        </div>
+
+        </div>
+      </div>
+    </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -156,7 +156,6 @@ session_start();
 <script src="plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
-
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script src="../js/jquery.js"></script>
@@ -193,12 +192,10 @@ document.write('<script src="http://' + (location.host || 'localhost').split(':'
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
+
 </script>
-<!-- Bootstrap JavaScript -->
 <script src="js/bootstrap.min.js"></script>
 <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
 <script src="Hello World"></script>
-
-
 </body>
 </html>

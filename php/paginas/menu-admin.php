@@ -324,17 +324,7 @@
                     <li><a href="/admin/cursosPorUsuario.php"><i class="fa fa-circle-o"></i> Estudiantes por curso</a></li>
                 </ul>
             </li>
-            <li class="treeview">
-                <a href="/admin/listarEtiquetas.php">
-                    <i class="fa fa-table"></i> <span>Etiquetas</span>
-                    <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-                </a>
-                <ul class="treeview-menu">
-                    <li><a href="/admin/insertarEtiqueta.php"><i class="fa fa-circle-o"></i> Crear etiquetas</a></li>
-                </ul>
-            </li>
+            
             <li class="treeview">
                 <a>
                     <i class="fa fa-table"></i> <span>Certificados</span>
@@ -385,6 +375,7 @@
                 </a>
                 <ul class="treeview-menu">
                     <li><a href="/admin/listarPagos.php"><i class="fa fa-circle-o"></i> Listar pago</a></li>
+                      <li><a href="/admin/buscarPagosFecha.php"><i class="fa fa-circle-o"></i> Buscar pagos por fecha</a></li>
                 </ul>
             </li>
 

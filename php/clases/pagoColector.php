@@ -49,6 +49,18 @@ class PagoColector
         $query="call getAllPagos";
         return $this->worker->execQueryArray($query,Pago::class);
     }
+    public function getPagosByRange($fecha_i,$fecha_f){
+      $query="call getPagosByRange(\"$fecha_i\",\"$fecha_f\")";
+      $result=$this->worker->execQueryArray($query,Pago::class);
+      $facturas=array();
+      if(!$result){
+        return $facturas;
+      }
+      foreach ($result as $f) {
+        array_push($facturas,$f);
+      }
+      return $facturas;
+    }
 
 }
 

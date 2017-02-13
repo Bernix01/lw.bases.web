@@ -7,6 +7,7 @@ include_once("../php/clases/usuarioColector.php");
   $colector= new usuarioColector();
   $result=$colector->getAllUsuariosAndInfos();
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -33,6 +34,52 @@ include_once("../php/clases/usuarioColector.php");
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
+  <style>
+  .filterable {
+    margin-top: 15px;
+}
+.filterable .panel-heading .pull-right {
+    margin-top: -20px;
+}
+.filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+}
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+  </style>
+  <script type="text/javascript" src="jspdf.min.js"></script>
+  <script type="text/javascript" src="html2canvas.js"></script>
+  <script type="text/javascript">
+  function generatePDF(){
+    var divHeight = $('#testcase').height();
+    var divWidth = $('#testcase').width();
+    var ratio = divHeight / divWidth;
+    html2canvas(document.getElementById("testcase"),{
+      onrendered: function(canvas){
+        var img=canvas.toDataURL("image/png",1.0);
+        var doc= new jsPDF();
+        var width = doc.internal.pageSize.width;
+        var height = doc.internal.pageSize.height;
+        height = ratio * width;
+        doc.addImage(img,"JPEG",0, 0, width, height);
+        doc.save("reporte.pdf");
+      }
+    });
+  }
+  </script>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">
@@ -44,7 +91,7 @@ include_once("../php/clases/usuarioColector.php");
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Usuarios
+        Cursos
         <small>reporte</small>
       </h1>
       <ol class="breadcrumb">
@@ -54,107 +101,73 @@ include_once("../php/clases/usuarioColector.php");
       </ol>
     </section>
 
-    <!-- Main content -->
-    <section class="content">
+    <div class="container-fluid" >
 
-      <!-- /.row -->
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="box">
-            <div class="box-header">
-              <h3 class="box-title">Responsive Hover Table</h3>
+  <div class="row">
+  <div class="panel panel-primary filterable" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Filtrar</h3>
+        <div class="pull-right">
+            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+        </div>
+    </div>
 
-              <div class="box-tools">
-                <div class="input-group input-group-sm" style="width: 150px;">
-                  <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+    <table class="table" id="testcase" >
 
-                  <div class="input-group-btn">
-                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- mensaje para cuando se agregue un usuario -->
-            <div id="msg">
-      			</div>
-            <!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-              <table class="table table-hover">
-                <tr>
-                  <th>Nickname</th>
-                  <th>Nombre</th>
-                  <th>Apellidos</th>
-                  <th>Email</th>
-                  <th>Last_login</th>
-                  <th>Rol</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-                <tr>
-                  <?php
+        <thead>
+            <tr class="filters">
 
-                    foreach($result as $usuario){
+                <th><input type="text" class="form-control" placeholder="Nickname" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Nombres" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Apellidos" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Email" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Last_login" disabled></th>
+                <th><input type="text" class="form-control" placeholder="Rol" disabled></th>
 
-                      $spanclass="";
-                        if ($usuario->rol == 0) {
-                            $usuario->rol = "Estudiante";
-                        $spanclass="label label-success";
-                      }
-                        if ($usuario->rol == 1) {
-                        $spanclass="label label-warning";
-                            $usuario->rol = "Profesor";
-                      }
-                        if ($usuario->rol == 2) {
-                        $spanclass="label label-primary";
-                            $usuario->rol = "Administrador";
-                      }
-                        echo "<tr>
-                          <td>" . $usuario->nickname . "</td>";
-                          echo "
-                          <td>" . $usuario->nombres . "</td>";
-                          echo "
-                          <td>" . $usuario->apellidos . "</td>";
-                                            echo "
-                            <td>" . $usuario->email . "</td>";
-                                            echo "
-                              <td>" . $usuario->last_login . "</td>";
-                                            echo "
-                                <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuario->rol . "</span></td>";
-                      echo "<td><a href='editarUsuario.php?ius=".$usuario->id_usuario."'>Editar</a></td>";
-                      echo "<td><a href='eliminarUsuario.php?ius=".$usuario->id_usuario."'>Eliminar </a></td> </tr>";
-                    }
-                ?>
+            </tr>
+        </thead>
+        <tbody>
+          <?php
 
-                  <!--<td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr> -->
-              </table>
+            foreach($result as $usuario){
 
-            </div>
-            <!-- /.box-body -->
-          </div>
-          <!-- /.box -->
+              $spanclass="";
+                if ($usuario->rol == 0) {
+                    $usuario->rol = "Estudiante";
+                $spanclass="label label-success";
+              }
+                if ($usuario->rol == 1) {
+                $spanclass="label label-warning";
+                    $usuario->rol = "Profesor";
+              }
+                if ($usuario->rol == 2) {
+                $spanclass="label label-primary";
+                    $usuario->rol = "Administrador";
+              }
+                echo "<tr>
+                  <td>" . $usuario->nickname . "</td>";
+                  echo "
+                  <td>" . $usuario->nombres . "</td>";
+                  echo "
+                  <td>" . $usuario->apellidos . "</td>";
+                                    echo "
+                    <td>" . $usuario->email . "</td>";
+                                    echo "
+                      <td>" . $usuario->last_login . "</td>";
+                                    echo "
+                        <td style='text-align: center;''><span class=\"".$spanclass."\" >" . $usuario->rol . "</span></td>";
+              echo "<td><a href='editarUsuario.php?ius=".$usuario->id_usuario."'>Editar</a></td>";
+              echo "<td><a href='eliminarUsuario.php?ius=".$usuario->id_usuario."'>Eliminar </a></td> </tr>";
+            }
+          ?>
+
+              </tbody>
+          </table>
+          <a href="javascript:generatePDF()">Descargar PDF</a>
+        </div>
+
+        </div>
+
         </div>
       </div>
     </section>
@@ -169,199 +182,7 @@ include_once("../php/clases/usuarioColector.php");
     reserved.
   </footer>
 
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Create the tabs -->
-    <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
-      <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i></a></li>
-      <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears"></i></a></li>
-    </ul>
-    <!-- Tab panes -->
-    <div class="tab-content">
-      <!-- Home tab content -->
-      <div class="tab-pane" id="control-sidebar-home-tab">
-        <h3 class="control-sidebar-heading">Recent Activity</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-birthday-cake bg-red"></i>
 
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Langdon's Birthday</h4>
-
-                <p>Will be 23 on April 24th</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-user bg-yellow"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Frodo Updated His Profile</h4>
-
-                <p>New phone +1(800)555-1234</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Nora Joined Mailing List</h4>
-
-                <p>nora@example.com</p>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <i class="menu-icon fa fa-file-code-o bg-green"></i>
-
-              <div class="menu-info">
-                <h4 class="control-sidebar-subheading">Cron Job 254 Executed</h4>
-
-                <p>Execution time 5 seconds</p>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-        <h3 class="control-sidebar-heading">Tasks Progress</h3>
-        <ul class="control-sidebar-menu">
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Custom Template Design
-                <span class="label label-danger pull-right">70%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-danger" style="width: 70%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Update Resume
-                <span class="label label-success pull-right">95%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-success" style="width: 95%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Laravel Integration
-                <span class="label label-warning pull-right">50%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-warning" style="width: 50%"></div>
-              </div>
-            </a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">
-              <h4 class="control-sidebar-subheading">
-                Back End Framework
-                <span class="label label-primary pull-right">68%</span>
-              </h4>
-
-              <div class="progress progress-xxs">
-                <div class="progress-bar progress-bar-primary" style="width: 68%"></div>
-              </div>
-            </a>
-          </li>
-        </ul>
-        <!-- /.control-sidebar-menu -->
-
-      </div>
-      <!-- /.tab-pane -->
-      <!-- Stats tab content -->
-      <div class="tab-pane" id="control-sidebar-stats-tab">Stats Tab Content</div>
-      <!-- /.tab-pane -->
-      <!-- Settings tab content -->
-      <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
-      </div>
-      <!-- /.tab-pane -->
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
-  <!-- Add the sidebar's background. This div must be placed
-       immediately after the control sidebar -->
-  <div class="control-sidebar-bg"></div>
 </div>
 <!-- ./wrapper -->
 
@@ -384,19 +205,92 @@ function getURLParameter(name) {
 var su=getURLParameter("su");
 var sinfo=getURLParameter("sinfo");
 if(su==0) {
-    document.getElementById('msg').innerHTML = "No se pudo ingresar el usuario";
+    document.getElementById('msg').innerHTML = "No se pudo ingresar el curso";
 }else{
     if(sinfo==0){
-      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del usuario";
-    }
-    else{
-      document.getElementById('msg').innerHTML = "Usuario ingresado exitósamente";
+      document.getElementById('msg').innerHTML = "No se pudo ingresar la información adicional del curso";
     }
 
 }
+$(document).ready(function(){
+    $('.filterable .btn-filter').click(function(){
+        var $panel = $(this).parents('.filterable'),
+        $filters = $panel.find('.filters input'),
+        $tbody = $panel.find('.table tbody');
+        if ($filters.prop('disabled') == true) {
+            $filters.prop('disabled', false);
+            $filters.first().focus();
+        } else {
+            $filters.val('').prop('disabled', true);
+            $tbody.find('.no-result').remove();
+            $tbody.find('tr').show();
+        }
+    });
+
+    $('.filterable .filters input').keyup(function(e){
+        /* Ignore tab key */
+        var code = e.keyCode || e.which;
+        if (code == '9') return;
+        /* Useful DOM data and selectors */
+        var $input = $(this),
+        inputContent = $input.val().toLowerCase(),
+        $panel = $input.parents('.filterable'),
+        column = $panel.find('.filters th').index($input.parents('th')),
+        $table = $panel.find('.table'),
+        $rows = $table.find('tbody tr');
+        if (inputContent == '') {
+            $rows.show();
+        }
+        /* Dirtiest filter function ever ;) */
+        var $filteredRows = $rows.filter(function(){
+            var value = $(this).find('td').eq(column).text().toLowerCase();
+            return value.indexOf(inputContent) === -1;
+        });
+        /* Clean previous no-result if exist */
+        $table.find('tbody .no-result').remove();
+        /* Show all rows, hide filtered ones (never do that outside of a demo ! xD) */
+        //$rows.show();
+        $filteredRows.hide();
+        /* Prepend no-result row if all rows are filtered */
+        if ($filteredRows.length === $rows.length) {
+            $table.find('tbody').prepend($('<tr class="no-result text-center"><td colspan="'+ $table.find('.filters th').length +'">No result found</td></tr>'));
+        }
+    });
+});
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
+function myFunction() {
+    var x= getURLParameter("su");
+    if(x=="0")
+      alert("No existe un usuario con el id ingresado");
+    else if(x=="2") {
+      alert("No se pudo ingresar el certificado :(");
+    }
+    else{
+      alert("Certificado ingresado con éxito");
+    }
+}
+function demoFromHTML() {
+var doc = new jsPDF('p', 'in', 'letter');
+var source = $('#testcase').first();
+var specialElementHandlers = {
+'#bypassme': function(element, renderer) {
+return true;
+}
+};
+
+doc.fromHTML(
+source, // HTML string or DOM elem ref.
+0.5, // x coord
+0.5, // y coord
+{
+'width': 7.5, // max width of content on PDF
+'elementHandlers': specialElementHandlers
+});
+
+doc.output('dataurl');
+}
 </script>
 </body>
 </html>
