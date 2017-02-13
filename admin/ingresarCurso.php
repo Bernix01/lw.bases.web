@@ -21,18 +21,17 @@ if ($curso_colector == null || $info_colector == null) {
 }
 if (isset($_POST['nombre']) && isset($_POST['costo']) && isset($_POST['descripcion']) && isset($_POST['cupo_min']) && isset($_POST['cupo_max']) && isset($_POST['fecha_inicio']) && isset($_POST['fecha_fin']) && isset($_POST["horarios"])) {
 
-    var_dump($_POST);
     $curso = new Curso(null, $_POST['nombre'], $_POST['costo']);
     $resultado = $curso_colector->addCurso($curso);
     if ($resultado) {
-        //var_dump($resultado);
+        var_dump($resultado);
         $resultado2 = $info_colector->addInfoCurso($resultado->get_id_curso(), $_POST['descripcion'], $_POST['cupo_min'], $_POST['cupo_max'], $_POST['cupo_max'], $_POST['fecha_inicio'], $_POST['fecha_fin']);
         if ($resultado2) {
-            //var_dump($resultado2);
+            var_dump($resultado2);
             foreach ($_POST["horarios"] as $horario) {
                 $h = $horario_colector->addHorario(str_replace("T"," ",$horario["inicio"]),str_replace("T"," ",$horario["fin"]));
                 //var_dump($h);
-                $b = $horario_colector->setCurso($h->get_id_horario(),$resultado);
+                $b = $horario_colector->setCurso($h->id_horario, $resultado);
                 if(!$b) {
                     die("error al ingresar curso");
                 }
