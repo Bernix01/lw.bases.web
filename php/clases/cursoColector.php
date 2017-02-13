@@ -40,7 +40,7 @@ class CursoColector
     public function addCurso(Curso $curso)
     {
         $query = "call addCurso(\"".$curso->getNombre()."\",".$curso->getCosto().")";
-        $result = $this->worker->execQuery($query);
+        $result = $this->worker->execQueryReturning($query, Curso::class);
         return $result;
     }
 

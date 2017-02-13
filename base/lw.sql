@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2017 at 08:13 PM
+-- Generation Time: Feb 12, 2017 at 12:04 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -24,54 +24,101 @@ DELIMITER $$
 --
 -- Procedures
 --
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addCertificado` (IN `content` VARCHAR(100), IN `id_estud` VARCHAR(13))  BEGIN
-INSERT INTO certificado(contenido,id_estudiante) VALUES (content,id_estud);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addCertificado`(IN `content`  VARCHAR(100),
+                                                              IN `id_estud` VARCHAR(13)) BEGIN
+  INSERT INTO certificado (contenido, id_estudiante) VALUES (content, id_estud);
+  SELECT *
+  FROM
+    certificado
+  WHERE
+    certificado.id_certificado = LAST_INSERTED_ID;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addCurso` (IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5,2))  BEGIN
-INSERT INTO curso VALUES (DEFAULT,nomb,cost);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addCurso`(IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5, 2)) BEGIN
+  INSERT INTO curso (nombre, costo) VALUES (nomb, cost);
+  SELECT *
+  FROM
+    curso
+  WHERE
+    curso.id_curso = LAST_INSERT_ID();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addEmprendimiento` (IN `id_est` VARCHAR(13), IN `nomb` VARCHAR(46), IN `descrip` TEXT)  BEGIN
-INSERT INTO emprendimiento(id_estudiante,nombre,descripcion) VALUES (id_est,nomb,descrip);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addEmprendimiento`(IN `id_est`  VARCHAR(13), IN `nomb` VARCHAR(46),
+                                                                 IN `descrip` TEXT) BEGIN
+  INSERT INTO emprendimiento (id_estudiante, nombre, descripcion) VALUES (id_est, nomb, descrip);
+  SELECT *
+  FROM
+    emprendimiento
+  WHERE
+    emprendimiento.id_emprendimiento = LAST_INSERT_ID();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addEstudianteAcurso` (IN `ide` VARCHAR(13), IN `idc` INT)  BEGIN
-INSERT INTO curso_estudiante(id_estudiante,id_curso,habilitado) VALUES (ide,idc,1);
-UPDATE info_usuario SET numero_cursos=numero_cursos+1 WHERE id_usuario=ide;
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addEstudianteAcurso`(IN `ide` VARCHAR(13), IN `idc` INT) BEGIN
+  INSERT INTO curso_estudiante (id_estudiante, id_curso, habilitado) VALUES (ide, idc, 1);
+  UPDATE info_usuario
+  SET numero_cursos = numero_cursos + 1
+  WHERE id_usuario = ide;
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addEtiqueta` (IN `nombre` VARCHAR(46))  BEGIN
-INSERT INTO Certificado(nombre) VALUES (nombre);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addEtiqueta`(IN `nombre` VARCHAR(46)) BEGIN
+  INSERT INTO Certificado (nombre) VALUES (nombre);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addFactura` (IN `nombs` VARCHAR(46), IN `aps` VARCHAR(46), IN `tot` DECIMAL(5,2), IN `direcc` VARCHAR(64), IN `fech` DATE, IN `rc` VARCHAR(13), IN `cupo` INT(11), IN `id_est` VARCHAR(13), IN `numero_fact` INT(9))  BEGIN
-INSERT INTO factura(nombres,apellidos,total,direccion,fecha,ruc,cupos,id_estudiante,numero_factura) VALUES (nombs,aps,tot,direcc,fecha,rc,cupo,id_est,numero_fact);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addFactura`(IN `nombs`  VARCHAR(46), IN `aps` VARCHAR(46),
+                                                          IN `tot`    DECIMAL(5, 2), IN `direcc` VARCHAR(64),
+                                                          IN `fech`   DATE, IN `rc` VARCHAR(13), IN `cupo` INT(11),
+                                                          IN `id_est` VARCHAR(13), IN `numero_fact` INT(9)) BEGIN
+  INSERT INTO factura (nombres, apellidos, total, direccion, fecha, ruc, cupos, id_estudiante, numero_factura)
+  VALUES (nombs, aps, tot, direcc, fecha, rc, cupo, id_est, numero_fact);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addInfoCurso` (IN `id` INT(32), IN `descrip` TEXT, IN `cupo_mi` INT(11), IN `cupo_ma` INT(11), IN `cupos_d` INT(11), IN `fecha_i` DATE, IN `fecha_f` DATE)  BEGIN
-INSERT INTO info_curso(id_curso,descripcion,cupo_min,cupo_max,cupos_disponibles,fecha_inicio,fecha_fin) VALUES (id,descrip,cupo_mi,cupo_ma,cupos_d,fecha_i,fecha_f);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addHorarioCurso`(IN `inico` VARCHAR(255), IN `fn` VARCHAR(255)) BEGIN
+  INSERT INTO horario (inicio, fin) VALUES ("inico", "fn");
+  SELECT *
+  FROM horario
+  WHERE id_horario = LAST_INSERT_ID();
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addInfoUsuario` (IN `id` VARCHAR(13), IN `nombs` VARCHAR(46), IN `aps` VARCHAR(46), IN `tag` VARCHAR(255), IN `num_cursos` INT(11))  BEGIN
-INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES (id,nombs,aps,num_cursos,tag);
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addInfoCurso`(IN `id`      INT(32), IN `descrip` TEXT,
+                                                            IN `cupo_mi` INT(11), IN `cupo_ma` INT(11),
+                                                            IN `cupos_d` INT(11), IN `fecha_i` DATE,
+                                                            IN `fecha_f` DATE) BEGIN
+  INSERT INTO info_curso (id_curso, descripcion, cupo_min, cupo_max, cupos_disponibles, fecha_inicio, fecha_fin)
+  VALUES (id, descrip, cupo_mi, cupo_ma, cupos_d, fecha_i, fecha_f);
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoDeposito` (IN `id_f` INT(32), IN `forma` INT(1), IN `n_dep` BIGINT(16))  BEGIN
 INSERT INTO Pago(id_factura,forma_pago,n_deposito) VALUES (id_f,forma,n_dep);
 END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoTarjeta` (IN `id` INT(11), IN `id_f` INT(32), IN `forma` INT(1), IN `n_tarjeta` INT(16))  BEGIN
-INSERT INTO pago(id_factura,forma_pago,n_tarjeta) VALUES (id_f,forma,tarjeta);
+  CREATE DEFINER =`root`@`localhost` PROCEDURE `addInfoUsuario`(IN `id`         VARCHAR(13), IN `nombs` VARCHAR(46),
+                                                              IN `aps`        VARCHAR(46), IN `tag` VARCHAR(255),
+                                                              IN `num_cursos` INT(11)) BEGIN
+  INSERT INTO info_usuario (id_usuario, nombres, apellidos, numero_cursos, tag_line)
+  VALUES (id, nombs, aps, num_cursos, tag);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addUsuario` (IN `id` VARCHAR(13), IN `nick` VARCHAR(16), IN `pass` VARCHAR(15), IN `correo` VARCHAR(64), IN `ro` INT(1))  BEGIN
-INSERT into usuario(id_usuario,nickname, contrasenia, email, rol,last_login) values(id,nick, pass, correo, ro,NOW());
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addPagoDeposito`(IN `id_f`  INT(32), IN `forma` INT(1),
+                                                               IN `n_dep` INT(16)) BEGIN
+  INSERT INTO Pago (id_factura, forma_pago, n_deposito) VALUES (id_f, forma, n_dep);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addPagoTarjeta`(IN `id`        INT(11), IN `id_f` INT(32),
+                                                              IN `forma`     INT(1), IN `n_tarjeta` INT(16)) BEGIN
+  INSERT INTO pago (id_factura, forma_pago, n_tarjeta) VALUES (id_f, forma, tarjeta);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addUsuario`(IN `id`   VARCHAR(13), IN `nick` VARCHAR(16),
+                                                          IN `pass` VARCHAR(15), IN `correo` VARCHAR(64),
+                                                          IN `ro`   INT(1)) BEGIN
+  INSERT INTO usuario (id_usuario, nickname, contrasenia, email, rol, last_login)
+  VALUES (id, nick, pass, correo, ro, NOW());
 
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `buscarCurso` (IN `cadena` VARCHAR(64))  BEGIN
-SELECT * from curso,info_curso where info_curso.id_curso=curso.id_curso AND curso.nombre LIKE cadena ;
+CREATE DEFINER =`root`@`localhost` PROCEDURE `buscarCurso`(IN `cadena` VARCHAR(64)) BEGIN
+  SELECT *
+  FROM curso, info_curso
+  WHERE info_curso.id_curso = curso.id_curso AND curso.nombre LIKE cadena;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `contarCursos` ()  BEGIN
@@ -208,18 +255,6 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEtiquetaById` (IN `id` INT)  BEGIN
 SELECT * FROM etiqueta WHERE id_etiqueta=id;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacturaById` (IN `id` INT)  BEGIN
-SELECT factura.* FROM factura WHERE factura.id_factura=id;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacturasByCodDeposito` (IN `cod` BIGINT(16))  BEGIN
-SELECT factura.* from factura,pago WHERE factura.id_factura=pago.id_factura and pago.n_deposito=cod and pago.forma_pago=1;
-END$$
-
-CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacturasByRange` (IN `fecha_i` DATE, IN `fecha_f` DATE)  BEGIN
-SELECT factura.* FROM factura WHERE factura.fecha BETWEEN fecha_i AND fecha_f ;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getInfoCursoById` (IN `id` INT)  BEGIN
@@ -402,6 +437,44 @@ INSERT INTO `curso_estudiante` (`id_estudiante`, `id_curso`, `habilitado`) VALUE
 ('0925650996', 2, 1),
 ('0925650996', 1, 1),
 ('0925650996', 1, 1);
+
+--
+-- Triggers `curso_estudiante`
+--
+DELIMITER $$
+CREATE TRIGGER `actualizar_n_cursos`
+AFTER INSERT ON `curso_estudiante`
+FOR EACH ROW
+  BEGIN
+    DECLARE nasc INT(32);
+
+    SET nasc = (SELECT count(*)
+                FROM curso_estudiante
+                WHERE id_estudiante = NEW.id_estudiante AND habilitado = 1);
+    UPDATE info_usuario
+    SET numero_cursos = nascc
+    WHERE id_usuario = NEW.id_estudiante;
+
+  END
+$$
+DELIMITER ;
+DELIMITER $$
+CREATE TRIGGER `actualizar_n_cursos_update`
+AFTER UPDATE ON `curso_estudiante`
+FOR EACH ROW
+  BEGIN
+    DECLARE nasc INT(32);
+
+    SET nasc = (SELECT count(*)
+                FROM curso_estudiante
+                WHERE id_estudiante = NEW.id_estudiante AND habilitado = 1);
+    UPDATE info_usuario
+    SET numero_cursos = nascc
+    WHERE id_usuario = NEW.id_estudiante;
+
+  END
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -667,17 +740,10 @@ INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos
 CREATE TABLE `pago` (
   `id_factura` int(32) NOT NULL,
   `id_pago` int(11) NOT NULL,
-  `n_tarjeta` bigint(16) NOT NULL DEFAULT '-1',
-  `n_deposito` bigint(16) NOT NULL DEFAULT '-1',
+  `n_tarjeta` int(16) NOT NULL DEFAULT '-1',
+  `n_deposito` int(16) NOT NULL DEFAULT '-1',
   `forma_pago` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-
---
--- Dumping data for table `pago`
---
-
-INSERT INTO `pago` (`id_factura`, `id_pago`, `n_tarjeta`, `n_deposito`, `forma_pago`) VALUES
-(1, 1, -1, 1111111111111111, 1);
 
 -- --------------------------------------------------------
 
@@ -872,6 +938,7 @@ ALTER TABLE `etiqueta`
 --
 ALTER TABLE `factura`
   ADD PRIMARY KEY (`id_factura`),
+  ADD UNIQUE KEY `numero_factura_UNIQUE` (`numero_factura`),
   ADD KEY `id_estudiante` (`id_estudiante`);
 
 --
@@ -950,7 +1017,7 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT for table `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_pago` INT(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `usuario`
 --

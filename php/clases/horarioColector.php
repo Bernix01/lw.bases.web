@@ -15,13 +15,9 @@ class HorarioColector{
 
   	public function addHorario($inicio,$fin)
   	{
-  		$query= "INSERT INTO horario(inicio,fin) VALUES (\"$inicio\",\"$fin\")";
-  		$result=$this->worker->execQuery($query);
-  		if($result!==null){
-        $id_horario=$this->worker->getLastID();
-  			return $this->getHorarioById($id_horario);
-  		}
-  		return null;
+        $query = "call addHorarioCurso(\"$inicio\",\"$fin\")";
+        return $result = $this->worker->execQueryReturning($query);
+
   	}
 
 
