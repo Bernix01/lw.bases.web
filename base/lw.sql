@@ -1,153 +1,571 @@
--- MySQL dump 10.13  Distrib 5.7.12, for Win64 (x86_64)
+-- phpMyAdmin SQL Dump
+-- version 4.6.4
+-- https://www.phpmyadmin.net/
 --
--- Host: localhost    Database: lw
--- ------------------------------------------------------
--- Server version	5.5.5-10.1.20-MariaDB
+-- Host: localhost
+-- Generation Time: Feb 13, 2017 at 01:42 AM
+-- Server version: 10.1.20-MariaDB
+-- PHP Version: 7.0.4
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE = @@TIME_ZONE */;
-/*!40103 SET TIME_ZONE = '+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS = @@UNIQUE_CHECKS, UNIQUE_CHECKS = 0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS = @@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS = 0 */;
-/*!40101 SET @OLD_SQL_MODE = @@SQL_MODE, SQL_MODE = 'NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES = @@SQL_NOTES, SQL_NOTES = 0 */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Database: `lw`
+--
+
+DELIMITER $$
+--
+-- Procedures
+--
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addCertificado`(IN `content`  VARCHAR(100),
+                                                              IN `id_estud` VARCHAR(13)) BEGIN
+  INSERT INTO certificado (contenido, id_estudiante) VALUES (content, id_estud);
+  SELECT *
+  FROM
+    certificado
+  WHERE
+    certificado.id_certificado = LAST_INSERTED_ID;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addCurso`(IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5, 2)) BEGIN
+  INSERT INTO curso (nombre, costo) VALUES (nomb, cost);
+  SELECT *
+  FROM
+    curso
+  WHERE
+    curso.id_curso = LAST_INSERT_ID();
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addEmprendimiento`(IN `id_est`  VARCHAR(13), IN `nomb` VARCHAR(46),
+                                                                 IN `descrip` TEXT) BEGIN
+  INSERT INTO emprendimiento (id_estudiante, nombre, descripcion) VALUES (id_est, nomb, descrip);
+  SELECT *
+  FROM
+    emprendimiento
+  WHERE
+    emprendimiento.id_emprendimiento = LAST_INSERT_ID();
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addEstudianteAcurso`(IN `ide` VARCHAR(13), IN `idc` INT) BEGIN
+  INSERT INTO curso_estudiante (id_estudiante, id_curso, habilitado) VALUES (ide, idc, 1);
+  UPDATE info_usuario
+  SET numero_cursos = numero_cursos + 1
+  WHERE id_usuario = ide;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addEtiqueta`(IN `nombre` VARCHAR(46)) BEGIN
+  INSERT INTO Certificado (nombre) VALUES (nombre);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addFactura`(IN `nombs`  VARCHAR(46), IN `aps` VARCHAR(46),
+                                                          IN `tot`    DECIMAL(5, 2), IN `direcc` VARCHAR(64),
+                                                          IN `fech`   DATE, IN `rc` VARCHAR(13), IN `cupo` INT(11),
+                                                          IN `id_est` VARCHAR(13), IN `numero_fact` INT(9)) BEGIN
+  INSERT INTO factura (nombres, apellidos, total, direccion, fecha, ruc, cupos, id_estudiante, numero_factura)
+  VALUES (nombs, aps, tot, direcc, fecha, rc, cupo, id_est, numero_fact);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addHorarioCurso`(IN `inico` VARCHAR(255), IN `fn` VARCHAR(255)) BEGIN
+  INSERT INTO horario (inicio, fin) VALUES ("inico", "fn");
+  SELECT *
+  FROM horario
+  WHERE id_horario = LAST_INSERT_ID();
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addInfoCurso`(IN `id`      INT(32), IN `descrip` TEXT,
+                                                            IN `cupo_mi` INT(11), IN `cupo_ma` INT(11),
+                                                            IN `cupos_d` INT(11), IN `fecha_i` DATE,
+                                                            IN `fecha_f` DATE) BEGIN
+  INSERT INTO info_curso (id_curso, descripcion, cupo_min, cupo_max, cupos_disponibles, fecha_inicio, fecha_fin)
+  VALUES (id, descrip, cupo_mi, cupo_ma, cupos_d, fecha_i, fecha_f);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addInfoUsuario`(IN `id`         VARCHAR(13), IN `nombs` VARCHAR(46),
+                                                              IN `aps`        VARCHAR(46), IN `tag` VARCHAR(255),
+                                                              IN `num_cursos` INT(11)) BEGIN
+  INSERT INTO info_usuario (id_usuario, nombres, apellidos, numero_cursos, tag_line)
+  VALUES (id, nombs, aps, num_cursos, tag);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addPagoDeposito`(IN `id_f`  INT(32), IN `forma` INT(1),
+                                                               IN `n_dep` INT(16)) BEGIN
+  INSERT INTO Pago (id_factura, forma_pago, n_deposito) VALUES (id_f, forma, n_dep);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addPagoTarjeta`(IN `id`        INT(11), IN `id_f` INT(32),
+                                                              IN `forma`     INT(1), IN `n_tarjeta` INT(16)) BEGIN
+  INSERT INTO pago (id_factura, forma_pago, n_tarjeta) VALUES (id_f, forma, tarjeta);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `addUsuario`(IN `id`   VARCHAR(13), IN `nick` VARCHAR(16),
+                                                          IN `pass` VARCHAR(15), IN `correo` VARCHAR(64),
+                                                          IN `ro`   INT(1)) BEGIN
+  INSERT INTO usuario (id_usuario, nickname, contrasenia, email, rol, last_login)
+  VALUES (id, nick, pass, correo, ro, NOW());
+
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `buscarCurso`(IN `cadena` VARCHAR(64)) BEGIN
+  SELECT *
+  FROM curso, info_curso
+  WHERE info_curso.id_curso = curso.id_curso AND curso.nombre LIKE cadena;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `contarCursos`() BEGIN
+  SELECT COUNT(curso.id_curso)
+  FROM curso;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `contarEtiquetas`(OUT `numero` INT) BEGIN
+  SELECT count(id_etiqueta)
+  INTO numero
+  FROM etiqueta;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `contarEtiquetas1`() BEGIN
+  SELECT COUNT(etiqueta.id_etiqueta)
+  FROM etiqueta;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `contarUsuarios`() BEGIN
+  SELECT COUNT(usuario.id_usuario)
+  FROM usuario;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteCertificado`(IN `id` INT) BEGIN
+  DELETE FROM certificado
+  WHERE id_certificado = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteCurso`(IN `id` INT) BEGIN
+  DELETE FROM curso
+  WHERE id_curso = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteDetalleFactura`(IN `id` INT) BEGIN
+  DELETE FROM detalle_factura
+  WHERE id_factura = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteEmprendimiento`(IN `id` INT) BEGIN
+  DELETE FROM emprendimiento
+  WHERE id_emprendimiento = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteEtiqueta`(IN `id` INT) BEGIN
+  DELETE FROM etiqueta
+  WHERE id_etiqueta = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteFactura`(IN `id` INT(32)) BEGIN
+  DELETE FROM factura
+  WHERE id_factura = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteInfoCurso`(IN `id` INT(32)) BEGIN
+  DELETE FROM info_curso
+  WHERE id_curso = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteInfoUsuario`(IN `id` VARCHAR(13)) BEGIN
+  DELETE FROM info_usuario
+  WHERE id_usuario = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deletePago`(IN `id` INT(11)) BEGIN
+  DELETE FROM pago
+  WHERE id_pago = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteUsuario`(IN `id` VARCHAR(13)) BEGIN
+  DELETE FROM usuario
+  WHERE id_usuario = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllCursos`() BEGIN
+  SELECT *
+  FROM curso;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllDetalles`() BEGIN
+  SELECT *
+  FROM detalle_factura;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllEmprendimientos`() BEGIN
+  SELECT *
+  FROM emprendimiento;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllEtiquetas`() BEGIN
+  SELECT *
+  FROM etiqueta;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllFacturas`() BEGIN
+  SELECT *
+  FROM factura;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllPagos`() BEGIN
+  SELECT *
+  FROM pago;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllUsuarios`() BEGIN
+  SELECT *
+  FROM usuario;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllUsuariosAndInfos`() BEGIN
+  SELECT *
+  FROM usuario
+    LEFT JOIN info_usuario USING (id_usuario);
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCertificadoById`(IN `id_cert` INT) BEGIN
+  SELECT *
+  FROM certificado
+  WHERE id_certificado = id_cert;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCertificadosByStudentId`(IN `id` VARCHAR(13)) BEGIN
+  SELECT *
+  FROM certificado
+  WHERE id_estudiante = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursoAndInfoById`(IN `idc` INT) BEGIN
+  SELECT *
+  FROM curso, info_curso
+  WHERE curso.id_curso = info_curso.id_curso AND curso.id_curso = idc;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursoById`(IN `id` INT) BEGIN
+  SELECT *
+  FROM curso
+  WHERE curso.id_curso = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursosByProfId`(IN `id` VARCHAR(13)) BEGIN
+  SELECT
+    curso.*,
+    info_curso.*
+  FROM curso, info_curso, curso_profesor
+  WHERE curso.id_curso = info_curso.id_curso AND curso.id_curso = curso_profesor.id_curso AND
+        curso_profesor.id_profesor = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursosByStudentId`(IN `id` VARCHAR(13)) BEGIN
+  SELECT
+    curso.*,
+    info_curso.*
+  FROM curso, info_curso, curso_estudiante
+  WHERE curso.id_curso = info_curso.id_curso AND curso_estudiante.id_curso = curso.id_curso AND
+        curso_estudiante.id_estudiante = id AND curso_estudiante.habilitado = 1;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursosEstudiantes`(IN `ide` VARCHAR(13), IN `idc` INT) BEGIN
+  SELECT COUNT(id_estudiante) AS num_cursos
+  FROM curso_estudiante
+  WHERE id_estudiante = ide AND id_curso = idc;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getDetallesByFacturaId`(IN `id` INT) BEGIN
+  SELECT *
+  FROM detalle_factura
+  WHERE id_factura = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getEmprendimientoById`(IN `id` INT) BEGIN
+  SELECT *
+  FROM emprendimiento
+  WHERE id_emprendimiento = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getEmprendimientosByStudentId`(IN `id` VARCHAR(13)) BEGIN
+  SELECT *
+  FROM emprendimiento
+  WHERE id_estudiante = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getEstudiantesByCurso`(IN `id` INT) BEGIN
+  SELECT
+    usuario.*,
+    info_usuario.*
+  FROM usuario, info_usuario, curso_estudiante
+  WHERE usuario.id_usuario = info_usuario.id_usuario AND usuario.id_usuario = curso_estudiante.id_estudiante AND
+        curso_estudiante.id_curso = id AND curso_estudiante.habilitado = 1;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getEtiquetaById`(IN `id` INT) BEGIN
+  SELECT *
+  FROM etiqueta
+  WHERE id_etiqueta = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getInfoCursoById`(IN `id` INT) BEGIN
+  SELECT *
+  FROM info_curso
+  WHERE info_curso.id_curso = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getInfoUsuarioById`(IN `id` VARCHAR(13)) BEGIN
+  SELECT *
+  FROM info_usuario
+  WHERE id_usuario COLLATE latin1_spanish_ci = id COLLATE latin1_spanish_ci;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getPagoById`(IN `id` INT(11)) BEGIN
+  SELECT *
+  FROM pago
+  WHERE id_pago = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserByCredentials`(IN `nick` VARCHAR(16), IN `pas` VARCHAR(15)) BEGIN
+  SELECT *
+  FROM usuario
+  WHERE nickname = nick AND contrasenia = pas;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserById`(IN `id` VARCHAR(13)) BEGIN
+  SELECT *
+  FROM usuario
+  WHERE id_usuario = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserByPosition`(IN `pos` INT) BEGIN
+  SELECT *
+  FROM usuario
+  WHERE usuario.posicion = pos;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserLastId`() BEGIN
+  SELECT MAX(posicion) AS id
+  FROM usuario;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `listarCertificados`() BEGIN
+  SELECT *
+  FROM certificado;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `sustentacion`() BEGIN
+  SELECT *
+  FROM estudiantesMax;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateCertificado`(IN `id`      INT, IN `id_estud` VARCHAR(13),
+                                                                 IN `content` VARCHAR(100)) BEGIN
+  UPDATE certificado
+  SET id_estudiante = id_estud, contenido = content
+  WHERE id_certificado = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateCurso`(IN `id`   INT, IN `nomb` VARCHAR(64),
+                                                           IN `cost` DECIMAL(5, 2)) BEGIN
+  UPDATE curso
+  SET nombre = nomb, costo = cost
+  WHERE id_curso = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateDetalleFactura`(IN `id_f` INT, IN `id_c` INT) BEGIN
+  UPDATE detalle_factura
+  SET id_curso = id_c
+  WHERE id_factura = id_f;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateEmprendimiento`(IN `id`   INT, IN `id_est` VARCHAR(13),
+                                                                    IN `nomb` VARCHAR(46), IN `descrip` TEXT) BEGIN
+  UPDATE emprendimiento
+  SET nombre = nomb, descripcion = descrip, id_estudiante = id_es
+  WHERE id_emprendimiento = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateEtiqueta`(IN `id` INT, IN `nomb` VARCHAR(46)) BEGIN
+  UPDATE etiqueta
+  SET nombre = nomb
+  WHERE id_etiqueta = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateFactura`(IN `id`     INT(32), IN `nombs` VARCHAR(46),
+                                                             IN `aps`    VARCHAR(46), IN `tot` DECIMAL(5, 2),
+                                                             IN `direcc` VARCHAR(64), IN `fech` DATE,
+                                                             IN `rc`     VARCHAR(13), IN `cupo` INT(11),
+                                                             IN `id_est` VARCHAR(13)) BEGIN
+  UPDATE factura
+  SET nombres     = nombs, apellidos = aps, total = tot, direccion = direcc, fecha = fech, ruc = rc, cupos = cupo,
+    id_estudiante = id_est
+  WHERE id_factura = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateInfoCurso`(IN `id`      INT(32), IN `descrip` TEXT,
+                                                               IN `cupo_mi` INT(11), IN `cupo_ma` INT(11),
+                                                               IN `cupos_d` INT(11), IN `fecha_i` DATE,
+                                                               IN `fecha_f` DATE) BEGIN
+  UPDATE info_curso
+  SET descripcion = descrip, cupo_min = cupo_mi, cupo_max = cupo_ma, cupos_disponibles = cupos_d,
+    fecha_inicio  = fecha_i, fecha_fin = fecha_f
+  WHERE id_curso = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateInfoUsuario`(IN `id`         VARCHAR(13), IN `nombs` VARCHAR(46),
+                                                                 IN `aps`        VARCHAR(46), IN `tag` VARCHAR(255),
+                                                                 IN `num_cursos` INT(11)) BEGIN
+  UPDATE info_usuario
+  SET nombres = nombs, apellidos = aps, tag_line = tag, numero_cursos = num_cursos
+  WHERE id_usuario = id;
+END$$
+
+CREATE DEFINER =`root`@`localhost` PROCEDURE `updateUsuario`(IN `id`     VARCHAR(13), IN `nick` VARCHAR(16),
+                                                             IN `pass`   VARCHAR(15), IN `ro` INT(1),
+                                                             IN `correo` VARCHAR(15)) BEGIN
+  UPDATE usuario
+  SET nickname = nick, contrasenia = pass, rol = ro, email = correo
+  WHERE id_usuario = id;
+END$$
+
+DELIMITER ;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `certificado`
 --
 
-DROP TABLE IF EXISTS `certificado`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `certificado` (
-  `id_certificado` INT(32)                                NOT NULL AUTO_INCREMENT,
-  `id_estudiante`  varchar(13) COLLATE latin1_spanish_ci  NOT NULL,
-  `contenido`      varchar(100) COLLATE latin1_spanish_ci NOT NULL,
+  `id_certificado` INT(32)                   NOT NULL,
+  `id_estudiante`  VARCHAR(13)
+                   COLLATE latin1_spanish_ci NOT NULL,
+  `contenido`      VARCHAR(100)
+                   COLLATE latin1_spanish_ci NOT NULL,
   `titulo`         VARCHAR(64)
-                   COLLATE latin1_spanish_ci              NOT NULL,
-  PRIMARY KEY (`id_certificado`),
-  KEY `id_estudiante` (`id_estudiante`),
-  CONSTRAINT `certificado_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+                   COLLATE latin1_spanish_ci NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 17
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `certificado`
 --
 
-LOCK TABLES `certificado` WRITE;
-/*!40000 ALTER TABLE `certificado`
-  DISABLE KEYS */;
-INSERT INTO `certificado` VALUES (1, '1604070162099', 'sdf', 'Certificado #111'),
+INSERT INTO `certificado` (`id_certificado`, `id_estudiante`, `contenido`, `titulo`) VALUES
+  (1, '1604070162099', 'sdf', 'Certificado #111'),
   (5, '1604031238999', 'un certificado más', 'certificado de poo'),
   (14, '1604031238999', 'afsdgadfsgdsf', 'Certificado de quimica'),
   (15, '1609041989699', 'certificado_modelo', 'experto en interfaces!'),
   (16, '1609041989699', 'certificado-prueba', 'certificado1');
-/*!40000 ALTER TABLE `certificado`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `curso`
 --
 
-DROP TABLE IF EXISTS `curso`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso` (
-  `id_curso` INT(32)                               NOT NULL AUTO_INCREMENT,
-  `nombre`   varchar(64) COLLATE latin1_spanish_ci NOT NULL,
-  `costo`    DECIMAL(5, 2)                         NOT NULL,
-  PRIMARY KEY (`id_curso`),
-  UNIQUE KEY `id_curso` (`id_curso`)
+  `id_curso` INT(32)                   NOT NULL,
+  `nombre`   VARCHAR(64)
+             COLLATE latin1_spanish_ci NOT NULL,
+  `costo`    DECIMAL(5, 2)             NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 41
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso`
 --
 
-LOCK TABLES `curso` WRITE;
-/*!40000 ALTER TABLE `curso`
-  DISABLE KEYS */;
-INSERT INTO `curso` VALUES (0, 'Curso', 290.00), (1, ' data mining ', 41.37), (2, ' matemáticas superiores ', 31.35),
-  (3, 'matemáticas discretas ', 14.59), (4, ' matemáticas superiores ', 27.42), (5, 'matemáticas discretas ', 99.57),
-  (6, ' programación orientada a aspectos ', 11.48), (7, ' machine-learning ', 79.33), (8, ' android avanzado', 53.45),
-  (9, ' adobe illustrator básico ', 53.05), (10, ' machine-learning ', 1.32), (11, ' machine-learning ', 57.12),
-  (12, ' programación orientada a aspectos ', 80.84), (13, ' machine-learning ', 86.04),
-  (14, 'matemáticas discretas ', 21.74), (15, ' programación orientada a objetos ', 13.46),
-  (16, 'matemáticas discretas ', 23.89), (17, ' data mining ', 89.17), (18, ' matemáticas superiores ', 57.04),
-  (19, ' programación orientada a objetos ', 49.68), (20, ' adobe illustrator básico ', 24.30),
-  (21, ' android avanzado', 11.13), (22, ' programación orientada a aspectos ', 70.61),
-  (23, ' curso de android ', 33.95), (24, ' programación orientada a objetos ', 8.25),
-  (25, ' matemáticas superiores ', 38.11), (26, ' machine-learning ', 57.89),
-  (27, ' programación orientada a aspectos ', 44.55), (28, 'matemáticas discretas ', 1.71),
-  (29, 'matemáticas discretas ', 17.20), (30, 'matemáticas discretas ', 17.09), (31, 'mandarin', 45.00),
-  (32, 'Fundamentos de quimica', 30.00), (33, 'Curso', 23.00), (34, 'Curso', 23.00), (35, 'Curso', 290.00),
-  (36, 'Curso', 290.00), (37, 'Curso', 290.00), (38, 'Curso', 290.00), (39, 'Curso', 290.00), (40, 'Curso', 290.00);
-/*!40000 ALTER TABLE `curso`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `curso` (`id_curso`, `nombre`, `costo`) VALUES
+  (0, 'Curso', '290.00'),
+  (1, ' data mining ', '41.37'),
+  (2, ' matemáticas superiores ', '31.35'),
+  (3, 'matemáticas discretas ', '14.59'),
+  (4, ' matemáticas superiores ', '27.42'),
+  (5, 'matemáticas discretas ', '99.57'),
+  (6, ' programación orientada a aspectos ', '11.48'),
+  (7, ' machine-learning ', '79.33'),
+  (8, ' android avanzado', '53.45'),
+  (9, ' adobe illustrator básico ', '53.05'),
+  (10, ' machine-learning ', '1.32'),
+  (11, ' machine-learning ', '57.12'),
+  (12, ' programación orientada a aspectos ', '80.84'),
+  (13, ' machine-learning ', '86.04'),
+  (14, 'matemáticas discretas ', '21.74'),
+  (15, ' programación orientada a objetos ', '13.46'),
+  (16, 'matemáticas discretas ', '23.89'),
+  (17, ' data mining ', '89.17'),
+  (18, ' matemáticas superiores ', '57.04'),
+  (19, ' programación orientada a objetos ', '49.68'),
+  (20, ' adobe illustrator básico ', '24.30'),
+  (21, ' android avanzado', '11.13'),
+  (22, ' programación orientada a aspectos ', '70.61'),
+  (23, ' curso de android ', '33.95'),
+  (24, ' programación orientada a objetos ', '8.25'),
+  (25, ' matemáticas superiores ', '38.11'),
+  (26, ' machine-learning ', '57.89'),
+  (27, ' programación orientada a aspectos ', '44.55'),
+  (28, 'matemáticas discretas ', '1.71'),
+  (29, 'matemáticas discretas ', '17.20'),
+  (30, 'matemáticas discretas ', '17.09'),
+  (31, 'mandarin', '45.00'),
+  (32, 'Fundamentos de quimica', '30.00'),
+  (33, 'Curso', '23.00'),
+  (34, 'Curso', '23.00'),
+  (35, 'Curso', '290.00'),
+  (36, 'Curso', '290.00'),
+  (37, 'Curso', '290.00'),
+  (38, 'Curso', '290.00'),
+  (39, 'Curso', '290.00'),
+  (40, 'Curso', '290.00');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `curso_estudiante`
 --
 
-DROP TABLE IF EXISTS `curso_estudiante`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_estudiante` (
   `id_estudiante` varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `id_curso`      int(32)                               NOT NULL,
-  `habilitado`    INT(11)                               NOT NULL,
-  KEY `id_estudiante` (`id_estudiante`),
-  KEY `id_curso` (`id_curso`),
-  CONSTRAINT `curso_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `curso_por_estudiante_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
+  `id_curso`      INT(32)                               NOT NULL,
+  `habilitado`    INT(11)                               NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso_estudiante`
 --
 
-LOCK TABLES `curso_estudiante` WRITE;
-/*!40000 ALTER TABLE `curso_estudiante`
-  DISABLE KEYS */;
-INSERT INTO `curso_estudiante`
-VALUES ('1604031238999', 1, 1), ('1604031238999', 2, 1), ('1604031238999', 16, 1), ('1608112083799', 5, 1),
-  ('1608112083799', 6, 1), ('1618032056299', 2, 1), ('1618032056299', 9, 1), ('1618032056299', 12, 1),
-  ('1618032056299', 11, 1), ('1604031238999', 10, 0), ('0925650996', 9, 1), ('0925650996', 2, 1), ('0925650996', 2, 1),
-  ('0925650996', 1, 1), ('0925650996', 1, 1);
-/*!40000 ALTER TABLE `curso_estudiante`
-  ENABLE KEYS */;
-UNLOCK TABLES;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-/*!50003 CREATE */ /*!50017 DEFINER =`root`@`localhost` */ /*!50003 TRIGGER actualizar_n_cursos
-AFTER INSERT ON curso_estudiante
+INSERT INTO `curso_estudiante` (`id_estudiante`, `id_curso`, `habilitado`) VALUES
+  ('1604031238999', 1, 1),
+  ('1604031238999', 2, 1),
+  ('1604031238999', 16, 1),
+  ('1608112083799', 5, 1),
+  ('1608112083799', 6, 1),
+  ('1618032056299', 2, 1),
+  ('1618032056299', 9, 1),
+  ('1618032056299', 12, 1),
+  ('1618032056299', 11, 1),
+  ('1604031238999', 10, 0),
+  ('0925650996', 9, 1),
+  ('0925650996', 2, 1),
+  ('0925650996', 2, 1),
+  ('0925650996', 1, 1),
+  ('0925650996', 1, 1);
+
+--
+-- Triggers `curso_estudiante`
+--
+DELIMITER $$
+CREATE TRIGGER `actualizar_n_cursos`
+AFTER INSERT ON `curso_estudiante`
 FOR EACH ROW
   BEGIN
     DECLARE nasc INT(32);
@@ -159,23 +577,12 @@ FOR EACH ROW
     SET numero_cursos = nascc
     WHERE id_usuario = NEW.id_estudiante;
 
-  END */;;
+  END
+$$
 DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-/*!50003 CREATE */ /*!50017 DEFINER =`root`@`localhost` */ /*!50003 TRIGGER actualizar_n_cursos_update
-AFTER UPDATE ON curso_estudiante
+DELIMITER $$
+CREATE TRIGGER `actualizar_n_cursos_update`
+AFTER UPDATE ON `curso_estudiante`
 FOR EACH ROW
   BEGIN
     DECLARE nasc INT(32);
@@ -187,176 +594,106 @@ FOR EACH ROW
     SET numero_cursos = nascc
     WHERE id_usuario = NEW.id_estudiante;
 
-  END */;;
+  END
+$$
 DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `curso_etiqueta`
 --
 
-DROP TABLE IF EXISTS `curso_etiqueta`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_etiqueta` (
-  `id_curso`    int(32) NOT NULL,
-  `id_etiqueta` INT(11) NOT NULL,
-  KEY `id_curso` (`id_curso`),
-  KEY `id_etiqueta` (`id_etiqueta`),
-  CONSTRAINT `etiqueta_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `etiqueta_etiqueta_fk` FOREIGN KEY (`id_etiqueta`) REFERENCES `etiqueta` (`id_etiqueta`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  `id_curso`    INT(32) NOT NULL,
+  `id_etiqueta` INT(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso_etiqueta`
 --
 
-LOCK TABLES `curso_etiqueta` WRITE;
-/*!40000 ALTER TABLE `curso_etiqueta`
-  DISABLE KEYS */;
-INSERT INTO `curso_etiqueta` VALUES (7, 2), (2, 2);
-/*!40000 ALTER TABLE `curso_etiqueta`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `curso_etiqueta` (`id_curso`, `id_etiqueta`) VALUES
+  (7, 2),
+  (2, 2);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `curso_horario`
 --
 
-DROP TABLE IF EXISTS `curso_horario`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_horario` (
-  `id_curso`   int(32) NOT NULL,
-  `id_horario` INT(32) NOT NULL,
-  KEY `id_curso` (`id_curso`),
-  KEY `id_horario` (`id_horario`),
-  CONSTRAINT `curso_horario_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `horario_horario_fk` FOREIGN KEY (`id_horario`) REFERENCES `horario` (`id_horario`)
+  `id_curso`   INT(32) NOT NULL,
+  `id_horario` INT(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso_horario`
 --
 
-LOCK TABLES `curso_horario` WRITE;
-/*!40000 ALTER TABLE `curso_horario`
-  DISABLE KEYS */;
-INSERT INTO `curso_horario` VALUES (32, 1), (32, 2), (39, 5), (40, 6);
-/*!40000 ALTER TABLE `curso_horario`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `curso_horario` (`id_curso`, `id_horario`) VALUES
+  (32, 1),
+  (32, 2),
+  (39, 5),
+  (40, 6);
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `curso_profesor`
 --
 
-DROP TABLE IF EXISTS `curso_profesor`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `curso_profesor` (
-  `id_curso`    int(32)                   NOT NULL,
+  `id_curso`    INT(32)                   NOT NULL,
   `id_profesor` VARCHAR(13)
-                COLLATE latin1_spanish_ci NOT NULL,
-  KEY `id_curso` (`id_curso`),
-  KEY `id_profesor` (`id_profesor`),
-  CONSTRAINT `curso_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `curso_profesor_fk` FOREIGN KEY (`id_profesor`) REFERENCES `usuario` (`id_usuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+                COLLATE latin1_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `curso_profesor`
 --
 
-LOCK TABLES `curso_profesor` WRITE;
-/*!40000 ALTER TABLE `curso_profesor`
-  DISABLE KEYS */;
-INSERT INTO `curso_profesor` VALUES (1, '0925650996'), (2, '0925650996');
-/*!40000 ALTER TABLE `curso_profesor`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `curso_profesor` (`id_curso`, `id_profesor`) VALUES
+  (1, '0925650996'),
+  (2, '0925650996');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `detalle_factura`
 --
 
-DROP TABLE IF EXISTS `detalle_factura`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `detalle_factura` (
   `id_factura` int(32) NOT NULL,
-  `id_curso`   INT(32) NOT NULL,
-  KEY `id_factura` (`id_factura`),
-  KEY `id_curso` (`id_curso`),
-  CONSTRAINT `detalle_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `detalle_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  `id_curso`   INT(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `detalle_factura`
---
-
-LOCK TABLES `detalle_factura` WRITE;
-/*!40000 ALTER TABLE `detalle_factura`
-  DISABLE KEYS */;
-/*!40000 ALTER TABLE `detalle_factura`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `emprendimiento`
 --
 
-DROP TABLE IF EXISTS `emprendimiento`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `emprendimiento` (
-  `id_emprendimiento` INT(32)                               NOT NULL AUTO_INCREMENT,
-  `id_estudiante`     varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `nombre`            varchar(46) COLLATE latin1_spanish_ci NOT NULL,
-  `descripcion`       TEXT COLLATE latin1_spanish_ci        NOT NULL,
-  PRIMARY KEY (`id_emprendimiento`),
-  KEY `id_usuario` (`id_estudiante`),
-  CONSTRAINT `emprendimiento_usuario_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  `id_emprendimiento` INT(32)                        NOT NULL,
+  `id_estudiante`     VARCHAR(13)
+                      COLLATE latin1_spanish_ci      NOT NULL,
+  `nombre`            VARCHAR(46)
+                      COLLATE latin1_spanish_ci      NOT NULL,
+  `descripcion`       TEXT COLLATE latin1_spanish_ci NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 11
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `emprendimiento`
 --
 
-LOCK TABLES `emprendimiento` WRITE;
-/*!40000 ALTER TABLE `emprendimiento`
-  DISABLE KEYS */;
-INSERT INTO `emprendimiento` VALUES (1, '1604031238999', 'Dental Hygienist',
-                                     'metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in'),
+INSERT INTO `emprendimiento` (`id_emprendimiento`, `id_estudiante`, `nombre`, `descripcion`) VALUES
+  (1, '1604031238999', 'Dental Hygienist',
+   'metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in'),
   (2, '1604031238999', 'Dental Hygienist',
    'metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in'),
   (3, '1608112083799', 'Human Resources Manager',
@@ -370,304 +707,251 @@ INSERT INTO `emprendimiento` VALUES (1, '1604031238999', 'Dental Hygienist',
   (7, '1634010992199', 'VP Product Management',
    'in hac habitasse platea dictumst morbi vestibulum velit id pretium iaculis diam'),
   (8, '1604031238999', 'emprendimiento de dui', 'emprendimiento de prueba para dui'),
-  (9, '1604031238999', 'emprendimiento de dui 2', 'Otro emprendimiento de prueba'), (10, '0925650996', 'dgdf', 'dfgfd');
-/*!40000 ALTER TABLE `emprendimiento`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+  (9, '1604031238999', 'emprendimiento de dui 2', 'Otro emprendimiento de prueba'),
+  (10, '0925650996', 'dgdf', 'dfgfd');
+
+-- --------------------------------------------------------
 
 --
--- Temporary view structure for view `estudiantesmax`
+-- Stand-in structure for view `estudiantesmax`
+-- (See below for the actual view)
 --
+CREATE TABLE `estudiantesmax` (
+  `id_usuario`    VARCHAR(13)
+  ,
+  `nickname`      VARCHAR(16)
+  ,
+  `contrasenia`   VARCHAR(15)
+  ,
+  `email`         VARCHAR(64)
+  ,
+  `last_login`    DATETIME
+  ,
+  `rol`           INT(1)
+  ,
+  `nombres`       VARCHAR(46)
+  ,
+  `apellidos`     VARCHAR(46)
+  ,
+  `numero_cursos` INT(11)
+  ,
+  `tag_line`      VARCHAR(255)
+);
 
-DROP TABLE IF EXISTS `estudiantesmax`;
-/*!50001 DROP VIEW IF EXISTS `estudiantesmax`*/;
-SET @saved_cs_client = @@character_set_client;
-SET character_set_client = utf8;
-/*!50001 CREATE VIEW `estudiantesmax` AS
-  SELECT
-    1 AS `id_usuario`,
-    1 AS `nickname`,
-    1 AS `contrasenia`,
-    1 AS `email`,
-    1 AS `last_login`,
-    1 AS `rol`,
-    1 AS `nombres`,
-    1 AS `apellidos`,
-    1 AS `numero_cursos`,
-    1 AS `tag_line`*/;
-SET character_set_client = @saved_cs_client;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `etiqueta`
 --
 
-DROP TABLE IF EXISTS `etiqueta`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `etiqueta` (
-  `id_etiqueta` INT(5)                    NOT NULL AUTO_INCREMENT,
+  `id_etiqueta` INT(5)                    NOT NULL,
   `nombre`      VARCHAR(46)
-                COLLATE latin1_spanish_ci NOT NULL,
-  PRIMARY KEY (`id_etiqueta`),
-  UNIQUE KEY `nombre` (`nombre`)
+                COLLATE latin1_spanish_ci NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 22
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `etiqueta`
 --
 
-LOCK TABLES `etiqueta` WRITE;
-/*!40000 ALTER TABLE `etiqueta`
-  DISABLE KEYS */;
-INSERT INTO `etiqueta`
-VALUES (9, ' android '), (2, ' ciencia '), (15, ' cine '), (6, ' computación '), (13, ' construccion '),
-  (11, ' english '), (3, ' fisica '), (12, ' francés '), (17, ' información '), (10, ' informática '),
-  (18, ' internet '), (8, ' java '), (7, ' medicina '), (14, ' movil '), (19, ' poo '), (5, ' programacion '),
-  (16, ' tecnología '), (21, ' television '), (20, ' tics '), (4, 'cocina '), (1, 'curso ');
-/*!40000 ALTER TABLE `etiqueta`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `etiqueta` (`id_etiqueta`, `nombre`) VALUES
+  (9, ' android '),
+  (2, ' ciencia '),
+  (15, ' cine '),
+  (6, ' computación '),
+  (13, ' construccion '),
+  (11, ' english '),
+  (3, ' fisica '),
+  (12, ' francés '),
+  (17, ' información '),
+  (10, ' informática '),
+  (18, ' internet '),
+  (8, ' java '),
+  (7, ' medicina '),
+  (14, ' movil '),
+  (19, ' poo '),
+  (5, ' programacion '),
+  (16, ' tecnología '),
+  (21, ' television '),
+  (20, ' tics '),
+  (4, 'cocina '),
+  (1, 'curso ');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `factura`
 --
 
-DROP TABLE IF EXISTS `factura`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `factura` (
-  `id_factura`     INT(32)                               NOT NULL AUTO_INCREMENT,
-  `id_estudiante`  varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `fecha`          date                                  NOT NULL,
-  `total`          decimal(5,2)                          NOT NULL,
-  `nombres`        varchar(46) COLLATE latin1_spanish_ci NOT NULL,
-  `apellidos`      varchar(46) COLLATE latin1_spanish_ci NOT NULL,
-  `numero_factura` int(9)                                NOT NULL,
-  `ruc`            varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `cupos`          int(11)                               NOT NULL DEFAULT '0',
+  `id_factura`     INT(32)                   NOT NULL,
+  `id_estudiante`  VARCHAR(13)
+                   COLLATE latin1_spanish_ci NOT NULL,
+  `fecha`          DATE                      NOT NULL,
+  `total`          DECIMAL(5, 2)             NOT NULL,
+  `nombres`        VARCHAR(46)
+                   COLLATE latin1_spanish_ci NOT NULL,
+  `apellidos`      VARCHAR(46)
+                   COLLATE latin1_spanish_ci NOT NULL,
+  `numero_factura` INT(9)                    NOT NULL,
+  `ruc`            VARCHAR(13)
+                   COLLATE latin1_spanish_ci NOT NULL,
+  `cupos`          INT(11)                   NOT NULL DEFAULT '0',
   `direccion`      VARCHAR(64)
-                   COLLATE latin1_spanish_ci             NOT NULL,
-  PRIMARY KEY (`id_factura`),
-  UNIQUE KEY `numero_factura_UNIQUE` (`numero_factura`),
-  KEY `id_estudiante` (`id_estudiante`),
-  CONSTRAINT `factura_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+                   COLLATE latin1_spanish_ci NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 2
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `factura`
 --
 
-LOCK TABLES `factura` WRITE;
-/*!40000 ALTER TABLE `factura`
-  DISABLE KEYS */;
-INSERT INTO `factura`
-VALUES (1, '1604070162099', '2017-01-17', 60.00, 'Cecilia', 'Solís Avendaño', 1200099, '0936760895001', 0, '');
-/*!40000 ALTER TABLE `factura`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `factura` (`id_factura`, `id_estudiante`, `fecha`, `total`, `nombres`, `apellidos`, `numero_factura`, `ruc`, `cupos`, `direccion`)
+VALUES
+  (1, '1604070162099', '2017-01-17', '60.00', 'Cecilia', 'Solís Avendaño', 1200099, '0936760895001', 0, '');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `horario`
 --
 
-DROP TABLE IF EXISTS `horario`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `horario` (
-  `id_horario` INT(32)  NOT NULL AUTO_INCREMENT,
-  `inicio`     datetime NOT NULL,
-  `fin`        DATETIME NOT NULL,
-  PRIMARY KEY (`id_horario`)
+  `id_horario` INT(32)  NOT NULL,
+  `inicio`     DATETIME NOT NULL,
+  `fin`        DATETIME NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 7
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `horario`
 --
 
-LOCK TABLES `horario` WRITE;
-/*!40000 ALTER TABLE `horario`
-  DISABLE KEYS */;
-INSERT INTO `horario`
-VALUES (1, '2017-04-12 23:20:00', '2017-04-12 23:20:00'), (2, '2017-04-25 17:20:00', '2017-04-25 23:20:00'),
-  (3, '0000-00-00 00:00:00', '0000-00-00 00:00:00'), (4, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
-  (5, '0000-00-00 00:00:00', '0000-00-00 00:00:00'), (6, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
-/*!40000 ALTER TABLE `horario`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `horario` (`id_horario`, `inicio`, `fin`) VALUES
+  (1, '2017-04-12 23:20:00', '2017-04-12 23:20:00'),
+  (2, '2017-04-25 17:20:00', '2017-04-25 23:20:00'),
+  (3, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+  (4, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+  (5, '0000-00-00 00:00:00', '0000-00-00 00:00:00'),
+  (6, '0000-00-00 00:00:00', '0000-00-00 00:00:00');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `info_curso`
 --
 
-DROP TABLE IF EXISTS `info_curso`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `info_curso` (
-  `id_curso`          int(32)                        NOT NULL,
-  `descripcion`       text COLLATE latin1_spanish_ci NOT NULL,
-  `cupo_min`          int(11)                        NOT NULL,
-  `cupo_max`          int(11)                        NOT NULL,
-  `cupos_disponibles` int(11)                        NOT NULL,
-  `fecha_inicio`      date                           NOT NULL,
-  `fecha_fin`         DATE                           NOT NULL,
-  PRIMARY KEY (`id_curso`),
-  UNIQUE KEY `id_curso_2` (`id_curso`),
-  KEY `id_curso` (`id_curso`),
-  CONSTRAINT `infocurso_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  `id_curso`          INT(32)                        NOT NULL,
+  `descripcion`       TEXT COLLATE latin1_spanish_ci NOT NULL,
+  `cupo_min`          INT(11)                        NOT NULL,
+  `cupo_max`          INT(11)                        NOT NULL,
+  `cupos_disponibles` INT(11)                        NOT NULL,
+  `fecha_inicio`      DATE                           NOT NULL,
+  `fecha_fin`         DATE                           NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `info_curso`
 --
 
-LOCK TABLES `info_curso` WRITE;
-/*!40000 ALTER TABLE `info_curso`
-  DISABLE KEYS */;
-INSERT INTO `info_curso`
-VALUES (1, 'Este curso le enseñará a extraer grandes cantidades de datos.', 10, 20, 20, '2016-12-29', '2017-02-22'), (2,
-                                                                                                                      'Las matemáticas superiores son indispensables para cualquier ingeniero; en este curso aprenderá sus fundamentos.',
-                                                                                                                      8,
-                                                                                                                      18,
-                                                                                                                      18,
-                                                                                                                      '2016-12-23',
-                                                                                                                      '2017-01-28'),
+INSERT INTO `info_curso` (`id_curso`, `descripcion`, `cupo_min`, `cupo_max`, `cupos_disponibles`, `fecha_inicio`, `fecha_fin`)
+VALUES
+  (1, 'Este curso le enseñará a extraer grandes cantidades de datos.', 10, 20, 20, '2016-12-29', '2017-02-22'),
+  (2,
+   'Las matemáticas superiores son indispensables para cualquier ingeniero; en este curso aprenderá sus fundamentos.',
+   8, 18, 18, '2016-12-23', '2017-01-28'),
   (3, 'Matemáticas discretas es un curso en el cual adquirirá sobre todo habilidades de conteo', 14, 30, 29,
-   '2016-12-15', '2017-01-30'), (6, 'La POA es lo mejor. ', 17, 25, 19, '2016-12-26', '2017-02-15'),
+   '2016-12-15', '2017-01-30'),
+  (6, 'La POA es lo mejor. ', 17, 25, 19, '2016-12-26', '2017-02-15'),
   (12, 'ekjfuchklfbjvlgtkbhjgtl.b', 12, 25, 1, '2016-12-15', '2016-12-23'),
   (32, 'Mucha quimica aquí', 3, 20, 20, '2017-01-18', '2017-01-24'),
   (36, 'Curso de ejemplo', 3, 34, 34, '2017-02-12', '2017-02-28'),
   (37, 'Curso de ejemplo', 3, 34, 34, '2017-02-12', '2017-02-28'),
   (39, 'Curso de ejemplo', 3, 34, 34, '2017-02-12', '2017-02-28'),
   (40, 'Curso de ejemplo', 3, 34, 34, '2017-02-12', '2017-02-28');
-/*!40000 ALTER TABLE `info_curso`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `info_usuario`
 --
 
-DROP TABLE IF EXISTS `info_usuario`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `info_usuario` (
-  `id_usuario`    varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `nombres`       varchar(46) COLLATE latin1_spanish_ci NOT NULL,
-  `apellidos`     varchar(46) COLLATE latin1_spanish_ci NOT NULL,
-  `numero_cursos` int(11)                   DEFAULT '0',
+  `id_usuario`    VARCHAR(13)
+                  COLLATE latin1_spanish_ci NOT NULL,
+  `nombres`       VARCHAR(46)
+                  COLLATE latin1_spanish_ci NOT NULL,
+  `apellidos`     VARCHAR(46)
+                  COLLATE latin1_spanish_ci NOT NULL,
+  `numero_cursos` INT(11)                   DEFAULT '0',
   `tag_line`      VARCHAR(255)
-                  COLLATE latin1_spanish_ci DEFAULT NULL,
-  PRIMARY KEY (`id_usuario`),
-  KEY `id_usuario` (`id_usuario`),
-  CONSTRAINT `infousuario_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+                  COLLATE latin1_spanish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `info_usuario`
 --
 
-LOCK TABLES `info_usuario` WRITE;
-/*!40000 ALTER TABLE `info_usuario`
-  DISABLE KEYS */;
-INSERT INTO `info_usuario`
-VALUES ('0925650996', 'maria', 'cabezas', 5, 'blalala'), ('0925650997', 'lola', 'lolita', 0, 'deas'),
-  ('1604031238999', 'dui', 'peres', 4, NULL), ('1604070162099', 'digna', 'solisa', 0, NULL),
-  ('1608112083799', 'juanito', 'perez', 2, NULL), ('1609041989699', 'lola', 'guzman', 0, 'probando'),
-  ('1618032056299', 'Lisa', 'Fiallos', 4, NULL), ('9999999999999', 'asdf', 'asdfa', 0, '');
-/*!40000 ALTER TABLE `info_usuario`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos`, `tag_line`) VALUES
+  ('0925650996', 'maria', 'cabezas', 5, 'blalala'),
+  ('0925650997', 'lola', 'lolita', 0, 'deas'),
+  ('1604031238999', 'dui', 'peres', 4, NULL),
+  ('1604070162099', 'digna', 'solisa', 0, NULL),
+  ('1608112083799', 'juanito', 'perez', 2, NULL),
+  ('1609041989699', 'lola', 'guzman', 0, 'probando'),
+  ('1618032056299', 'Lisa', 'Fiallos', 4, NULL),
+  ('9999999999999', 'asdf', 'asdfa', 0, '');
+
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `pago`
 --
 
-DROP TABLE IF EXISTS `pago`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `pago` (
   `id_factura` int(32) NOT NULL,
-  `id_pago`    INT(11) NOT NULL AUTO_INCREMENT,
-  `n_tarjeta`  int(16) NOT NULL DEFAULT '-1',
+  `id_pago`    INT(11) NOT NULL,
+  `n_tarjeta`  INT(16) NOT NULL DEFAULT '-1',
   `n_deposito` int(16) NOT NULL DEFAULT '-1',
-  `forma_pago` INT(1)  NOT NULL,
-  PRIMARY KEY (`id_pago`),
-  KEY `id_factura` (`id_factura`),
-  CONSTRAINT `formapsgo_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE
+  `forma_pago` INT(1)  NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `pago`
---
-
-LOCK TABLES `pago` WRITE;
-/*!40000 ALTER TABLE `pago`
-  DISABLE KEYS */;
-/*!40000 ALTER TABLE `pago`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+-- --------------------------------------------------------
 
 --
 -- Table structure for table `usuario`
 --
 
-DROP TABLE IF EXISTS `usuario`;
-/*!40101 SET @saved_cs_client = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
-  `id_usuario`  varchar(13) COLLATE latin1_spanish_ci NOT NULL,
-  `nickname`    varchar(16) COLLATE latin1_spanish_ci NOT NULL,
+  `id_usuario`  VARCHAR(13)
+                COLLATE latin1_spanish_ci             NOT NULL,
+  `nickname`    VARCHAR(16)
+                COLLATE latin1_spanish_ci             NOT NULL,
   `contrasenia` varchar(15) COLLATE latin1_spanish_ci NOT NULL,
-  `email`       varchar(64) COLLATE latin1_spanish_ci NOT NULL,
-  `last_login`  datetime                              NOT NULL,
-  `rol`         int(1)                                NOT NULL DEFAULT '0',
-  `posicion`    INT(11)                               NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id_usuario`),
-  UNIQUE KEY `nickname` (`nickname`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `posicion` (`posicion`),
-  KEY `id_usuario` (`id_usuario`)
+  `email`       VARCHAR(64)
+                COLLATE latin1_spanish_ci             NOT NULL,
+  `last_login`  DATETIME                              NOT NULL,
+  `rol`         INT(1)                                NOT NULL DEFAULT '0',
+  `posicion`    INT(11)                               NOT NULL
 )
   ENGINE = InnoDB
-  AUTO_INCREMENT = 128
   DEFAULT CHARSET = latin1
   COLLATE = latin1_spanish_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `usuario`
 --
 
-LOCK TABLES `usuario` WRITE;
-/*!40000 ALTER TABLE `usuario`
-  DISABLE KEYS */;
-INSERT INTO `usuario` VALUES ('0925650996', 'bellengc', '1234a', 'belen@espol.ec', '0000-00-00 00:00:00', 1, 1),
+INSERT INTO `usuario` (`id_usuario`, `nickname`, `contrasenia`, `email`, `last_login`, `rol`, `posicion`) VALUES
+  ('0925650996', 'bellengc', '1234a', 'belen@espol.ec', '0000-00-00 00:00:00', 1, 1),
   ('0925650997', 'bellengc1', '1234a', 'belen1@espol.ec', '0000-00-00 00:00:00', 1, 2),
   ('0925650998', 'bel2', '123', 'bel2@gmial.com', '0000-00-00 00:00:00', 1, 3),
   ('0925760885001', 'prueba1', 'prueba1', 'prueba1@gmail.com', '2017-02-11 05:36:31', 0, 89),
@@ -754,1415 +1038,21 @@ INSERT INTO `usuario` VALUES ('0925650996', 'bellengc', '1234a', 'belen@espol.ec
   ('1693032619999', 'Fusce', 'XXJ71RNX4BB', 'enim.Suspendisse@quis.ca', '2017-05-27 20:33:07', 1, 84),
   ('1693072126399', 'dolor.', 'OLD38ZBW3IX', 'magna@tempor.com', '2016-03-24 08:06:17', 1, 85),
   ('1693101394899', 'ante.', 'ACV34COA6ON', 'Suspendisse.sagittis.Nullam@lacuspedesagittis.net', '2016-06-19 00:54:13',
-   0, 86), ('1697100903399', 'nec', 'QOL79DFE1VF', 'in.faucibus.orci@nulla.com', '2017-08-30 18:14:53', 1, 87),
+   0, 86),
+  ('1697100903399', 'nec', 'QOL79DFE1VF', 'in.faucibus.orci@nulla.com', '2017-08-30 18:14:53', 1, 87),
   ('1699030343099', 'orci,', 'UPW76XLX6YJ', 'lorem.lorem.luctus@nec.ca', '2017-05-28 03:52:54', 2, 88),
   ('9999999999999', 'asdfdsf', '12333', 'adsff@gmail.com', '2017-02-11 23:32:10', 0, 127);
-/*!40000 ALTER TABLE `usuario`
-  ENABLE KEYS */;
-UNLOCK TABLES;
+
+-- --------------------------------------------------------
 
 --
--- Dumping events for database 'lw'
+-- Structure for view `estudiantesmax`
 --
+DROP TABLE IF EXISTS `estudiantesmax`;
 
---
--- Dumping routines for database 'lw'
---
-/*!50003 DROP PROCEDURE IF EXISTS `addCertificado` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addCertificado`(IN `content` VARCHAR(100), IN `id_estud` VARCHAR(13))
-  BEGIN
-    INSERT INTO certificado (contenido, id_estudiante) VALUES (content, id_estud);
-    SELECT *
-    FROM
-      certificado
-    WHERE
-      certificado.id_certificado = LAST_INSERTED_ID;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addCurso`(IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5, 2))
-  BEGIN
-    INSERT INTO curso (nombre, costo) VALUES (nomb, cost);
-    SELECT *
-    FROM
-      curso
-    WHERE
-      curso.id_curso = LAST_INSERT_ID();
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addEmprendimiento` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addEmprendimiento`(IN `id_est`  VARCHAR(13), IN `nomb` VARCHAR(46),
-                                                                 IN `descrip` TEXT)
-  BEGIN
-    INSERT INTO emprendimiento (id_estudiante, nombre, descripcion) VALUES (id_est, nomb, descrip);
-    SELECT *
-    FROM
-      emprendimiento
-    WHERE
-      emprendimiento.id_emprendimiento = LAST_INSERT_ID();
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addEstudianteAcurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addEstudianteAcurso`(IN `ide` VARCHAR(13), IN `idc` INT)
-  BEGIN
-    INSERT INTO curso_estudiante (id_estudiante, id_curso, habilitado) VALUES (ide, idc, 1);
-    UPDATE info_usuario
-    SET numero_cursos = numero_cursos + 1
-    WHERE id_usuario = ide;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addEtiqueta` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addEtiqueta`(IN `nombre` VARCHAR(46))
-  BEGIN
-    INSERT INTO Certificado (nombre) VALUES (nombre);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addFactura` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addFactura`(IN `nombs`  VARCHAR(46), IN `aps` VARCHAR(46),
-                                                          IN `tot`    DECIMAL(5, 2), IN `direcc` VARCHAR(64),
-                                                          IN `fech`   DATE, IN `rc` VARCHAR(13), IN `cupo` INT(11),
-                                                          IN `id_est` VARCHAR(13), IN `numero_fact` INT(9))
-  BEGIN
-    INSERT INTO factura (nombres, apellidos, total, direccion, fecha, ruc, cupos, id_estudiante, numero_factura)
-    VALUES (nombs, aps, tot, direcc, fecha, rc, cupo, id_est, numero_fact);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addHorarioCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addHorarioCurso`(IN inico VARCHAR(255), IN fn VARCHAR(255))
-  BEGIN
-    INSERT INTO horario (inicio, fin) VALUES ("inico", "fn");
-    SELECT *
-    FROM horario
-    WHERE id_horario = LAST_INSERT_ID();
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addInfoCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addInfoCurso`(IN `id`      INT(32), IN `descrip` TEXT,
-                                                            IN `cupo_mi` INT(11), IN `cupo_ma` INT(11),
-                                                            IN `cupos_d` INT(11), IN `fecha_i` DATE, IN `fecha_f` DATE)
-  BEGIN
-    INSERT INTO info_curso (id_curso, descripcion, cupo_min, cupo_max, cupos_disponibles, fecha_inicio, fecha_fin)
-    VALUES (id, descrip, cupo_mi, cupo_ma, cupos_d, fecha_i, fecha_f);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addInfoUsuario` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addInfoUsuario`(IN `id`         VARCHAR(13), IN `nombs` VARCHAR(46),
-                                                              IN `aps`        VARCHAR(46), IN `tag` VARCHAR(255),
-                                                              IN `num_cursos` INT(11))
-  BEGIN
-    INSERT INTO info_usuario (id_usuario, nombres, apellidos, numero_cursos, tag_line)
-    VALUES (id, nombs, aps, num_cursos, tag);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addPagoDeposito` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addPagoDeposito`(IN `id_f` INT(32), IN `forma` INT(1), IN `n_dep` INT(16))
-  BEGIN
-    INSERT INTO Pago (id_factura, forma_pago, n_deposito) VALUES (id_f, forma, n_dep);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addPagoTarjeta` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addPagoTarjeta`(IN `id`        INT(11), IN `id_f` INT(32),
-                                                              IN `forma`     INT(1), IN `n_tarjeta` INT(16))
-  BEGIN
-    INSERT INTO pago (id_factura, forma_pago, n_tarjeta) VALUES (id_f, forma, tarjeta);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `addUsuario` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `addUsuario`(IN `id`   VARCHAR(13), IN `nick` VARCHAR(16),
-                                                          IN `pass` VARCHAR(15), IN `correo` VARCHAR(64),
-                                                          IN `ro`   INT(1))
-  BEGIN
-    INSERT INTO usuario (id_usuario, nickname, contrasenia, email, rol, last_login)
-    VALUES (id, nick, pass, correo, ro, NOW());
-
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `buscarCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `buscarCurso`(IN `cadena` VARCHAR(64))
-  BEGIN
-    SELECT *
-    FROM curso, info_curso
-    WHERE info_curso.id_curso = curso.id_curso AND curso.nombre LIKE cadena;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `contarCursos` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `contarCursos`()
-  BEGIN
-    SELECT COUNT(curso.id_curso)
-    FROM curso;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `contarEtiquetas` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `contarEtiquetas`(OUT `numero` INT)
-  BEGIN
-    SELECT count(id_etiqueta)
-    INTO numero
-    FROM etiqueta;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `contarEtiquetas1` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `contarEtiquetas1`()
-  BEGIN
-    SELECT COUNT(etiqueta.id_etiqueta)
-    FROM etiqueta;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `contarUsuarios` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `contarUsuarios`()
-  BEGIN
-    SELECT COUNT(usuario.id_usuario)
-    FROM usuario;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteCertificado` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteCertificado`(IN `id` INT)
-  BEGIN
-    DELETE FROM certificado
-    WHERE id_certificado = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteCurso`(IN `id` INT)
-  BEGIN
-    DELETE FROM curso
-    WHERE id_curso = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteDetalleFactura` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteDetalleFactura`(IN `id` INT)
-  BEGIN
-    DELETE FROM detalle_factura
-    WHERE id_factura = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteEmprendimiento` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteEmprendimiento`(IN `id` INT)
-  BEGIN
-    DELETE FROM emprendimiento
-    WHERE id_emprendimiento = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteEtiqueta` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteEtiqueta`(IN `id` INT)
-  BEGIN
-    DELETE FROM etiqueta
-    WHERE id_etiqueta = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteFactura` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteFactura`(IN `id` INT(32))
-  BEGIN
-    DELETE FROM factura
-    WHERE id_factura = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteInfoCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteInfoCurso`(IN `id` INT(32))
-  BEGIN
-    DELETE FROM info_curso
-    WHERE id_curso = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteInfoUsuario` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteInfoUsuario`(IN `id` VARCHAR(13))
-  BEGIN
-    DELETE FROM info_usuario
-    WHERE id_usuario = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deletePago` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deletePago`(IN `id` INT(11))
-  BEGIN
-    DELETE FROM pago
-    WHERE id_pago = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `deleteUsuario` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `deleteUsuario`(IN `id` VARCHAR(13))
-  BEGIN
-    DELETE FROM usuario
-    WHERE id_usuario = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllCursos` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllCursos`()
-  BEGIN
-    SELECT *
-    FROM curso;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllDetalles` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllDetalles`()
-  BEGIN
-    SELECT *
-    FROM detalle_factura;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllEmprendimientos` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllEmprendimientos`()
-  BEGIN
-    SELECT *
-    FROM emprendimiento;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllEtiquetas` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllEtiquetas`()
-  BEGIN
-    SELECT *
-    FROM etiqueta;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllFacturas` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllFacturas`()
-  BEGIN
-    SELECT *
-    FROM factura;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllPagos` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllPagos`()
-  BEGIN
-    SELECT *
-    FROM pago;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllUsuarios` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllUsuarios`()
-  BEGIN
-    SELECT *
-    FROM usuario;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getAllUsuariosAndInfos` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getAllUsuariosAndInfos`()
-  BEGIN
-    SELECT *
-    FROM usuario
-      LEFT JOIN info_usuario USING (id_usuario);
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCertificadoById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCertificadoById`(IN `id_cert` INT)
-  BEGIN
-    SELECT *
-    FROM certificado
-    WHERE id_certificado = id_cert;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCertificadosByStudentId` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCertificadosByStudentId`(IN `id` VARCHAR(13))
-  BEGIN
-    SELECT *
-    FROM certificado
-    WHERE id_estudiante = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCursoAndInfoById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursoAndInfoById`(IN `idc` INT)
-  BEGIN
-    SELECT *
-    FROM curso, info_curso
-    WHERE curso.id_curso = info_curso.id_curso AND curso.id_curso = idc;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCursoById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursoById`(IN `id` INT)
-  BEGIN
-    SELECT *
-    FROM curso
-    WHERE curso.id_curso = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCursosByProfId` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursosByProfId`(IN `id` VARCHAR(13))
-  BEGIN
-    SELECT
-      curso.*,
-      info_curso.*
-    FROM curso, info_curso, curso_profesor
-    WHERE curso.id_curso = info_curso.id_curso AND curso.id_curso = curso_profesor.id_curso AND
-          curso_profesor.id_profesor = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCursosByStudentId` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursosByStudentId`(IN `id` VARCHAR(13))
-  BEGIN
-    SELECT
-      curso.*,
-      info_curso.*
-    FROM curso, info_curso, curso_estudiante
-    WHERE curso.id_curso = info_curso.id_curso AND curso_estudiante.id_curso = curso.id_curso AND
-          curso_estudiante.id_estudiante = id AND curso_estudiante.habilitado = 1;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getCursosEstudiantes` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getCursosEstudiantes`(IN `ide` VARCHAR(13), IN `idc` INT)
-  BEGIN
-    SELECT COUNT(id_estudiante) AS num_cursos
-    FROM curso_estudiante
-    WHERE id_estudiante = ide AND id_curso = idc;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getDetallesByFacturaId` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getDetallesByFacturaId`(IN `id` INT)
-  BEGIN
-    SELECT *
-    FROM detalle_factura
-    WHERE id_factura = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getEmprendimientoById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getEmprendimientoById`(IN `id` INT)
-  BEGIN
-    SELECT *
-    FROM emprendimiento
-    WHERE id_emprendimiento = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getEmprendimientosByStudentId` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getEmprendimientosByStudentId`(IN `id` VARCHAR(13))
-  BEGIN
-    SELECT *
-    FROM emprendimiento
-    WHERE id_estudiante = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getEstudiantesByCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getEstudiantesByCurso`(IN `id` INT)
-  BEGIN
-    SELECT
-      usuario.*,
-      info_usuario.*
-    FROM usuario, info_usuario, curso_estudiante
-    WHERE usuario.id_usuario = info_usuario.id_usuario AND usuario.id_usuario = curso_estudiante.id_estudiante AND
-          curso_estudiante.id_curso = id AND curso_estudiante.habilitado = 1;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getEtiquetaById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getEtiquetaById`(IN `id` INT)
-  BEGIN
-    SELECT *
-    FROM etiqueta
-    WHERE id_etiqueta = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getInfoCursoById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getInfoCursoById`(IN `id` INT)
-  BEGIN
-    SELECT *
-    FROM info_curso
-    WHERE info_curso.id_curso = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getInfoUsuarioById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8 */;
-/*!50003 SET character_set_results = utf8 */;
-/*!50003 SET collation_connection = utf8_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getInfoUsuarioById`(IN `id` VARCHAR(13))
-  BEGIN
-    SELECT *
-    FROM info_usuario
-    WHERE id_usuario COLLATE latin1_spanish_ci = id COLLATE latin1_spanish_ci;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getPagoById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getPagoById`(IN `id` INT(11))
-  BEGIN
-    SELECT *
-    FROM pago
-    WHERE id_pago = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getUserByCredentials` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserByCredentials`(IN `nick` VARCHAR(16), IN `pas` VARCHAR(15))
-  BEGIN
-    SELECT *
-    FROM usuario
-    WHERE nickname = nick AND contrasenia = pas;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getUserById` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserById`(IN `id` VARCHAR(13))
-  BEGIN
-    SELECT *
-    FROM usuario
-    WHERE id_usuario = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getUserByPosition` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserByPosition`(IN `pos` INT)
-  BEGIN
-    SELECT *
-    FROM usuario
-    WHERE usuario.posicion = pos;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `getUserLastId` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `getUserLastId`()
-  BEGIN
-    SELECT MAX(posicion) AS id
-    FROM usuario;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `listarCertificados` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `listarCertificados`()
-  BEGIN
-    SELECT *
-    FROM certificado;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `sustentacion` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `sustentacion`()
-  BEGIN
-    SELECT *
-    FROM estudiantesMax;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateCertificado` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateCertificado`(IN `id`      INT, IN `id_estud` VARCHAR(13),
-                                                                 IN `content` VARCHAR(100))
-  BEGIN
-    UPDATE certificado
-    SET id_estudiante = id_estud, contenido = content
-    WHERE id_certificado = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateCurso`(IN `id` INT, IN `nomb` VARCHAR(64), IN `cost` DECIMAL(5, 2))
-  BEGIN
-    UPDATE curso
-    SET nombre = nomb, costo = cost
-    WHERE id_curso = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateDetalleFactura` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateDetalleFactura`(IN `id_f` INT, IN `id_c` INT)
-  BEGIN
-    UPDATE detalle_factura
-    SET id_curso = id_c
-    WHERE id_factura = id_f;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateEmprendimiento` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateEmprendimiento`(IN `id`   INT, IN `id_est` VARCHAR(13),
-                                                                    IN `nomb` VARCHAR(46), IN `descrip` TEXT)
-  BEGIN
-    UPDATE emprendimiento
-    SET nombre = nomb, descripcion = descrip, id_estudiante = id_es
-    WHERE id_emprendimiento = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateEtiqueta` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateEtiqueta`(IN `id` INT, IN `nomb` VARCHAR(46))
-  BEGIN
-    UPDATE etiqueta
-    SET nombre = nomb
-    WHERE id_etiqueta = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateFactura` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateFactura`(IN `id`     INT(32), IN `nombs` VARCHAR(46),
-                                                             IN `aps`    VARCHAR(46), IN `tot` DECIMAL(5, 2),
-                                                             IN `direcc` VARCHAR(64), IN `fech` DATE,
-                                                             IN `rc`     VARCHAR(13), IN `cupo` INT(11),
-                                                             IN `id_est` VARCHAR(13))
-  BEGIN
-    UPDATE factura
-    SET nombres     = nombs, apellidos = aps, total = tot, direccion = direcc, fecha = fech, ruc = rc, cupos = cupo,
-      id_estudiante = id_est
-    WHERE id_factura = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateInfoCurso` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateInfoCurso`(IN `id`      INT(32), IN `descrip` TEXT,
-                                                               IN `cupo_mi` INT(11), IN `cupo_ma` INT(11),
-                                                               IN `cupos_d` INT(11), IN `fecha_i` DATE,
-                                                               IN `fecha_f` DATE)
-  BEGIN
-    UPDATE info_curso
-    SET descripcion = descrip, cupo_min = cupo_mi, cupo_max = cupo_ma, cupos_disponibles = cupos_d,
-      fecha_inicio  = fecha_i, fecha_fin = fecha_f
-    WHERE id_curso = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateInfoUsuario` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateInfoUsuario`(IN `id`         VARCHAR(13), IN `nombs` VARCHAR(46),
-                                                                 IN `aps`        VARCHAR(46), IN `tag` VARCHAR(255),
-                                                                 IN `num_cursos` INT(11))
-  BEGIN
-    UPDATE info_usuario
-    SET nombres = nombs, apellidos = aps, tag_line = tag, numero_cursos = num_cursos
-    WHERE id_usuario = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-/*!50003 DROP PROCEDURE IF EXISTS `updateUsuario` */;
-/*!50003 SET @saved_cs_client = @@character_set_client */;
-/*!50003 SET @saved_cs_results = @@character_set_results */;
-/*!50003 SET @saved_col_connection = @@collation_connection */;
-/*!50003 SET character_set_client = utf8mb4 */;
-/*!50003 SET character_set_results = utf8mb4 */;
-/*!50003 SET collation_connection = utf8mb4_general_ci */;
-/*!50003 SET @saved_sql_mode = @@sql_mode */;
-/*!50003 SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO' */;
-DELIMITER ;;
-CREATE DEFINER =`root`@`localhost` PROCEDURE `updateUsuario`(IN `id`     VARCHAR(13), IN `nick` VARCHAR(16),
-                                                             IN `pass`   VARCHAR(15), IN `ro` INT(1),
-                                                             IN `correo` VARCHAR(15))
-  BEGIN
-    UPDATE usuario
-    SET nickname = nick, contrasenia = pass, rol = ro, email = correo
-    WHERE id_usuario = id;
-  END ;;
-DELIMITER ;
-/*!50003 SET sql_mode = @saved_sql_mode */;
-/*!50003 SET character_set_client = @saved_cs_client */;
-/*!50003 SET character_set_results = @saved_cs_results */;
-/*!50003 SET collation_connection = @saved_col_connection */;
-
---
--- Final view structure for view `estudiantesmax`
---
-
-/*!50001 DROP VIEW IF EXISTS `estudiantesmax`*/;
-/*!50001 SET @saved_cs_client = @@character_set_client */;
-/*!50001 SET @saved_cs_results = @@character_set_results */;
-/*!50001 SET @saved_col_connection = @@collation_connection */;
-/*!50001 SET character_set_client = utf8mb4 */;
-/*!50001 SET character_set_results = utf8mb4 */;
-/*!50001 SET collation_connection = utf8mb4_general_ci */;
-/*!50001 CREATE ALGORITHM = UNDEFINED */
-  /*!50013 DEFINER =`root`@`localhost`
-  SQL SECURITY DEFINER */
-  /*!50001 VIEW `estudiantesmax` AS
+CREATE ALGORITHM = UNDEFINED
+  DEFINER =`root`@`localhost`
+  SQL SECURITY DEFINER VIEW `estudiantesmax` AS
   SELECT
     `usuario`.`id_usuario`         AS `id_usuario`,
     `usuario`.`nickname`           AS `nickname`,
@@ -2177,18 +1067,275 @@ DELIMITER ;
   FROM (`usuario`
     JOIN `info_usuario` ON ((`usuario`.`id_usuario` = `info_usuario`.`id_usuario`)))
   WHERE (`info_usuario`.`numero_cursos` = (SELECT max(`info_usuario`.`numero_cursos`)
-                                           FROM `info_usuario`)) */;
-/*!50001 SET character_set_client = @saved_cs_client */;
-/*!50001 SET character_set_results = @saved_cs_results */;
-/*!50001 SET collation_connection = @saved_col_connection */;
-/*!40103 SET TIME_ZONE = @OLD_TIME_ZONE */;
+                                           FROM `info_usuario`));
 
-/*!40101 SET SQL_MODE = @OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS = @OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS = @OLD_UNIQUE_CHECKS */;
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `certificado`
+--
+ALTER TABLE `certificado`
+  ADD PRIMARY KEY (`id_certificado`),
+  ADD KEY `id_estudiante` (`id_estudiante`);
+
+--
+-- Indexes for table `curso`
+--
+ALTER TABLE `curso`
+  ADD PRIMARY KEY (`id_curso`),
+  ADD UNIQUE KEY `id_curso` (`id_curso`);
+
+--
+-- Indexes for table `curso_estudiante`
+--
+ALTER TABLE `curso_estudiante`
+  ADD KEY `id_estudiante` (`id_estudiante`),
+  ADD KEY `id_curso` (`id_curso`);
+
+--
+-- Indexes for table `curso_etiqueta`
+--
+ALTER TABLE `curso_etiqueta`
+  ADD KEY `id_curso` (`id_curso`),
+  ADD KEY `id_etiqueta` (`id_etiqueta`);
+
+--
+-- Indexes for table `curso_horario`
+--
+ALTER TABLE `curso_horario`
+  ADD KEY `id_curso` (`id_curso`),
+  ADD KEY `id_horario` (`id_horario`);
+
+--
+-- Indexes for table `curso_profesor`
+--
+ALTER TABLE `curso_profesor`
+  ADD KEY `id_curso` (`id_curso`),
+  ADD KEY `id_profesor` (`id_profesor`);
+
+--
+-- Indexes for table `detalle_factura`
+--
+ALTER TABLE `detalle_factura`
+  ADD KEY `id_factura` (`id_factura`),
+  ADD KEY `id_curso` (`id_curso`);
+
+--
+-- Indexes for table `emprendimiento`
+--
+ALTER TABLE `emprendimiento`
+  ADD PRIMARY KEY (`id_emprendimiento`),
+  ADD KEY `id_usuario` (`id_estudiante`);
+
+--
+-- Indexes for table `etiqueta`
+--
+ALTER TABLE `etiqueta`
+  ADD PRIMARY KEY (`id_etiqueta`),
+  ADD UNIQUE KEY `nombre` (`nombre`);
+
+--
+-- Indexes for table `factura`
+--
+ALTER TABLE `factura`
+  ADD PRIMARY KEY (`id_factura`),
+  ADD UNIQUE KEY `numero_factura_UNIQUE` (`numero_factura`),
+  ADD KEY `id_estudiante` (`id_estudiante`);
+
+--
+-- Indexes for table `horario`
+--
+ALTER TABLE `horario`
+  ADD PRIMARY KEY (`id_horario`);
+
+--
+-- Indexes for table `info_curso`
+--
+ALTER TABLE `info_curso`
+  ADD PRIMARY KEY (`id_curso`),
+  ADD UNIQUE KEY `id_curso_2` (`id_curso`),
+  ADD KEY `id_curso` (`id_curso`);
+
+--
+-- Indexes for table `info_usuario`
+--
+ALTER TABLE `info_usuario`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- Indexes for table `pago`
+--
+ALTER TABLE `pago`
+  ADD PRIMARY KEY (`id_pago`),
+  ADD KEY `id_factura` (`id_factura`);
+
+--
+-- Indexes for table `usuario`
+--
+ALTER TABLE `usuario`
+  ADD PRIMARY KEY (`id_usuario`),
+  ADD UNIQUE KEY `nickname` (`nickname`),
+  ADD UNIQUE KEY `email` (`email`),
+  ADD UNIQUE KEY `posicion` (`posicion`),
+  ADD KEY `id_usuario` (`id_usuario`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `certificado`
+--
+ALTER TABLE `certificado`
+  MODIFY `id_certificado` INT(32) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 17;
+--
+-- AUTO_INCREMENT for table `curso`
+--
+ALTER TABLE `curso`
+  MODIFY `id_curso` INT(32) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 41;
+--
+-- AUTO_INCREMENT for table `emprendimiento`
+--
+ALTER TABLE `emprendimiento`
+  MODIFY `id_emprendimiento` INT(32) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 11;
+--
+-- AUTO_INCREMENT for table `etiqueta`
+--
+ALTER TABLE `etiqueta`
+  MODIFY `id_etiqueta` INT(5) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 22;
+--
+-- AUTO_INCREMENT for table `factura`
+--
+ALTER TABLE `factura`
+  MODIFY `id_factura` INT(32) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 2;
+--
+-- AUTO_INCREMENT for table `horario`
+--
+ALTER TABLE `horario`
+  MODIFY `id_horario` INT(32) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 7;
+--
+-- AUTO_INCREMENT for table `pago`
+--
+ALTER TABLE `pago`
+  MODIFY `id_pago` INT(11) NOT NULL AUTO_INCREMENT;
+--
+-- AUTO_INCREMENT for table `usuario`
+--
+ALTER TABLE `usuario`
+  MODIFY `posicion` INT(11) NOT NULL AUTO_INCREMENT,
+  AUTO_INCREMENT = 128;
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `certificado`
+--
+ALTER TABLE `certificado`
+  ADD CONSTRAINT `certificado_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `curso_estudiante`
+--
+ALTER TABLE `curso_estudiante`
+  ADD CONSTRAINT `curso_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `curso_por_estudiante_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`);
+
+--
+-- Constraints for table `curso_etiqueta`
+--
+ALTER TABLE `curso_etiqueta`
+  ADD CONSTRAINT `etiqueta_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `etiqueta_etiqueta_fk` FOREIGN KEY (`id_etiqueta`) REFERENCES `etiqueta` (`id_etiqueta`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `curso_horario`
+--
+ALTER TABLE `curso_horario`
+  ADD CONSTRAINT `curso_horario_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `horario_horario_fk` FOREIGN KEY (`id_horario`) REFERENCES `horario` (`id_horario`);
+
+--
+-- Constraints for table `curso_profesor`
+--
+ALTER TABLE `curso_profesor`
+  ADD CONSTRAINT `curso_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `curso_profesor_fk` FOREIGN KEY (`id_profesor`) REFERENCES `usuario` (`id_usuario`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `detalle_factura`
+--
+ALTER TABLE `detalle_factura`
+  ADD CONSTRAINT `detalle_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE,
+  ADD CONSTRAINT `detalle_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `emprendimiento`
+--
+ALTER TABLE `emprendimiento`
+  ADD CONSTRAINT `emprendimiento_usuario_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `factura`
+--
+ALTER TABLE `factura`
+  ADD CONSTRAINT `factura_estudiante_fk` FOREIGN KEY (`id_estudiante`) REFERENCES `usuario` (`id_usuario`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `info_curso`
+--
+ALTER TABLE `info_curso`
+  ADD CONSTRAINT `infocurso_curso_fk` FOREIGN KEY (`id_curso`) REFERENCES `curso` (`id_curso`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `info_usuario`
+--
+ALTER TABLE `info_usuario`
+  ADD CONSTRAINT `infousuario_usuario_fk` FOREIGN KEY (`id_usuario`) REFERENCES `usuario` (`id_usuario`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
+--
+-- Constraints for table `pago`
+--
+ALTER TABLE `pago`
+  ADD CONSTRAINT `formapsgo_factura_fk` FOREIGN KEY (`id_factura`) REFERENCES `factura` (`id_factura`)
+  ON DELETE CASCADE
+  ON UPDATE CASCADE;
+
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES = @OLD_SQL_NOTES */;
-
--- Dump completed on 2017-02-12 20:23:59
