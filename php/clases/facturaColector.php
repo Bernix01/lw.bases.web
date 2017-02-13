@@ -13,7 +13,8 @@ class FacturaColector
 
     public function getFacturaById($id)
     {
-        return $this->worker->getById($id, "factura", "id_factura", Factura::class);
+      $query="call getFacturaById($id)";
+        return $this->worker->execQueryReturning($query,Factura::class);
     }
 
     public function addFactura($nombres, $apellidos,$total,$direccion,$fecha,$ruc,$cupos,$id_estudiante,$num_factura)
@@ -51,6 +52,30 @@ class FacturaColector
       return $this->worker->execTransaction($queries);
     }
 
+    public function getFacturasByRange($fecha_inicio,$fecha_fin){
+      $query="call getFacturasByRange(\"$fecha_inicio\",\"$fecha_fin\")";
+      $result=$this->worker->execQueryArray($query,Factura::class);
+      $facturas=array();
+      if(!$result){
+        return $facturas;
+      }
+      foreach ($result as $f) {
+        array_push($facturas,$f);
+      }
+      return $facturas;
+    }
+    public function getFacturasByCodDeposito($codigo){
+      $query="call getFacturasByCodDeposito($codigo)";
+      $result=$this->worker->execQueryArray($query,Factura::class);
+      $facturas=array();
+      if(!$result){
+        return $facturas;
+      }
+      foreach ($result as $f) {
+        array_push($facturas,$f);
+      }
+      return $facturas;
+    }
 }
 
 ?>

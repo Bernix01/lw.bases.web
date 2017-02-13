@@ -1,152 +1,172 @@
 <?php
 session_start();
 include_once("../php/clases/pagoColector.php");
+include_once("../php/clases/facturaColector.php");
+
   if(!isset($_SESSION["rol"]) || $_SESSION["rol"]!=2){
       header("location: /");
   }
   $colector= new PagoColector();
-  $cursos = $colector->getAll();
+  $factura_colector= new FacturaColector();
+  $pagos = $colector->getAll();
 ?>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>AdminLTE 2 | Simple Tables</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-    <!-- Bootstrap 3.3.6 -->
-    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
-    <!-- AdminLTE Skins. Choose a skin from the css/skins
-         folder instead of downloading all of them to reduce the load. -->
-    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AdminLTE 2 | Simple Tables</title>
+  <!-- Tell the browser to be responsive to screen width -->
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <!-- Bootstrap 3.3.6 -->
+  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <!-- Ionicons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <!-- AdminLTE Skins. Choose a skin from the css/skins
+       folder instead of downloading all of them to reduce the load. -->
+  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
 
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+  <![endif]-->
+  <style>
+  .filterable {
+    margin-top: 15px;
+}
+.filterable .panel-heading .pull-right {
+    margin-top: -20px;
+}
+.filterable .filters input[disabled] {
+    background-color: transparent;
+    border: none;
+    cursor: auto;
+    box-shadow: none;
+    padding: 0;
+    height: auto;
+}
+.filterable .filters input[disabled]::-webkit-input-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]::-moz-placeholder {
+    color: #333;
+}
+.filterable .filters input[disabled]:-ms-input-placeholder {
+    color: #333;
+}
+
+  </style>
+  <script type="text/javascript" src="jspdf.min.js"></script>
+  <script type="text/javascript" src="html2canvas.js"></script>
+  <script type="text/javascript">
+  function generatePDF(){
+    var divHeight = $('#testcase').height();
+    var divWidth = $('#testcase').width();
+    var ratio = divHeight / divWidth;
+    html2canvas(document.getElementById("testcase"),{
+      onrendered: function(canvas){
+        var img=canvas.toDataURL("image/png",1.0);
+        var doc= new jsPDF();
+        var width = doc.internal.pageSize.width;
+        var height = doc.internal.pageSize.height;
+        height = ratio * width;
+        doc.addImage(img,"JPEG",0, 0, width, height);
+        doc.save("reporte.pdf");
+      }
+    });
+  }
+  </script>
 </head>
 <body class="hold-transition skin-green-light sidebar-mini">
 <div class="wrapper">
-    <?php
-    include ('../php/paginas/menu-admin.php');
-    ?>
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
-        <!-- Content Header (Page header) -->
-        <section class="content-header">
-            <h1>
-                Cursos
-                <small>reporte</small>
-            </h1>
-            <ol class="breadcrumb">
-                <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-                <li><a href="#">Tables</a></li>
-                <li class="active">Simple</li>
-            </ol>
-        </section>
+  <?php
+  include ('../php/paginas/menu-admin.php');
+  ?>
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        PAGOS
+        <small>reporte</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Pagos</li>
+      </ol>
+    </section>
 
-        <!-- Main content -->
-        <section class="content">
+    <div class="container-fluid" >
 
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-xs-12">
-                    <div class="box">
-                        <div class="box-header">
-                            <h3 class="box-title">Responsive Hover Table</h3>
+  <div class="row">
+  <div class="panel panel-primary filterable" >
+    <div class="panel-heading">
+        <h3 class="panel-title">Filtrar</h3>
+        <div class="pull-right">
+            <button class="btn btn-default btn-xs btn-filter"><span class="glyphicon glyphicon-filter"></span> Filter</button>
+        </div>
+    </div>
 
-                            <div class="box-tools">
-                                <div class="input-group input-group-sm" style="width: 150px;">
-                                    <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+    <table class="table" id="testcase" >
 
-                                    <div class="input-group-btn">
-                                        <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- mensaje para cuando se agregue un curso -->
-                        <div id="msg">
-                        </div>
-                        <!-- /.box-header -->
-                        <div class="box-body table-responsive no-padding">
-                            <table class="table table-hover">
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Forma Pago</th>
-                                    <th>Factura</th>
-                                    <th># de deposito</th>
-                                    <th># de tarjeta</th>
-                                </tr>
-                                <tr>
+        <thead>
+            <tr class="filters">
+
+                <th><input type="text" class="form-control" placeholder="Forma de pago" disabled></th>
+                <th><input type="text" class="form-control" placeholder="No. factura" disabled></th>
+                <th><input type="text" class="form-control" placeholder="No.depósito" disabled></th>
+                <th><input type="text" class="form-control" placeholder="No.Tarjeta" disabled></th>
+            </tr>
+        </thead>
+        <tbody>
                                     <?php
 
-                                    foreach ($cursos as $curso){
-                                        echo "<tr><td>" . $curso->get_id_pago() . "</td>";
-                                        echo "<td>" . $curso->get_forma_pago() . "</td>";
-                                        echo "<td>" . $curso->get_id_factura() . "</td>";
-                                        echo "<td>" . $curso->get_n_deposito(). "</td>";
-                                        echo "<td>" . $curso->get_n_tarjeta(). "</td>";
-                                        echo "<td><a href='eliminarPago.php?ius=".$curso->get_id_pago()."'>Eliminar</a></td> </tr>";
+                                    foreach ($pagos as $pago){
+                                      if($pago->get_forma_pago()==1){
+                                        $forma="depósito";
+                                      }
+                                      else{
+                                        $forma="tarjeta";
+                                      }
+                                      $factura=$factura_colector->getFacturaById($pago->get_id_factura());
+                                        echo "<td>" . $forma . "</td>";
+                                        echo "<td>" . $factura->get_numero_factura() . "</td>";
+                                        echo "<td>" . $pago->get_n_deposito(). "</td>";
+                                        echo "<td>" . $pago->get_n_tarjeta(). "</td>";
+                                        echo "<td><a href='eliminarPago.php?ius=".$pago->get_id_pago()."'>Eliminar</a></td> </tr>";
 
 
                                     }
                                     ?>
+                                  </tbody>
+                                  </table>
+                                  <a href="javascript:generatePDF()">Descargar PDF</a>
+                                  </div>
 
-                                    <!--<td><span class="label label-success">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                  </tr>
-                                  <tr>
-                                    <td>219</td>
-                                    <td>Alexander Pierce</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-warning">Pending</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                  </tr>
-                                  <tr>
-                                    <td>657</td>
-                                    <td>Bob Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-primary">Approved</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                  </tr>
-                                  <tr>
-                                    <td>175</td>
-                                    <td>Mike Doe</td>
-                                    <td>11-7-2014</td>
-                                    <td><span class="label label-danger">Denied</span></td>
-                                    <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                                  </tr> -->
-                            </table>
-                        </div>
-                        <!-- /.box-body -->
-                    </div>
-                    <!-- /.box -->
-                </div>
-            </div>
-        </section>
-        <!-- /.content -->
-    </div>
-    <!-- /.content-wrapper -->
-    <footer class="main-footer">
-        <div class="pull-right hidden-xs">
-            <b>Version</b> 2.3.7
-        </div>
-        <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
-        reserved.
-    </footer>
+                                  </div>
+
+                                  </div>
+                                  </div>
+                                  </section>
+                                  <!-- /.content -->
+                                  </div>
+                                  <!-- /.content-wrapper -->
+                                  <footer class="main-footer">
+                                  <div class="pull-right hidden-xs">
+                                  <b>Version</b> 2.3.7
+                                  </div>
+                                  <strong>Copyright &copy; 2014-2016 <a href="http://almsaeedstudio.com">Almsaeed Studio</a>.</strong> All rights
+                                  reserved.
+                                  </footer>
 
 
-</div>
+                                  </div>
 <!-- ./wrapper -->
 
 <!-- jQuery 2.2.3 -->
