@@ -372,6 +372,8 @@
                 <ul class="treeview-menu">
                 <li><a href="/admin/listarFacturas.php"><i class="fa fa-circle-o"></i>Listado de facturas</a></li>
                 <li><a href="/admin/buscarFacturasPorFecha.php"><i class="fa fa-circle-o"></i>Buscar facturas por rango de fecha</a></li>
+                <li><a href="/admin/facturasPorCodDeposito.php"><i class="fa fa-circle-o"></i>Buscar facturas por código de depósito</a></li>
+
                 </ul>
             </li>
             <li class="treeview">

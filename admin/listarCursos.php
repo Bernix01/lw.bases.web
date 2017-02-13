@@ -117,7 +117,7 @@ $info_curso_colector = new InfocursoColector();
 
         <thead>
             <tr class="filters">
-                <th><input type="text" class="form-control" placeholder="id del curso" disabled></th>
+
                 <th><input type="text" class="form-control" placeholder="nombre" disabled></th>
                 <th><input type="text" class="form-control" placeholder="costo" disabled></th>
                 <th><input type="text" class="form-control" placeholder="cupo máximo" disabled></th>
@@ -130,7 +130,6 @@ $info_curso_colector = new InfocursoColector();
                   foreach ($cursos as $curso){
                     $info=$info_curso_colector->getInfoCursoById($curso->get_id_curso());
                     if (!$info){ $info= new Info_curso();}
-                      echo "<tr><td>" . $curso->get_id_curso() . "</td>";
                                             echo "<td>" . $curso->getNombre() . "</td>";
                                             echo "<td>" . $curso->getCosto() . "</td>";
                                             echo "<td>" . $info->get_cupo_max(). "</td>";

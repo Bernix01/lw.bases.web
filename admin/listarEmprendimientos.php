@@ -83,7 +83,7 @@ include_once("../php/clases/emprendimientoColector.php");
             <div class="box-body table-responsive no-padding">
               <table class="table table-hover">
                 <tr>
-                  <th>id_emprendimiento</th>
+
                   <th>id_estudiante</th>
                   <th>Nombre</th>
                   <th>Descripcion</th>
@@ -95,9 +95,7 @@ include_once("../php/clases/emprendimientoColector.php");
 
                     foreach ($result as $emp){
 
-                      echo "<tr>
-                        <td>" . $emp->get_id_emprendimiento() . "</td>";
-                                            echo "
+                                                                  echo "
                           <td>" . $emp->get_id_estudiante() . "</td>";
                                             echo "
                             <td>" . $emp->get_nombre(). "</td>";
@@ -109,30 +107,7 @@ include_once("../php/clases/emprendimientoColector.php");
                     }
                 ?>
 
-                  <!--<td><span class="label label-success">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>219</td>
-                  <td>Alexander Pierce</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-warning">Pending</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>657</td>
-                  <td>Bob Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-primary">Approved</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr>
-                <tr>
-                  <td>175</td>
-                  <td>Mike Doe</td>
-                  <td>11-7-2014</td>
-                  <td><span class="label label-danger">Denied</span></td>
-                  <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                </tr> -->
+                
               </table>
             </div>
             <!-- /.box-body -->

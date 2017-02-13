@@ -90,9 +90,8 @@ include_once("../php/clases/facturaColector.php");
         <small>Reporte</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Tables</a></li>
-        <li class="active">Simple</li>
+        <li><a href="index.php"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Facturas</li>
       </ol>
     </section>
 
@@ -112,7 +111,6 @@ include_once("../php/clases/facturaColector.php");
 
         <thead>
             <tr class="filters">
-                <th><input type="text" class="form-control" placeholder="id" disabled></th>
                 <th><input type="text" class="form-control" placeholder="id del estudiante" disabled></th>
                 <th><input type="text" class="form-control" placeholder="RUC" disabled></th>
                 <th><input type="text" class="form-control" placeholder="Nombres" disabled></th>
@@ -127,9 +125,6 @@ include_once("../php/clases/facturaColector.php");
                   <?php
 
                     foreach ($result as $emp){
-
-                      echo "<tr>
-                        <td style =\"word-break:break-all;\">" . $emp->get_id_factura() . "</td>";
 
                                             echo "
                           <td style =\"word-break:break-all;\">" . $emp->get_id_estudiante() . "</td>";

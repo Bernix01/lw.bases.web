@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 12, 2017 at 12:04 PM
+-- Generation Time: Feb 12, 2017 at 08:13 PM
 -- Server version: 10.1.19-MariaDB-1~xenial
 -- PHP Version: 7.0.8-0ubuntu0.16.04.3
 
@@ -57,7 +57,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `addInfoUsuario` (IN `id` VARCHAR(13
 INSERT INTO info_usuario(id_usuario,nombres,apellidos,numero_cursos,tag_line) VALUES (id,nombs,aps,num_cursos,tag);
 END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoDeposito` (IN `id_f` INT(32), IN `forma` INT(1), IN `n_dep` INT(16))  BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `addPagoDeposito` (IN `id_f` INT(32), IN `forma` INT(1), IN `n_dep` BIGINT(16))  BEGIN
 INSERT INTO Pago(id_factura,forma_pago,n_deposito) VALUES (id_f,forma,n_dep);
 END$$
 
@@ -208,6 +208,18 @@ END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getEtiquetaById` (IN `id` INT)  BEGIN
 SELECT * FROM etiqueta WHERE id_etiqueta=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacturaById` (IN `id` INT)  BEGIN
+SELECT factura.* FROM factura WHERE factura.id_factura=id;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacturasByCodDeposito` (IN `cod` BIGINT(16))  BEGIN
+SELECT factura.* from factura,pago WHERE factura.id_factura=pago.id_factura and pago.n_deposito=cod and pago.forma_pago=1;
+END$$
+
+CREATE DEFINER=`root`@`localhost` PROCEDURE `getFacturasByRange` (IN `fecha_i` DATE, IN `fecha_f` DATE)  BEGIN
+SELECT factura.* FROM factura WHERE factura.fecha BETWEEN fecha_i AND fecha_f ;
 END$$
 
 CREATE DEFINER=`root`@`localhost` PROCEDURE `getInfoCursoById` (IN `id` INT)  BEGIN
@@ -655,10 +667,17 @@ INSERT INTO `info_usuario` (`id_usuario`, `nombres`, `apellidos`, `numero_cursos
 CREATE TABLE `pago` (
   `id_factura` int(32) NOT NULL,
   `id_pago` int(11) NOT NULL,
-  `n_tarjeta` int(16) NOT NULL DEFAULT '-1',
-  `n_deposito` int(16) NOT NULL DEFAULT '-1',
+  `n_tarjeta` bigint(16) NOT NULL DEFAULT '-1',
+  `n_deposito` bigint(16) NOT NULL DEFAULT '-1',
   `forma_pago` int(1) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_spanish_ci;
+
+--
+-- Dumping data for table `pago`
+--
+
+INSERT INTO `pago` (`id_factura`, `id_pago`, `n_tarjeta`, `n_deposito`, `forma_pago`) VALUES
+(1, 1, -1, 1111111111111111, 1);
 
 -- --------------------------------------------------------
 
@@ -931,7 +950,7 @@ ALTER TABLE `horario`
 -- AUTO_INCREMENT for table `pago`
 --
 ALTER TABLE `pago`
-  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_pago` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `usuario`
 --

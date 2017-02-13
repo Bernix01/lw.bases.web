@@ -10,20 +10,22 @@ session_start();
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 2 | Simple Tables</title>
+  <title>LW</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
-  <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/admin/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+  <link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- jvectormap -->
+  <link rel="stylesheet" href="/admin/plugins/jvectormap/jquery-jvectormap-1.2.2.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+  <link rel="stylesheet" href="/admin/dist/css/AdminLTE.min.css">
   <!-- AdminLTE Skins. Choose a skin from the css/skins
        folder instead of downloading all of them to reduce the load. -->
-  <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+  <link rel="stylesheet" href="/admin/dist/css/skins/_all-skins.min.css">
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -31,7 +33,7 @@ session_start();
   <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
   <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
   <![endif]-->
-  <style>
+<style>
   .filterable {
     margin-top: 15px;
 }
@@ -97,10 +99,17 @@ session_start();
       </ol>
     </section>
 
-    <div class="container-fluid" >
+    <section class="content">
 
-  <div class="row">
-  <div class="panel panel-primary filterable" >
+        <div class="row">
+            <!-- left column -->
+            <div class="col-md-6">
+                <!-- general form elements -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Ingresar Emprendimiento</h3>
+                    </div>
+
 
     <form method="post" name="rango-busqueda" action="buscarFacturasRango.php" onsubmit="return checkDateRange(this)">
     <div class="form-group">
@@ -115,13 +124,13 @@ session_start();
         <button type="submit" class="btn btn-primary">Buscar facturas</button>
     </div>
   </form>
-        </div>
+</div>
+<!-- /.box -->
 
-        </div>
 
-        </div>
-      </div>
-    </section>
+</div>
+</div>
+</section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -154,7 +163,9 @@ session_start();
 <script src="../js/moment.min.js"></script>
 <script src="../js/combodate.js"></script>
 <script type="text/javascript">
-
+$('.message a').click(function(){
+   $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+});
 $(function(){
     $('#date').combodate();
 });
@@ -176,12 +187,18 @@ if(su==0) {
     }
 
 }
+document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':35729/livereload.js?snipver=1"></' + 'script>')
+
 
 $('.message a').click(function(){
    $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
 });
-
-
 </script>
+<!-- Bootstrap JavaScript -->
+<script src="js/bootstrap.min.js"></script>
+<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+<script src="Hello World"></script>
+
+
 </body>
 </html>
